@@ -1,0 +1,386 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+    <title>Reference</title>
+    <link rel="stylesheet" href="../../luadoc.css" type="text/css" />
+	<!--meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/-->
+</head>
+
+<body>
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+<div id="main">
+
+<div id="navigation">
+
+
+<h1>LuaDoc</h1>
+<ul>
+	
+	<li><a href="../../index.html">Index</a></li>
+	
+</ul>
+
+
+<!-- Module list -->
+
+<h1>Modules</h1>
+<ul>
+
+	<li>
+		<a href="../../modules/xpl.html">xpl</a>
+	</li>
+
+	<li>
+		<a href="../../modules/xpl.listener.html">xpl.listener</a>
+	</li>
+
+	<li>
+		<a href="../../modules/xpllogger.html">xpllogger</a>
+	</li>
+
+	<li>
+		<a href="../../modules/xplsender.html">xplsender</a>
+	</li>
+
+</ul>
+
+
+
+<!-- File list -->
+
+<h1>Files</h1>
+<ul>
+
+	<li><strong>src/xpl.lua</strong></li>
+	
+	<li>
+		<a href="../../files/src/xplclasses/base.html">src/xplclasses/base.lua</a>
+	</li>
+
+	<li>
+		<a href="../../files/src/xplclasses/xpldevice.html">src/xplclasses/xpldevice.lua</a>
+	</li>
+
+	<li>
+		<a href="../../files/src/xplclasses/xplfilter.html">src/xplclasses/xplfilter.lua</a>
+	</li>
+
+	<li>
+		<a href="../../files/src/xplclasses/xpllistener.html">src/xplclasses/xpllistener.lua</a>
+	</li>
+
+	<li>
+		<a href="../../files/src/xplclasses/xplmessage.html">src/xplclasses/xplmessage.lua</a>
+	</li>
+
+	<li>
+		<a href="../../files/src/xpllogger.html">src/xpllogger.lua</a>
+	</li>
+
+	<li>
+		<a href="../../files/src/xplsender.html">src/xplsender.lua</a>
+	</li>
+
+</ul>
+
+
+
+
+
+
+</div> <!-- id="navigation" -->
+
+<div id="content">
+
+<h1>File <code>src/xpl.lua</code></h1>
+
+
+<p>define global tables for xPL related functions and settings </p>
+
+
+
+
+
+
+<h2>Functions</h2>
+<table class="function_list">
+
+	<tr>
+	<td class="name" nowrap><a href="#createaddress">createaddress</a>&nbsp;(vendor, device, instance)</td>
+	<td class="summary">Creates an xPL address.</td>
+	</tr>
+
+	<tr>
+	<td class="name" nowrap><a href="#send">send</a>&nbsp;(msg, ip, port)</td>
+	<td class="summary">Sends an xPL message </td>
+	</tr>
+
+	<tr>
+	<td class="name" nowrap><a href="#start">start</a>&nbsp;(hub)</td>
+	<td class="summary">Starts the xPL listener </td>
+	</tr>
+
+	<tr>
+	<td class="name" nowrap><a href="#stop">stop</a>&nbsp;()</td>
+	<td class="summary">Stops the xPL listener.</td>
+	</tr>
+
+</table>
+
+
+
+
+<h2>Tables</h2>
+<table class="table_list">
+
+	<tr>
+	<td class="name" nowrap><a href="#settings">settings</a></td>
+	<td class="summary">contains the general setting for the xPL module </td>
+	</tr>
+
+</table>
+
+
+
+<br/>
+<br/>
+
+
+
+
+<h2><a name="functions"></a>Functions</h2>
+<dl class="function">
+
+
+
+<dt><a name="createaddress"></a><strong>createaddress</strong>&nbsp;(vendor, device, instance)</dt>
+<dd>
+Creates an xPL address.
+
+
+<h3>Parameters:</h3>
+<ul>
+	
+	<li>
+	  <code><em>vendor</em></code>: (string) the vendor ID to use in the address
+	</li>
+	
+	<li>
+	  <code><em>device</em></code>: (string) the device ID to use in the address
+	</li>
+	
+	<li>
+	  <code><em>instance</em></code>: (string) the instance ID to use in the address, with 2 special cases; <ul><li><code>'HOST'</code> will generated an instance ID based upon the system hostname</li> <li><code>'RANDOM'</code> will generate a random instance ID</li></ul>
+	</li>
+	
+</ul>
+
+
+
+
+
+
+<h3>Return value:</h3>
+<ul>xPL address string, as 'vendor-device.instance'</ul>
+
+
+
+</dd>
+
+
+
+
+<dt><a name="send"></a><strong>send</strong>&nbsp;(msg, ip, port)</dt>
+<dd>
+Sends an xPL message
+
+
+<h3>Parameters:</h3>
+<ul>
+	
+	<li>
+	  <code><em>msg</em></code>: (string) message to be sent.
+	</li>
+	
+	<li>
+	  <code><em>ip</em></code>: (string) optional, only if there is a need to send to a specific ip/port combination
+	</li>
+	
+	<li>
+	  <code><em>port</em></code>: (number) optional, only if there is a need to send to a specific ip/port combination
+	</li>
+	
+</ul>
+
+
+
+
+
+
+<h3>Return value:</h3>
+<ul>true if succesfull</ul>
+
+
+
+</dd>
+
+
+
+
+<dt><a name="start"></a><strong>start</strong>&nbsp;(hub)</dt>
+<dd>
+Starts the xPL listener
+
+
+<h3>Parameters:</h3>
+<ul>
+	
+	<li>
+	  <code><em>hub</em></code>: if <code>true</code>, the hub will started, if <code>false</code>, no hub will be started
+	</li>
+	
+</ul>
+
+
+
+
+
+
+<h3>Return value:</h3>
+<ul><code>true</code> after the loop exits or <code>nil</code> and an error message</ul>
+
+
+
+<h3>See also:</h3>
+<ul>
+	
+	<!-- <li><a href="#xpllistener.start() function"> -->
+	<li><a href="#xpllistener.start() function">
+		xpllistener.start() function</li>
+	</a>
+	
+</ul>
+
+</dd>
+
+
+
+
+<dt><a name="stop"></a><strong>stop</strong>&nbsp;()</dt>
+<dd>
+Stops the xPL listener. Because the start function is blocking, this can only be called from within a piece of code running within the Copas scheduler. If succesful, the function <code>start()</code> will return from its blocking loop.
+
+
+
+
+
+
+
+
+
+<h3>See also:</h3>
+<ul>
+	
+	<!-- <li><a href="#xpllistener.stop() function"> -->
+	<li><a href="#xpllistener.stop() function">
+		xpllistener.stop() function</li>
+	</a>
+	
+</ul>
+
+</dd>
+
+
+</dl>
+
+
+
+
+<h2><a name="tables"></a>Tables</h2>
+<dl class="table">
+
+<dt><a name="settings"></a><strong>settings</strong></dt>
+<dd>contains the general setting for the xPL module<br /><br />
+
+
+<h3>Fields:</h3>
+<ul>
+	
+	<li>
+	  <code><em>_DEBUG</em></code>: (boolean) set the debug flag and executes available tests at startup
+	</li>
+	
+	<li>
+	  <code><em>listenon</em></code>: unused for now
+	</li>
+	
+	<li>
+	  <code><em>listento</em></code>: unused for now
+	</li>
+	
+	<li>
+	  <code><em>broadcast</em></code>: the IP address to use for broadcasting xPL messages onto the xPL network
+	</li>
+	
+	<li>
+	  <code><em>xplport</em></code>: the xPL network port, do not change! only if you want to create a private network and knwo what you are doing
+	</li>
+	
+	<li>
+	  <code><em>CAP_ADDRESS</em></code>: pattern to return the three elements of an address, no wildcards allowed
+	</li>
+	
+	<li>
+	  <code><em>CAP_FILTER</em></code>: pattern to return the 6 elements of an xPL filter, wildcards are allowed, and the '-' instead of a '.' between vendor and device is also supported (special case)
+	</li>
+	
+	<li>
+	  <code><em>CAP_MESSAGE</em></code>: pattern that returns the header information, body (as one string) and the remaining string (the remaining string can be used for the next iteration)
+	</li>
+	
+	<li>
+	  <code><em>CAP_KEYVALUE</em></code>: pattern that captures a key-value pair (must end with \n), and the remaining string (the remaining string can be used for the next iteration)
+	</li>
+	
+	<li>
+	  <code><em>CAP_SCHEMA</em></code>: pattern that captures a schema class and type from a full schema
+	</li>
+	
+	<li>
+	  <code><em>FMT_KEYVALUE</em></code>: format string for creating the message body; existing body, key, value
+	</li>
+	
+	<li>
+	  <code><em>FMT_MESSAGE</em></code>: format string for creating messages; type, hop, source, target, schema, body (hop is number, others string)
+	</li>
+	
+</ul>
+
+
+</dd>
+
+
+</dl>
+
+
+
+
+</div> <!-- id="content" -->
+
+</div> <!-- id="main" -->
+
+<div id="about">
+	<p><a href="http://validator.w3.org/check?uri=referer"><img src="http://www.w3.org/Icons/valid-xhtml10" alt="Valid XHTML 1.0!" height="31" width="88" /></a></p>
+</div> <!-- id="about" -->
+
+</div> <!-- id="container" -->	
+</body>
+</html>

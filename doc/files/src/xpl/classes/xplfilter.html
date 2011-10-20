@@ -1,0 +1,318 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+    <title>Reference</title>
+    <link rel="stylesheet" href="../../../../luadoc.css" type="text/css" />
+	<!--meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/-->
+</head>
+
+<body>
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+<div id="main">
+
+<div id="navigation">
+
+
+<h1>LuaDoc</h1>
+<ul>
+	
+	<li><a href="../../../../index.html">Index</a></li>
+	
+</ul>
+
+
+<!-- Module list -->
+
+<h1>Modules</h1>
+<ul>
+
+	<li>
+		<a href="../../../../modules/xpl.html">xpl</a>
+	</li>
+
+	<li>
+		<a href="../../../../modules/xpl.listener.html">xpl.listener</a>
+	</li>
+
+	<li>
+		<a href="../../../../modules/xpllogger.html">xpllogger</a>
+	</li>
+
+	<li>
+		<a href="../../../../modules/xplsender.html">xplsender</a>
+	</li>
+
+</ul>
+
+
+
+<!-- File list -->
+
+<h1>Files</h1>
+<ul>
+
+	<li>
+		<a href="../../../../files/src/xpl/classes/base.html">src/xpl/classes/base.lua</a>
+	</li>
+
+	<li>
+		<a href="../../../../files/src/xpl/classes/xpldevice.html">src/xpl/classes/xpldevice.lua</a>
+	</li>
+
+	<li><strong>src/xpl/classes/xplfilter.lua</strong></li>
+	
+	<li>
+		<a href="../../../../files/src/xpl/classes/xplmessage.html">src/xpl/classes/xplmessage.lua</a>
+	</li>
+
+	<li>
+		<a href="../../../../files/src/xpl/init.html">src/xpl/init.lua</a>
+	</li>
+
+	<li>
+		<a href="../../../../files/src/xpl/new_device_template.html">src/xpl/new_device_template.lua</a>
+	</li>
+
+	<li>
+		<a href="../../../../files/src/xpl/xpllistener.html">src/xpl/xpllistener.lua</a>
+	</li>
+
+	<li>
+		<a href="../../../../files/src/xpllogger.html">src/xpllogger.lua</a>
+	</li>
+
+	<li>
+		<a href="../../../../files/src/xplsender.html">src/xplsender.lua</a>
+	</li>
+
+</ul>
+
+
+
+
+
+
+</div> <!-- id="navigation" -->
+
+<div id="content">
+
+<h1>File <code>src/xpl/classes/xplfilter.lua</code></h1>
+
+
+
+
+
+
+
+<h2>Functions</h2>
+<table class="function_list">
+
+	<tr>
+	<td class="name" nowrap><a href="#flt:add">flt:add</a>&nbsp;(flt)</td>
+	<td class="summary">add a filter to the filter list.</td>
+	</tr>
+
+	<tr>
+	<td class="name" nowrap><a href="#flt:match">flt:match</a>&nbsp;(flt)</td>
+	<td class="summary">Checks if a filter matches the any of the filters in the list.</td>
+	</tr>
+
+	<tr>
+	<td class="name" nowrap><a href="#flt:remove">flt:remove</a>&nbsp;(flt)</td>
+	<td class="summary">remove filter from list </td>
+	</tr>
+
+	<tr>
+	<td class="name" nowrap><a href="#flt:split">flt:split</a>&nbsp;(flt, self)</td>
+	<td class="summary">splits a filter string into a filter table.</td>
+	</tr>
+
+</table>
+
+
+
+
+<h2>Tables</h2>
+<table class="table_list">
+
+	<tr>
+	<td class="name" nowrap><a href="#list">list</a></td>
+	<td class="summary">list to store filters in.</td>
+	</tr>
+
+</table>
+
+
+
+<br/>
+<br/>
+
+
+
+
+<h2><a name="functions"></a>Functions</h2>
+<dl class="function">
+
+
+
+<dt><a name="flt:add"></a><strong>flt:add</strong>&nbsp;(flt)</dt>
+<dd>
+add a filter to the filter list. No duplicates will be added (no error).
+
+
+<h3>Parameters:</h3>
+<ul>
+	
+	<li>
+	  <code><em>flt</em></code>: filter to add, either a filter string or a filter table
+	</li>
+	
+</ul>
+
+
+
+
+
+
+<h3>Return value:</h3>
+<ul>filter table added</ul>
+
+
+
+</dd>
+
+
+
+
+<dt><a name="flt:match"></a><strong>flt:match</strong>&nbsp;(flt)</dt>
+<dd>
+Checks if a filter matches the any of the filters in the list. Wildcards are allowed both in the list (obvious), but also in the filter being matched.
+
+
+<h3>Parameters:</h3>
+<ul>
+	
+	<li>
+	  <code><em>flt</em></code>: filter to match (either a string or a table)
+	</li>
+	
+</ul>
+
+
+
+
+
+
+<h3>Return value:</h3>
+<ul>true if the filter matches one in the list, false otherwise</ul>
+
+
+
+</dd>
+
+
+
+
+<dt><a name="flt:remove"></a><strong>flt:remove</strong>&nbsp;(flt)</dt>
+<dd>
+remove filter from list
+
+
+<h3>Parameters:</h3>
+<ul>
+	
+	<li>
+	  <code><em>flt</em></code>: filter to remove, either a filter string or a filter table. If it doesn't exist no error will be thrown.
+	</li>
+	
+</ul>
+
+
+
+
+
+
+<h3>Return value:</h3>
+<ul>true is succesfull</ul>
+
+
+
+</dd>
+
+
+
+
+<dt><a name="flt:split"></a><strong>flt:split</strong>&nbsp;(flt, self)</dt>
+<dd>
+splits a filter string into a filter table. A '-' between vendor and device is accepted.
+
+
+<h3>Parameters:</h3>
+<ul>
+	
+	<li>
+	  <code><em>flt</em></code>: Filter (string) as <code>[msgtype].[vendor].[device].[instance].[class].[type]</code>
+	</li>
+	
+	<li>
+	  <code><em>self</em></code>: not required. It can be called as a function or as a method.
+	</li>
+	
+</ul>
+
+
+
+
+<h3>Usage:</h3>
+<ul><pre class=example>-- create a new filter object<br/>local flt = xpl.classes.xplfilter()<br/>-- call as a function<br/>local f = flt.split("xpl-cmnd.vendor.device.instance.class.type")<br/>-- call as a method<br/>local f = flt:split("xpl-cmnd.vendor.device.instance.class.type")</pre></ul>
+
+
+
+<h3>Return value:</h3>
+<ul>a filter table with 6 indices for each filter element, and the <code>filter</code> key with the full filter string value</ul>
+
+
+
+</dd>
+
+
+</dl>
+
+
+
+
+<h2><a name="tables"></a>Tables</h2>
+<dl class="table">
+
+<dt><a name="list"></a><strong>list</strong></dt>
+<dd>list to store filters in. each filter is keyed by its full filter string. A filter is a table with the 6 filter elements (by their index) and a key <code>filter</code> with the full filter string.<br /><br />
+
+
+
+</dd>
+
+
+</dl>
+
+
+
+
+</div> <!-- id="content" -->
+
+</div> <!-- id="main" -->
+
+<div id="about">
+	<p><a href="http://validator.w3.org/check?uri=referer"><img src="http://www.w3.org/Icons/valid-xhtml10" alt="Valid XHTML 1.0!" height="31" width="88" /></a></p>
+</div> <!-- id="about" -->
+
+</div> <!-- id="container" -->	
+</body>
+</html>

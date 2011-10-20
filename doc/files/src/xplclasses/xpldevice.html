@@ -1,0 +1,355 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+    <title>Reference</title>
+    <link rel="stylesheet" href="../../../luadoc.css" type="text/css" />
+	<!--meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/-->
+</head>
+
+<body>
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+<div id="main">
+
+<div id="navigation">
+
+
+<h1>LuaDoc</h1>
+<ul>
+	
+	<li><a href="../../../index.html">Index</a></li>
+	
+</ul>
+
+
+<!-- Module list -->
+
+<h1>Modules</h1>
+<ul>
+
+	<li>
+		<a href="../../../modules/xpl.html">xpl</a>
+	</li>
+
+	<li>
+		<a href="../../../modules/xpl.listener.html">xpl.listener</a>
+	</li>
+
+	<li>
+		<a href="../../../modules/xpllogger.html">xpllogger</a>
+	</li>
+
+	<li>
+		<a href="../../../modules/xplsender.html">xplsender</a>
+	</li>
+
+</ul>
+
+
+
+<!-- File list -->
+
+<h1>Files</h1>
+<ul>
+
+	<li>
+		<a href="../../../files/src/xpl.html">src/xpl.lua</a>
+	</li>
+
+	<li>
+		<a href="../../../files/src/xplclasses/base.html">src/xplclasses/base.lua</a>
+	</li>
+
+	<li><strong>src/xplclasses/xpldevice.lua</strong></li>
+	
+	<li>
+		<a href="../../../files/src/xplclasses/xplfilter.html">src/xplclasses/xplfilter.lua</a>
+	</li>
+
+	<li>
+		<a href="../../../files/src/xplclasses/xpllistener.html">src/xplclasses/xpllistener.lua</a>
+	</li>
+
+	<li>
+		<a href="../../../files/src/xplclasses/xplmessage.html">src/xplclasses/xplmessage.lua</a>
+	</li>
+
+	<li>
+		<a href="../../../files/src/xpllogger.html">src/xpllogger.lua</a>
+	</li>
+
+	<li>
+		<a href="../../../files/src/xplsender.html">src/xplsender.lua</a>
+	</li>
+
+</ul>
+
+
+
+
+
+
+</div> <!-- id="navigation" -->
+
+<div id="content">
+
+<h1>File <code>src/xplclasses/xpldevice.lua</code></h1>
+
+
+
+
+
+
+
+<h2>Functions</h2>
+<table class="function_list">
+
+	<tr>
+	<td class="name" nowrap><a href="#xpldevice:createhbeatmsg">xpldevice:createhbeatmsg</a>&nbsp;(exit)</td>
+	<td class="summary">Heartbeat message creator.</td>
+	</tr>
+
+	<tr>
+	<td class="name" nowrap><a href="#xpldevice:handlemessage">xpldevice:handlemessage</a>&nbsp;(msg)</td>
+	<td class="summary">Handler for incoming messages.</td>
+	</tr>
+
+	<tr>
+	<td class="name" nowrap><a href="#xpldevice:initialize">xpldevice:initialize</a>&nbsp;()</td>
+	<td class="summary">Initializes the xpldevice.</td>
+	</tr>
+
+	<tr>
+	<td class="name" nowrap><a href="#xpldevice:sendhbeat">xpldevice:sendhbeat</a>&nbsp;(exit)</td>
+	<td class="summary">Sends heartbeat message.</td>
+	</tr>
+
+	<tr>
+	<td class="name" nowrap><a href="#xpldevice:start">xpldevice:start</a>&nbsp;()</td>
+	<td class="summary">Starts the xpldevice.</td>
+	</tr>
+
+	<tr>
+	<td class="name" nowrap><a href="#xpldevice:statuschanged">xpldevice:statuschanged</a>&nbsp;(newstatus, oldstatus)</td>
+	<td class="summary">Handler called whenever the device status changes.</td>
+	</tr>
+
+	<tr>
+	<td class="name" nowrap><a href="#xpldevice:stop">xpldevice:stop</a>&nbsp;()</td>
+	<td class="summary">Stops the xpldevice.</td>
+	</tr>
+
+</table>
+
+
+
+
+
+
+<br/>
+<br/>
+
+
+
+
+<h2><a name="functions"></a>Functions</h2>
+<dl class="function">
+
+
+
+<dt><a name="xpldevice:createhbeatmsg"></a><strong>xpldevice:createhbeatmsg</strong>&nbsp;(exit)</dt>
+<dd>
+Heartbeat message creator. Will be called to create the heartbeat message to be send. Override this function to modify the hbeat content.
+
+
+<h3>Parameters:</h3>
+<ul>
+	
+	<li>
+	  <code><em>exit</em></code>: if true then an exit hbeat message, for example 'hbeat.end' needs to be created.
+	</li>
+	
+</ul>
+
+
+
+
+
+
+<h3>Return value:</h3>
+<ul>xplmessage object with the heartbeat message to be sent.</ul>
+
+
+
+</dd>
+
+
+
+
+<dt><a name="xpldevice:handlemessage"></a><strong>xpldevice:handlemessage</strong>&nbsp;(msg)</dt>
+<dd>
+Handler for incoming messages. It will handle only the heartbeat messages (echos) to verify the devices own connection.
+
+
+<h3>Parameters:</h3>
+<ul>
+	
+	<li>
+	  <code><em>msg</em></code>: 
+	</li>
+	
+</ul>
+
+
+
+
+
+
+
+
+</dd>
+
+
+
+
+<dt><a name="xpldevice:initialize"></a><strong>xpldevice:initialize</strong>&nbsp;()</dt>
+<dd>
+Initializes the xpldevice. Will be called upon instantiation of an object.
+
+
+
+
+
+
+
+
+
+</dd>
+
+
+
+
+<dt><a name="xpldevice:sendhbeat"></a><strong>xpldevice:sendhbeat</strong>&nbsp;(exit)</dt>
+<dd>
+Sends heartbeat message. Will send a heartbeat message, the message will be collected from the <code>createhbeatmsg()</code> function.
+
+
+<h3>Parameters:</h3>
+<ul>
+	
+	<li>
+	  <code><em>exit</em></code>: if true then an exit hbeat message, for example 'hbeat.end', will be send.
+	</li>
+	
+</ul>
+
+
+
+
+
+
+
+
+<h3>See also:</h3>
+<ul>
+	
+	<!-- <li><a href="#createhbeatmsg"> -->
+	<li><a href="#createhbeatmsg">
+		createhbeatmsg</li>
+	</a>
+	
+</ul>
+
+</dd>
+
+
+
+
+<dt><a name="xpldevice:start"></a><strong>xpldevice:start</strong>&nbsp;()</dt>
+<dd>
+Starts the xpldevice. The listener will automatically start all devices registered.
+
+
+
+
+
+
+
+
+
+</dd>
+
+
+
+
+<dt><a name="xpldevice:statuschanged"></a><strong>xpldevice:statuschanged</strong>&nbsp;(newstatus, oldstatus)</dt>
+<dd>
+Handler called whenever the device status changes. Override this method to implement code upon status changes.
+
+
+<h3>Parameters:</h3>
+<ul>
+	
+	<li>
+	  <code><em>newstatus</em></code>: the new status of the device
+	</li>
+	
+	<li>
+	  <code><em>oldstatus</em></code>: the previous status
+	</li>
+	
+</ul>
+
+
+
+
+
+
+
+
+</dd>
+
+
+
+
+<dt><a name="xpldevice:stop"></a><strong>xpldevice:stop</strong>&nbsp;()</dt>
+<dd>
+Stops the xpldevice. It will unregister the device from the xpllistener and stop the heartbeat sequence
+
+
+
+
+
+
+
+
+
+</dd>
+
+
+</dl>
+
+
+
+
+
+
+
+</div> <!-- id="content" -->
+
+</div> <!-- id="main" -->
+
+<div id="about">
+	<p><a href="http://validator.w3.org/check?uri=referer"><img src="http://www.w3.org/Icons/valid-xhtml10" alt="Valid XHTML 1.0!" height="31" width="88" /></a></p>
+</div> <!-- id="about" -->
+
+</div> <!-- id="container" -->	
+</body>
+</html>
