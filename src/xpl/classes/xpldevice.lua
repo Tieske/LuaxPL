@@ -42,10 +42,10 @@ function xpldevice:start()
     self.connectinterval = 3
     lasthbeats = 0                  -- last hbeat send
     lasthbeatr = 24 * 60 * 60       -- last hbeat received, set at 24 hours after lasthbeats
-    self.heartbeatcheck = copas.timer.create(nil, function() self:checkhbeat() end, nil, false)
+    self.heartbeatcheck = copas.newtimer(nil, function() self:checkhbeat() end, nil, false)
     self:changestatus("connecting")
     local f = function() self:sendhbeat() end
-    self.heartbeat = copas.timer.create(f, f, nil, true)
+    self.heartbeat = copas.newtimer(f, f, nil, true)
     self.heartbeat:arm(self.connectinterval)
 end
 
@@ -86,7 +86,7 @@ function xpldevice:handlemessage(msg)
             msg = nil
         elseif msg.type == "xpl-cmnd" and msg.schema == "hbeat.request" and (msg.target == "*" or msg.target == self.address) then
             -- heartbeat request, go send it, at random interval 0-3 seconds
-            copas.timer.create(nil, function() self:sendhbeat() end, nil, false):arm(math.random() * 3)
+            copas.newtimer(nil, function() self:sendhbeat() end, nil, false):arm(math.random() * 3)
             msg = nil
         end
     end

@@ -1,8 +1,7 @@
 -- Implements the listener
 
-local copas = require "copas"
 local socket = require "socket"
-require ("copastimer")
+local copas = require ("copastimer")
 local host, sysip, port, iplist
 local xplsocket             -- the socket used for listening for xPL messages
 local handlerlist = {}
@@ -230,7 +229,7 @@ starthandlers = function (delay)
     -- schedule start of all devices in xxx seconds
     for k,v in pairs(handlerlist) do
         if type(v.start) == "function" then
-            copas.timer.delayedexecutioner(delay, v.start, v)
+            copas.delayedexecutioner(delay, v.start, v)
         end
     end
 end
@@ -272,7 +271,7 @@ start = function(hub)
         if xplsocket then
             copas.addserver(xplsocket, sockethandler)
             starthandlers(0.5)
-            copas.timer.loop()
+            copas.loop()
             isexiting = nil
             return true
         else
@@ -291,8 +290,8 @@ stop = function()
     if isexiting == false then
         stophandlers()
         isexiting = true
-        if copas.timer.isexiting == false then
-            copas.timer.isexiting = true
+        if copas.isexiting == false then
+            copas.isexiting = true
         end
     end
 end
