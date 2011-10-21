@@ -24,7 +24,7 @@ Options;
    -i, -instance=HOST                     InstanceID to be used, or HOST to generate
                                           hostname based id, or RANDOM for random id.
                                           (HOST is default)
-   -t, -time=60                           How long should the logger run (in seconds)
+   -t, -time                              How long should the logger run (in seconds)
    -b, -hbeat                             Request a heartbeat upon start
    -v, -verbose                           Displays message contents while sending
    -version                               Print version info
@@ -111,6 +111,21 @@ if opt.version then					-- display message and exit
 	os.exit()
 end
 
+if opt.time then
+    local f = function()
+        print(version())
+        print("invalid value for switch -t; " .. tostring(opt.time) .. ".  Use -help for help on the commandline.")
+        os.exit()
+    end
+    if tonumber(opt.time) then
+        opt.time = tonumber(opt.time)
+        if opt.time < 0 then
+            f()
+        end
+    else
+        f()
+    end
+end
 --------------------------------------------------------------------------------------
 -- Create our device
 --------------------------------------------------------------------------------------
@@ -171,9 +186,9 @@ local logger = xpl.classes.xpldevice:new({    -- create logger device object
 -- register device and start listening
 xpl.listener.register(logger)
 
-if tonumber(opt.time) then
+if opt.time then
     -- create a timer to shutdown the logger
-    copas.timer.create(nil, function() xpl.listener.stop() end, nil, false):arm(tonumber(opt.time))
+    copas.delayedexecutioner(opt.time, function() xpl.listener.stop() end)
 end
 
 xpl.listener.start()

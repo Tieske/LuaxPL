@@ -39,7 +39,7 @@ classes = {}
 -- @field FMT_KEYVALUE format string for creating the message body; existing body, key, value
 -- @field FMT_MESSAGE format string for creating messages; type, hop, source, target, schema, body (hop is number, others string)
 settings = {
-	_DEBUG = true,					-- will run any tests at startup
+--	_DEBUG = true,					-- will run any tests at startup
 --	listenon = "ANY_LOCAL",			-- ANY_LOCAL (any local adapter) or a specific IP address TODO: make this work
 --	listento = { "ANY_LOCAL" },		-- ANY_LOCAL (peers within same subnet) or table with IP addresses TODO: make this work
 	broadcast = "255.255.255.255",	-- to whom to broadcast outgoing messages
