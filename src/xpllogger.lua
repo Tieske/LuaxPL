@@ -8,7 +8,6 @@
 -- Example: <code>
 -- xplsender.lua -f="C:\Documents and Settings\Thijs Schreijer\Desktop\Lua xPL\samplemsg.txt" -m="xpl-trig\n{\nhop=1\nsource=tieske-upnp.somedev\ntarget=*\n}\nsome.schema\n{\ncommand=unknown\n}\n"
 -- </code>
--- @name xplsender.lua
 
 module ("xpllogger", package.seeall)
 
@@ -26,6 +25,7 @@ Options;
                                           (HOST is default)
    -t, -time                              How long should the logger run (in seconds)
    -b, -hbeat                             Request a heartbeat upon start
+   -H, -hub                               Start included xPL hub
    -v, -verbose                           Displays message contents while sending
    -version                               Print version info
    -h, -help                              Display this usage information
@@ -39,6 +39,7 @@ local opt = {
             instance = { "instance", "i" },
             time = { "time", "t" },
             hbeat = { "hbeat", "b" },
+            hub = { "hub", "H"},
 			verbose = { "verbose", "v" },
 			version = { "version" },
 			help = { "help", "h"},
@@ -154,7 +155,6 @@ local logger = xpl.classes.xpldevice:new({    -- create logger device object
             return t
         end
         -- call ancestor to handle hbeat messages
-        --oo.superclass(logger).handlemessage(self, msg)
         self.super.handlemessage(self, msg)
         -- now do my thing
         local log = ""
@@ -174,7 +174,6 @@ local logger = xpl.classes.xpldevice:new({    -- create logger device object
 
     createhbeatmsg = function (self, exit)
         -- call ancestor to create hbeat messages
-        --local m = oo.superclass(logger).createhbeatmsg(self, exit)
         local m = self.super.createhbeatmsg(self, exit)
         m:add("version", appversion)
         return m
@@ -183,7 +182,7 @@ local logger = xpl.classes.xpldevice:new({    -- create logger device object
 })
 
 
--- register device and start listening
+-- register device
 xpl.listener.register(logger)
 
 if opt.time then
@@ -191,5 +190,6 @@ if opt.time then
     copas.delayedexecutioner(opt.time, function() xpl.listener.stop() end)
 end
 
-xpl.listener.start()
+-- start listening
+xpl.listener.start(opt.hub)
 

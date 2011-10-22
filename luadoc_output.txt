@@ -7,7 +7,6 @@
 [WARN] documenting undefined parameter `self'
 [INFO] processing file `src/xpl/classes/xplmessage.lua'
 [INFO] processing file `src/xpllogger.lua'
-[ERROR] block name conflict: `xpllogger' -> `xplsender.lua'
 [INFO] processing file `src/xplsender.lua'
 [ERROR] block name conflict: `xplsender' -> `xplsender.lua'
 [INFO] generating file `doc/index.html'

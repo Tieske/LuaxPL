@@ -7,7 +7,7 @@ local xplsocket             -- the socket used for listening for xPL messages
 local handlerlist = {}
 local hubsocket         -- socket used by the hub
 local clientlist = {}   -- hub clients to forward messages to
-local xpl, print, type, assert, pairs = xpl, print, type, assert, pairs
+local xpl, print, type, assert, pairs, ipairs, tonumber, tostring = xpl, print, type, assert, pairs, ipairs, tonumber, tostring
 
 module "xpl.listener"
 
@@ -117,7 +117,7 @@ local function updateclientlist(msg)
         -- is it on our system?
         local match
         for i, v in ipairs(iplist) do
-            if v == clientaddress then
+            if v == clientip then
                 match = v
                 break
             end
@@ -165,7 +165,7 @@ local function sockethandler(skt)
                 local msg, remain = xpl.classes.xplmessage.parse(data)
                 if msg then
                     data = remain
-                    if skt == hubsocket then
+                    if hubsocket then
                         -- message for the hub on xPL port 3865
                         if msg.schema == "hbeat.app" or msg.schema == "config.app" then
                             updateclientlist(msg)
@@ -173,7 +173,7 @@ local function sockethandler(skt)
                             removeclient(msg)
                         end
                         -- do hub thing, forward to external devices on the same system
-                        local m = msg:tostring()
+                        local m = tostring(msg)
                         for addr, client in pairs(clientlist) do
                             xpl.send(m, client.remoteip, client.port)
                         end
