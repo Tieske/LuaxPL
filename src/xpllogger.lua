@@ -23,7 +23,7 @@ Options;
    -i, -instance=HOST                     InstanceID to be used, or HOST to generate
                                           hostname based id, or RANDOM for random id.
                                           (HOST is default)
-   -t, -time                              How long should the logger run (in seconds)
+   -t, -time=[xx]                         How long should the logger run (in seconds)
    -b, -hbeat                             Request a heartbeat upon start
    -H, -hub                               Start included xPL hub
    -v, -verbose                           Displays message contents while sending
@@ -130,10 +130,13 @@ end
 --------------------------------------------------------------------------------------
 -- Create our device
 --------------------------------------------------------------------------------------
-local logger = xpl.classes.xpldevice:new({    -- create logger device object
+local logger = xpl.classes.xpldevice:new({    -- create a generic xPL device for the logger
 
-    address = xpl.createaddress("tieske", "lualog", opt.instance or "HOST"),
-    interval = 1,
+    initialize = function(self)
+        self.super.initialize(self)
+        address = xpl.createaddress("tieske", "lualog", opt.instance or "HOST")
+        interval = 1
+    end,
 
     start = function(self)
         self.super.start(self)
@@ -183,7 +186,7 @@ local logger = xpl.classes.xpldevice:new({    -- create logger device object
 
 
 -- register device
-xpl.listener.register(logger)
+--xpl.listener.register(logger) no longer required, will do through events
 
 if opt.time then
     -- create a timer to shutdown the logger

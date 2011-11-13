@@ -1,6 +1,6 @@
 -------------------------------------------------------------------------------------------------------
 -- Allows for object creation.
--- exports a single method <code>object.make(tbl)</code> to turn a table into an object.
+-- Returns a single object. Call <code>object.make(tbl)</code> to turn a table into an object.
 -- alternatively the <code>object</code> table can be subclassed directly;
 -- <code>myObj = object:subclass({member = 'value'})</code>
 
@@ -8,13 +8,13 @@ local object = {}
 
 -------------------------------------------------------------------------------------------------------
 -- Creates an object from a table, a base class. This only need to be done for the very first base class
--- descedants or instances will automatically have the object properties.
+-- only, descedants or instances will automatically have the object properties.
 -- Adds methods <code>new</code> and <code>subclass</code> to the supplied table to instantiate
 -- and subclass the created objectclass. Property/field <code>super</code> is added as a reference to the
 -- base class of the created object. Method <code>initialize(self)</code> will be called upon instantiation.
--- <ul><li><code>super:new(self, o)</code>; method to create an instance of <code>super</code> in table
+-- <ul><li><code>super:new(o)</code>; method to create an instance of <code>super</code> in table
 -- <code>o</code>, whilst retaining the properties in <code>o</code></li>
--- <li><code>super:subclass(self, o)</code>; method to create a new class, which inherits from <code>super</code>
+-- <li><code>super:subclass(o)</code>; method to create a new class, which inherits from <code>super</code>
 -- </li></ul>
 -- NOTE: when calling methods on the superclass make sure to call them using function notation
 -- (<code>super.method(self, param1, param2)</code>) and NOT method notation (<code>super:dosomething(param1,
@@ -86,6 +86,7 @@ local test = function()
     -- create instance and check if the initialzeer ran (in the base object)
     local instance = base:new({})
     assert(initialized, "Should have been true")
+    assert(instance.super == base, "Super class should point to base")
     -- create instance and check if the PROVIDED initializer ran
     initialized = nil
     local instance = base:new({initialize = function() initialized = false end})
@@ -93,13 +94,15 @@ local test = function()
     -- create a subclass and check that the initializer didn't run
     initialized = nil
     local base2 = base:subclass({initialize = function() initialized = "stringvalue" end})
+    assert(base2.super == base, "Super class should point to base")
     assert(initialized == nil, "Should have been still nil")
     -- instantiate the subclass and check that the initializer runs
     instance = base2:new({})
+    assert(instance.super == base2, "Super class should point to base")
     assert(initialized == "stringvalue", "Should have been a string value")
     -- check availability of inherited super-initialize method
     base2.super.initialize()
-    assert(initialized, "Should have been true")
+    assert(initialized == true, "Should have been true")
     -- check inherited method
     assert(base2:inherited() == true , "Should have returned true")
 end

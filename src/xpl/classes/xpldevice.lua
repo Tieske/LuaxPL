@@ -2,6 +2,9 @@
 --
 --
 
+local copas = require("copas.timer")
+local eventer = require("copas.eventer")
+
 -----------------------------------------------------------------------------------------
 -- @class table
 -- @name fields/properties of the xpldevice object
@@ -29,12 +32,42 @@ end
 -- Initializes the xpldevice.
 -- Will be called upon instantiation of an object.
 function xpldevice:initialize()
+print ("Device baseclass: ", super == self)
+    -- subscribe to events of listener and copas
+    xpl.listener:subscribe(self, self.eventhandler)
+    copas:subscribe(self, self.eventhandler)
+    -- override in child classes
+end
+
+-----------------------------------------------------------------------------------------
+-- Handles incoming events. Will deal with copas starting/stopping and listener messages
+function xpldevice:eventhandler(sender, event, param, ...)
+    if sender == copas then
+        if event == copas.events.loopstarted then
+            -- must start now
+            self:start()
+        elseif event == copas.events.loopstopping then
+            -- must stop now
+            self:stop()
+        else
+            -- do nothing
+        end
+    elseif sender == xpl.listener then
+        if event == xpl.listener.events.newmessage then
+            -- got a new message
+            self:handlemessage(param)
+        else
+            -- do nothing
+        end
+    else
+        -- unknown sender, do nothing
+    end
     -- override in child classes
 end
 
 -----------------------------------------------------------------------------------------
 -- Starts the xpldevice.
--- The listener will automatically start all devices registered.
+-- Will run on the copas start event (see <code>eventhandler()</code>)
 function xpldevice:start()
     if self.status ~= "offline" then
         self:stop()
@@ -51,6 +84,7 @@ end
 
 -----------------------------------------------------------------------------------------
 -- Stops the xpldevice.
+-- Will run on the copas stop event (see <code>eventhandler()</code>)
 function xpldevice:stop()
     if self.status ~= "offline" then
         self:sendhbeat(true) -- send exit hbeat
