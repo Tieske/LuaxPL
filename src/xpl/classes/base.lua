@@ -1,8 +1,10 @@
 -------------------------------------------------------------------------------------------------------
 -- Allows for object creation.
 -- Returns a single object. Call <code>object.make(tbl)</code> to turn a table into an object.
--- alternatively the <code>object</code> table can be subclassed directly;
+-- alternatively the <code>object</code> table can be subclassed directly;<br/>
 -- <code>myObj = object:subclass({member = 'value'})</code>
+-- @copyright 2011 Thijs Schreijer
+-- @release Version 0.1, LuaxPL framework.
 
 local object = {}
 
@@ -18,9 +20,49 @@ local object = {}
 -- </li></ul>
 -- NOTE: when calling methods on the superclass make sure to call them using function notation
 -- (<code>super.method(self, param1, param2)</code>) and NOT method notation (<code>super:dosomething(param1,
--- param2)</code>), because in the latter case 'self' will point to 'super' and not the instance called upon.
+-- param2)</code>), because in the latter case <code>self</code> will point to <code>super</code> and not
+-- the instance called upon.
 -- @param obj table to convert into an object
 -- @param ... (not used, only for error checking)
+-- @usage# local base = require("xpl.classes.base")
+-- &nbsp
+-- -- create my table
+-- local myObject = {
+--     data = "hello world",
+-- &nbsp
+--     print = function(self)
+--         print(self.data)
+--     end,
+-- &nbsp
+--     initialize = function(self)
+--         -- upon initialization just print
+--         self:print()
+--     end
+-- }
+-- &nbsp
+-- -- make it a class with single inheritance by subclassing
+-- -- it from the base class. The 'initialize()' method will
+-- -- NOT be called upon subclassing
+-- myObject = base:subclass(myObject)
+-- &nbsp
+-- -- instantiate an object from the new class and
+-- -- override field contents. This will call 'initialize()'
+-- -- and print "my world".
+-- local descendant = myObject:new({data = "my world"})
+-- &nbsp
+-- -- now override another method
+-- function descendant:print()
+--     -- convert data to uppercase
+--     self.data = string.upper(self.data)
+--     -- call ancestor method through 'super'. NOTE: you
+--     -- must use 'function notation' for the call, 'method
+--     -- notation' will not work.
+--     self.super.print(self)
+-- end
+-- &nbsp
+-- -- try the overriden method and print "MY WORLD"
+-- descendant:print()
+
 object.make = function(obj, ...)
     if #arg ~= 0 or type(obj) ~= 'table' then
         error("Call with only a single argument, the table to make into an object", 2)

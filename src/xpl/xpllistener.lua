@@ -1,15 +1,26 @@
 -- Implements the listener
 
--- TODO: check usage of isexiting
+---------------------------------------------------------------------
+-- This module contains the network listener function that listens for inbound
+-- xPL messages. Do not use it directly, it will be invoked automatically when
+-- the <code>copas</code> loop starts.<br/>
+-- <br/>No global will be created, it just returns the listener table. The main
+-- xPL module will create a global <code>xpl.listener</code> to access it. To
+-- receive incoming messages subscribe to the <code>'newmessage'</code> event.
+-- @class module
+-- @name xpllistener
+-- @copyright 2011 Thijs Schreijer
+-- @release Version 0.1, LuaxPL framework.
 
 local socket = require("socket")
 local copas = require("copas.timer")
 
-local host, sysip, port, iplist
-local xplsocket             -- the socket used for listening for xPL messages
-local handlerlist = {}
-local hubsocket         -- socket used by the hub
-local clientlist = {}   -- hub clients to forward messages to
+local host              -- system hostname
+local sysip             -- system IP address
+local port              -- port to listen on for my devices, incoming from external hub
+local xplsocket         -- the socket used for listening for xPL messages
+local hub               -- xPL hub
+
 
 
 -- creates and initializes an xPL socket to be listened on
@@ -22,6 +33,7 @@ local createxplsocket = function(port)
     if not skt then return skt, err end
     skt:settimeout(1)
     skt:setoption("broadcast", true)
+
     status, err = skt:setsockname('*', port)
     if not status then
         return nil, err
@@ -33,7 +45,7 @@ end
 -- @return a luasocket.udp socket or nil  and an error message
 local getsocket = function()
     host = socket.dns.gethostname()
-    sysip, data = socket.dns.toip(host)
+    sysip = socket.dns.toip(host)
     if not xplsocket then
         port = 50000
         repeat
@@ -47,62 +59,6 @@ local getsocket = function()
     return xplsocket
 end
 
--- handles incoming xPL messages, distributes to registered devices/handlers.
-local function messagehandler(msg)
-    for _, handler in pairs(handlerlist) do
-        if type(handler) == "function" then
-            handler(msg)
-        else
-            handler:handlemessage(msg)
-        end
-    end
-end
-
--- updates the hub clientlist.
--- to be called when schemaclass 'hbeat' arrives
-local function updateclientlist(msg)
-    local clientaddress = msg.source
-    local clientip = msg:getvalue("remote-ip")
-    local clientport = tonumber(msg:getvalue("port"))
-    local clientinterval = tonumber(msg:getvalue("interval"))
-    if clientip == sysip and clientport == port then
-        -- its one of my own, no need to add it to the list
-        return
-    end
-    if clientip and clientaddress and clientport and clientinterval then
-        -- we've got stuff to work with
-        -- is it on our system?
-        local match
-        for i, v in ipairs(iplist) do
-            if v == clientip then
-                match = v
-                break
-            end
-        end
-        -- is it a local IP?
-        if not match then return end
-        -- so update/add our local client
-        local client = clientlist[clientaddress] or { address = clientaddress }
-        client.remoteip = clientip
-        client.port = clientport
-        client.expire = socket.gettime() + 60 * (clientinterval * 2 + 1)
-        clientlist[clientaddress] = client
-    end
-    -- cleanup client list
-    local t = socket.gettime()
-    for addr, client in pairs(clientlist) do
-        if client.expire < t then
-            -- expired, so clean up
-            clientlist[addr] = nil
-        end
-    end
-end
-
--- updates the hub clientlist by removing the device
--- to be called when schemaclass 'hbeat.end' or 'config.end' arrives
-local function removeclient(msg)
-    clientlist[msg.source] = nil
-end
 
 -- handles incoming xPL data
 local function sockethandler(skt)
@@ -122,28 +78,9 @@ local function sockethandler(skt)
                 local msg, remain = xpl.classes.xplmessage.parse(data)
                 if msg then
                     data = remain
-                    if hubsocket then
-                        -- message for the hub on xPL port 3865
-                        if msg.schema == "hbeat.app" or msg.schema == "config.app" then
-                            updateclientlist(msg)
-                        elseif msg.schema == "hbeat.end" or msg.schema == "config.end" then
-                            removeclient(msg)
-                        end
-                        -- do hub thing, forward to external devices on the same system
-                        local m = tostring(msg)
-                        for addr, client in pairs(clientlist) do
-                            xpl.send(m, client.remoteip, client.port)
-                        end
-                        -- now dispatch to my own devices as if it was received on the device
-                        -- specific port (no need to travel over the network for these)
-                        --messagehandler(msg) replaced by event
-                        xpl.listener:dispatch(xpl.listener.events.newmessage, msg)
-                    else
-                        -- regular message on xPL device specific port
-                        -- only if we use a 'foreign' hub and not my own
-                        --messagehandler(msg) replaced by event
-                        xpl.listener:dispatch(xpl.listener.events.newmessage, msg)
-                    end
+                    msg.from = "EXTERNAL_HUB"
+                    -- regular message on xPL device specific port
+                    xpl.listener:dispatch(xpl.listener.events.newmessage, msg)
                 else
                     -- parse failed, so exit loop and wait for more data
                     parsesuccess = false
@@ -153,33 +90,53 @@ local function sockethandler(skt)
     end
 end
 
--- creates and initializes the xPL socket to be listened on by the hub
--- @return a luasocket.udp socket or nil and an error message
-local gethubsocket = function()
-    host = socket.dns.gethostname()
-    sysip, data = socket.dns.toip(host)
-    iplist = data.ip
-    if hubsocket then
-        return hubsocket
-    end
-    local err
-    hubsocket, err = createxplsocket(xpl.settings.xplport)
-    return hubsocket, err
-end
 
--- Adds the xPL hub socket to the Copas dispatcher.
--- This must be called before calling the <code>start()</code> method
--- @return true for success, or nil and an error message
-local addhub = function()
-    local skt, err = hubsocket or gethubsocket()
-    if skt then
-        copas.addserver(skt, sockethandler)
-        return true
+-- Makes the listener start and stop on Copas events
+local eventhandler = function(self, sender, event)
+    if sender == copas then
+        if event == "loopstarting" then
+            local result, err
+            -- must start the sockets
+            if xpl.settings.listento then
+                -- make sure this table is a set (key = value)
+                local list = {}
+                for k,v in pairs(xpl.settings.listento) do
+                    list[v] = v
+                end
+                xpl.settings.listento = list
+            end
+            -- start hub
+            if xpl.settings.xplhub then
+                hub = require("xpl.xplhub")
+                result, err = hub.start()
+                if not result then
+                    print(err)
+                    copas.exitloop(0,true)
+                end
+            end
+            -- setup/start device socket
+            xplsocket, err = xplsocket or getsocket()
+            if xplsocket then
+                copas.addserver(xplsocket, sockethandler)
+            else
+                print("Socket could not be created; " .. tostring(err))
+                copas.exitloop(0,true)
+            end
+        elseif event == "loopstopped" then
+            -- must stop the sockets
+            xplsocket:close()
+            xplsocket = nil
+            if hub then
+                hub.stop()
+                hub = nil
+            end
+        else
+            -- unknown copas event
+        end
     else
-        return nil, err
+        -- unknown event source
     end
 end
-
 
 
 
@@ -202,63 +159,20 @@ local listener = {
         return port
     end,
 
-    ---------------------------------------------------------------------------------
-    -- property indicating whether the xPL listener is running.
-    -- Note: this is a field, not a function!
-    -- @return# <code>nil &nbsp:</code> if the listener is not running
-    -- <code>false:</code> if the listener is running
-    -- <code>true :</code> if the listener is currently exiting its loop
-    isexiting = function() end,  -- Trick LuaDoc
-    isexiting = nil,
-
-    ---------------------------------------------------------------------------------
-    -- Starts the xPL listener loop. This will start the underlying
-    -- Copas loop, hence this will be blocking!
-    -- at least one handler or timer must be added before calling start, if not
-    -- you will have no means of exiting. All handlers registered will get their
-    -- <code>handler:start()</code> method called.
-    -- @param hub if true, the hub will started, if false, no hub will be started
-    -- @return true after the loop exits or nil and an error message
-    start = function(hub)
-        if isexiting == nil then
-            isexiting = false
-            if hub then addhub() end
-            local err
-            xplsocket, err = xplsocket or getsocket()
-            if xplsocket then
-                copas.addserver(xplsocket, sockethandler)
-                --starthandlers(0.5)  will run on copas event
-                copas.loop()
-                isexiting = nil
-                return true
-            else
-                isexiting = nil
-                return nil, err
-            end
-        end
-    end,
-
-    ---------------------------------------------------------------------------------
-    -- stops the listener.
-    -- because the start function is blocking, this can only be called from within a
-    -- piece of code running within the Copas scheduler. If succesful, the function
-    -- <code>start()</code> will return, and any code after that statement will continue.
-    stop = function()
-        if isexiting == false then
-            -- stophandlers()   runs on copas events
-            isexiting = true
-            if not copas.isexiting() then
-                copas.exitloop(5)   -- timeout of 5 seconds
-            end
-        end
-    end,
-
 }   -- listener
 
 
 local subscribe, unsubscribe, events        -- make local trick LuaDoc
 ---------------------------------------------------------------------------------
 -- Subscribe to events of xpllistener.
+-- @usage# function xpldevice:eventhandler(sender, event, msg, ...)
+--     -- do your stuff with the message
+-- end
+-- &nbsp
+-- function xpldevice:initialize()
+--     -- subscribe to events of listener for new messages
+--     xpl.listener:subscribe(self, self.eventhandler, xpl.listener.events.newmessage)
+-- end
 -- @see copas.eventer
 -- @see events
 subscribe = function()
@@ -270,26 +184,31 @@ end
 unsubscribe = function()
 end
 ---------------------------------------------------------------------------------
--- Events generated by xpllistener.
+-- Events generated by xpllistener. There is only one event, for additional events
+-- the start and stop events of the <code>copas</code> scheduler may be used (see
+-- 'CopasTimer' and specifically the <code>copas.eventer</code> module).
 -- @see subscribe
 -- @see unsubscribe
 -- @class table
+-- @name events
 -- @field newmessage event to indicate a new message has arrived. The message will
 -- be passed as an argument to the event handler.
+-- @see subscribe
 events = { "newmessage" }
 
 -- add event capability
 copas.eventer.decorate(listener, events )
+
+-- subscribe to copas events
+copas:subscribe(listener, eventhandler)
 
 -- run tests
 if xpl.settings._DEBUG then
 
 	print("   ===================================================")
 	print("   TODO: implement test for xpllistener")
-	print("   TODO: implement test hub stuff")
 	print("   ===================================================")
-
-	print()
+	print("")
 end
 
 -- return listener table

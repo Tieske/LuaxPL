@@ -6,7 +6,7 @@
 -- @description# Commandline utility for sending xPL messages, message can be specified on the commandline (<code>-m</code> option) or send from files (<code>-f</code> option). Use option <code>-help</code> for a full description.
 -- &nbsp
 -- Example: <code>
--- xplsender.lua -f="C:\Documents and Settings\Thijs Schreijer\Desktop\Lua xPL\samplemsg.txt" -m="xpl-trig\n{\nhop=1\nsource=tieske-upnp.somedev\ntarget=*\n}\nsome.schema\n{\ncommand=unknown\n}\n"
+-- xplsender.lua -f="C:\samplemsg.txt" -m="xpl-trig\n{\nhop=1\nsource=tieske-upnp.somedev\ntarget=*\n}\nsome.schema\n{\ncommand=unknown\n}\n"
 -- </code>
 -- @name xplsender.lua
 

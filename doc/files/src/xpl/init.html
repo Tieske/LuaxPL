@@ -39,6 +39,22 @@
 	</li>
 
 	<li>
+		<a href="../../../modules/xpldevice.html">xpldevice</a>
+	</li>
+
+	<li>
+		<a href="../../../modules/xplfilters.html">xplfilters</a>
+	</li>
+
+	<li>
+		<a href="../../../modules/xplhub.html">xplhub</a>
+	</li>
+
+	<li>
+		<a href="../../../modules/xpllistener.html">xpllistener</a>
+	</li>
+
+	<li>
 		<a href="../../../modules/xpllogger.html">xpllogger</a>
 	</li>
 
@@ -90,6 +106,14 @@
 	</li>
 
 	<li>
+		<a href="../../../files/src/xplrun.html">src/xplrun.lua</a>
+	</li>
+
+	<li>
+		<a href="../../../files/src/xplrun_config.html">src/xplrun_config.lua</a>
+	</li>
+
+	<li>
 		<a href="../../../files/src/xplsender.html">src/xplsender.lua</a>
 	</li>
 
@@ -107,10 +131,14 @@
 <h1>File <code>src/xpl/init.lua</code></h1>
 
 
-<p>define global tables for xPL related functions and settings </p>
+<p>This module contains the main xPL functionality. Upon requiring it, it will load all supporting modules and classes. To use the framework you should only need to <code>require("xpl")</code> and any of your own devices (see the included device template for a quick start).<br/>&nbsp<br/>A global <code>xpl</code> will be created. Through this global the following components are accessible;<ul> <li><code><a href="xpllistener.html">xpl.listener</a></code></li> <li><code><a href="../files/src/xpl/classes/base.html">xpl.classes.base</a></code> base class for all other classes</li> <li><code><a href="xplfilters.html">xpl.classes.xplfilters</a></code> implements the filters for an xPL device</li> <li><code><a href="xplmessage.html">xpl.classes.xplmessage</a></code> message object</li> <li><code><a href="xpldevice.html">xpl.classes.xpldevice</a></code> device baseclass</li> </ul> <br/>The xPL framework uses 'CopasTimer' to provide timers, events and backgroundworkers. Please consult the 'CopasTimer' documentation on how this works.</p>
 
 
 
+<p>Copyright &copy;2011 Thijs Schreijer</p>
+
+
+<p><small><b>Release:</b> Version 0.1, LuaxPL framework.</small></p>
 
 
 
@@ -118,23 +146,23 @@
 <table class="function_list">
 
 	<tr>
-	<td class="name" nowrap><a href="#createaddress">createaddress</a>&nbsp;(vendor, device, instance)</td>
+	<td class="name" nowrap><a href="#xpl.createaddress">xpl.createaddress</a>&nbsp;(vendor, device, instance)</td>
 	<td class="summary">Creates an xPL address.</td>
 	</tr>
 
 	<tr>
-	<td class="name" nowrap><a href="#register">register</a>&nbsp;(list)</td>
-	<td class="summary">Registers a list of devices with the listener.</td>
-	</tr>
-
-	<tr>
-	<td class="name" nowrap><a href="#send">send</a>&nbsp;(msg, ip, port)</td>
+	<td class="name" nowrap><a href="#xpl.send">xpl.send</a>&nbsp;(msg, ip, port)</td>
 	<td class="summary">Sends an xPL message </td>
 	</tr>
 
 	<tr>
-	<td class="name" nowrap><a href="#unregister">unregister</a>&nbsp;(list)</td>
-	<td class="summary">Unregisters a list of devices previously registered through <code>xpl.register()</code> </td>
+	<td class="name" nowrap><a href="#xpl.start">xpl.start</a>&nbsp;(...)</td>
+	<td class="summary">Starts the loop and from there the listener, hub and devices.</td>
+	</tr>
+
+	<tr>
+	<td class="name" nowrap><a href="#xpl.stop">xpl.stop</a>&nbsp;(...)</td>
+	<td class="summary">Exits the loop and from there stops the listener, hub and devices.</td>
 	</tr>
 
 </table>
@@ -146,8 +174,13 @@
 <table class="table_list">
 
 	<tr>
+	<td class="name" nowrap><a href="#const">const</a></td>
+	<td class="summary">contains constants for the xPL module </td>
+	</tr>
+
+	<tr>
 	<td class="name" nowrap><a href="#settings">settings</a></td>
-	<td class="summary">contains the general setting for the xPL module </td>
+	<td class="summary">contains the general settings for the xPL module </td>
 	</tr>
 
 </table>
@@ -165,7 +198,7 @@
 
 
 
-<dt><a name="createaddress"></a><strong>createaddress</strong>&nbsp;(vendor, device, instance)</dt>
+<dt><a name="xpl.createaddress"></a><strong>xpl.createaddress</strong>&nbsp;(vendor, device, instance)</dt>
 <dd>
 Creates an xPL address.
 
@@ -174,15 +207,15 @@ Creates an xPL address.
 <ul>
 	
 	<li>
-	  <code><em>vendor</em></code>: (string) the vendor ID to use in the address
+	  <code><em>vendor</em></code>: (string) the vendor id to use in the address
 	</li>
 	
 	<li>
-	  <code><em>device</em></code>: (string) the device ID to use in the address
+	  <code><em>device</em></code>: (string) the device id to use in the address
 	</li>
 	
 	<li>
-	  <code><em>instance</em></code>: (string) the instance ID to use in the address, with 2 special cases; <ul><li><code>'HOST'</code> will generated an instance ID based upon the system hostname</li> <li><code>'RANDOM'</code> will generate a random instance ID</li></ul>
+	  <code><em>instance</em></code>: (string) the instance id to use in the address, with 2 special cases; <ul><li><code>'HOST'</code> will generated an instance id based upon the system hostname</li> <li><code>'RANDOM'</code> will generate a random instance id</li></ul>
 	</li>
 	
 </ul>
@@ -193,7 +226,7 @@ Creates an xPL address.
 
 
 <h3>Return value:</h3>
-<ul>xPL address string, as 'vendor-device.instance'</ul>
+<ul>xPL address string, formatted as 'vendor-device.instance'</ul>
 
 
 
@@ -202,36 +235,7 @@ Creates an xPL address.
 
 
 
-<dt><a name="register"></a><strong>register</strong>&nbsp;(list)</dt>
-<dd>
-Registers a list of devices with the listener. This method allows for a list of devices in separate files to be loaded at once and registered.
-
-
-<h3>Parameters:</h3>
-<ul>
-	
-	<li>
-	  <code><em>list</em></code>: a table whose values contain the devices to register. If the value is of type <code>string</code> then it is assumed to be a module/filename that will be 'required'. The result of 'require' will then be passed on to be registered with the listener.
-	</li>
-	
-</ul>
-
-
-
-
-
-
-<h3>Return value:</h3>
-<ul>new list with the same contents, except that any string value will be replaced by return value of the 'require'.</ul>
-
-
-
-</dd>
-
-
-
-
-<dt><a name="send"></a><strong>send</strong>&nbsp;(msg, ip, port)</dt>
+<dt><a name="xpl.send"></a><strong>xpl.send</strong>&nbsp;(msg, ip, port)</dt>
 <dd>
 Sends an xPL message
 
@@ -259,7 +263,7 @@ Sends an xPL message
 
 
 <h3>Return value:</h3>
-<ul>true if succesfull, nil and error otherwise</ul>
+<ul><code>true</code> if succesfull, <code>nil</code> and error otherwise</ul>
 
 
 
@@ -268,16 +272,42 @@ Sends an xPL message
 
 
 
-<dt><a name="unregister"></a><strong>unregister</strong>&nbsp;(list)</dt>
+<dt><a name="xpl.start"></a><strong>xpl.start</strong>&nbsp;(...)</dt>
 <dd>
-Unregisters a list of devices previously registered through <code>xpl.register()</code>
+Starts the loop and from there the listener, hub and devices. This is a simple shortcut to <code>copas.loop()</code> and it takes the same parameters
 
 
 <h3>Parameters:</h3>
 <ul>
 	
 	<li>
-	  <code><em>list</em></code>: a table whose values contain the devices to unregister. This list should be the same as the one returned by <code>register()</code> where strings have been replaced.
+	  <code><em>...</em></code>: 
+	</li>
+	
+</ul>
+
+
+
+
+
+
+
+
+</dd>
+
+
+
+
+<dt><a name="xpl.stop"></a><strong>xpl.stop</strong>&nbsp;(...)</dt>
+<dd>
+Exits the loop and from there stops the listener, hub and devices. This is a simple shortcut to <code>copas.exitloop()</code> and it takes the same parameters
+
+
+<h3>Parameters:</h3>
+<ul>
+	
+	<li>
+	  <code><em>...</em></code>: 
 	</li>
 	
 </ul>
@@ -300,32 +330,12 @@ Unregisters a list of devices previously registered through <code>xpl.register()
 <h2><a name="tables"></a>Tables</h2>
 <dl class="table">
 
-<dt><a name="settings"></a><strong>settings</strong></dt>
-<dd>contains the general setting for the xPL module<br /><br />
+<dt><a name="const"></a><strong>const</strong></dt>
+<dd>contains constants for the xPL module<br /><br />
 
 
 <h3>Fields:</h3>
 <ul>
-	
-	<li>
-	  <code><em>_DEBUG</em></code>: (boolean) set the debug flag and executes available tests at startup
-	</li>
-	
-	<li>
-	  <code><em>listenon</em></code>: unused for now
-	</li>
-	
-	<li>
-	  <code><em>listento</em></code>: unused for now
-	</li>
-	
-	<li>
-	  <code><em>broadcast</em></code>: the IP address to use for broadcasting xPL messages onto the xPL network
-	</li>
-	
-	<li>
-	  <code><em>xplport</em></code>: the xPL network port, do not change! only if you want to create a private network and knwo what you are doing
-	</li>
 	
 	<li>
 	  <code><em>CAP_ADDRESS</em></code>: pattern to return the three elements of an address, no wildcards allowed
@@ -353,6 +363,47 @@ Unregisters a list of devices previously registered through <code>xpl.register()
 	
 	<li>
 	  <code><em>FMT_MESSAGE</em></code>: format string for creating messages; type, hop, source, target, schema, body (hop is number, others string)
+	</li>
+	
+</ul>
+
+
+</dd>
+
+
+<dt><a name="settings"></a><strong>settings</strong></dt>
+<dd>contains the general settings for the xPL module<br /><br />
+
+
+<h3>Fields:</h3>
+<ul>
+	
+	<li>
+	  <code><em>_DEBUG</em></code>: (boolean) set the debug flag and executes available tests at startup
+	</li>
+	
+	<li>
+	  <code><em>listenon</em></code>: unused for now
+	</li>
+	
+	<li>
+	  <code><em>listento</em></code>: ANY_LOCAL (peers within same subnet) or table with IP addresses (applies only to hub function)
+	</li>
+	
+	<li>
+	  <code><em>broadcast</em></code>: the IP address to use for broadcasting xPL messages onto the xPL network
+	</li>
+	
+	<li>
+	  <code><em>xplport</em></code>: the xPL network port, do not change! only if you want to create a private network and know what you are doing
+	</li>
+	
+	<li>
+	  <code><em>xplhub</em></code>: (boolean) should the internal hub be started
+	</li>
+	
+	<li>
+	  <code><em>devices</em></code>: (table) table with device specific settings, <code>key</code> is device table, <code>value</code> is device specific settings. Fixed fields in the settings table are; <ul> <li><code>classname</code> (string) name of the class to create the device</li> <li><code>updatehandler</code> (function) may be called from the device when its settings have changed</li> <li><code>...</code></li> <li><code>...</code></li> </ul>
 	</li>
 	
 </ul>

@@ -3,7 +3,7 @@
 <html>
 <head>
     <title>Reference</title>
-    <link rel="stylesheet" href="../../../../luadoc.css" type="text/css" />
+    <link rel="stylesheet" href="../luadoc.css" type="text/css" />
 	<!--meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/-->
 </head>
 
@@ -24,7 +24,7 @@
 <h1>LuaDoc</h1>
 <ul>
 	
-	<li><a href="../../../../index.html">Index</a></li>
+	<li><a href="../index.html">Index</a></li>
 	
 </ul>
 
@@ -35,31 +35,29 @@
 <ul>
 
 	<li>
-		<a href="../../../../modules/xpl.html">xpl</a>
+		<a href="../modules/xpl.html">xpl</a>
 	</li>
 
 	<li>
-		<a href="../../../../modules/xpldevice.html">xpldevice</a>
+		<a href="../modules/xpldevice.html">xpldevice</a>
+	</li>
+
+	<li><strong>xplfilters</strong></li>
+	
+	<li>
+		<a href="../modules/xplhub.html">xplhub</a>
 	</li>
 
 	<li>
-		<a href="../../../../modules/xplfilters.html">xplfilters</a>
+		<a href="../modules/xpllistener.html">xpllistener</a>
 	</li>
 
 	<li>
-		<a href="../../../../modules/xplhub.html">xplhub</a>
+		<a href="../modules/xpllogger.html">xpllogger</a>
 	</li>
 
 	<li>
-		<a href="../../../../modules/xpllistener.html">xpllistener</a>
-	</li>
-
-	<li>
-		<a href="../../../../modules/xpllogger.html">xpllogger</a>
-	</li>
-
-	<li>
-		<a href="../../../../modules/xplsender.html">xplsender</a>
+		<a href="../modules/xplsender.html">xplsender</a>
 	</li>
 
 </ul>
@@ -72,49 +70,51 @@
 <ul>
 
 	<li>
-		<a href="../../../../files/src/xpl/classes/base.html">src/xpl/classes/base.lua</a>
+		<a href="../files/src/xpl/classes/base.html">src/xpl/classes/base.lua</a>
 	</li>
 
 	<li>
-		<a href="../../../../files/src/xpl/classes/xpldevice.html">src/xpl/classes/xpldevice.lua</a>
-	</li>
-
-	<li><strong>src/xpl/classes/xplfilter.lua</strong></li>
-	
-	<li>
-		<a href="../../../../files/src/xpl/classes/xplmessage.html">src/xpl/classes/xplmessage.lua</a>
+		<a href="../files/src/xpl/classes/xpldevice.html">src/xpl/classes/xpldevice.lua</a>
 	</li>
 
 	<li>
-		<a href="../../../../files/src/xpl/init.html">src/xpl/init.lua</a>
+		<a href="../files/src/xpl/classes/xplfilter.html">src/xpl/classes/xplfilter.lua</a>
 	</li>
 
 	<li>
-		<a href="../../../../files/src/xpl/new_device_template.html">src/xpl/new_device_template.lua</a>
+		<a href="../files/src/xpl/classes/xplmessage.html">src/xpl/classes/xplmessage.lua</a>
 	</li>
 
 	<li>
-		<a href="../../../../files/src/xpl/xplhub.html">src/xpl/xplhub.lua</a>
+		<a href="../files/src/xpl/init.html">src/xpl/init.lua</a>
 	</li>
 
 	<li>
-		<a href="../../../../files/src/xpl/xpllistener.html">src/xpl/xpllistener.lua</a>
+		<a href="../files/src/xpl/new_device_template.html">src/xpl/new_device_template.lua</a>
 	</li>
 
 	<li>
-		<a href="../../../../files/src/xpllogger.html">src/xpllogger.lua</a>
+		<a href="../files/src/xpl/xplhub.html">src/xpl/xplhub.lua</a>
 	</li>
 
 	<li>
-		<a href="../../../../files/src/xplrun.html">src/xplrun.lua</a>
+		<a href="../files/src/xpl/xpllistener.html">src/xpl/xpllistener.lua</a>
 	</li>
 
 	<li>
-		<a href="../../../../files/src/xplrun_config.html">src/xplrun_config.lua</a>
+		<a href="../files/src/xpllogger.html">src/xpllogger.lua</a>
 	</li>
 
 	<li>
-		<a href="../../../../files/src/xplsender.html">src/xplsender.lua</a>
+		<a href="../files/src/xplrun.html">src/xplrun.lua</a>
+	</li>
+
+	<li>
+		<a href="../files/src/xplrun_config.html">src/xplrun_config.lua</a>
+	</li>
+
+	<li>
+		<a href="../files/src/xplsender.html">src/xplsender.lua</a>
 	</li>
 
 </ul>
@@ -124,21 +124,21 @@
 
 
 
-</div> <!-- id="navigation" -->
+</div><!-- id="navigation" -->
 
 <div id="content">
 
-<h1>File <code>src/xpl/classes/xplfilter.lua</code></h1>
-
+<h1>Module <code>xplfilters</code></h1>
 
 <p>The filter object for xPL devices. It maintains a list of filters for matching incoming messages. <br/>No global will be created, it just returns the filter class. The main xPL module will create a global <code>xpl.classes.xplfilters</code> to access it.<br/>&nbsp<br/>An xpl filter is a set of xpl message elements; <code>[msgtype].[vendor].[device].[instance].[schema-class].[schema-type]</code> For each element a '<code>*</code>' can be used as a wildcard. Only arriving messages that match at least 1 filter entry will be dealt with by an xpl device.</p>
 
+<p>Copyright &copy; 2011 Thijs Schreijer</p>
 
 
-<p>Copyright &copy;2011 Thijs Schreijer</p>
 
 
-<p><small><b>Release:</b> Version 0.1, LuaxPL framework.</small></p>
+<p><b>Release:</b> Version 0.1, LuaxPL framework.
+</p>
 
 
 
@@ -169,7 +169,6 @@
 
 
 
-
 <h2>Tables</h2>
 <table class="table_list">
 
@@ -189,7 +188,6 @@
 
 <br/>
 <br/>
-
 
 
 
@@ -225,7 +223,7 @@ Add a filter entry to the filter list. Duplicates will be silently dismissed (no
 <h3>See also:</h3>
 <ul>
 	
-	<!-- <li><a href="#../../../../files/src/xpl/classes/xplfilter.html#filter-tablefilter-table"> -->
+	<!-- <li><a href="#../modules/xplfilters.html#filter-tablefilter-table"> -->
 	<li><a href="#filter-table">
 		filter-table</li>
 	</a>
@@ -325,7 +323,7 @@ splits a filter string into a filter table. A '-' between vendor and device is a
 <h3>See also:</h3>
 <ul>
 	
-	<!-- <li><a href="#../../../../files/src/xpl/classes/xplfilter.html#filter-tablefilter-table"> -->
+	<!-- <li><a href="#../modules/xplfilters.html#filter-tablefilter-table"> -->
 	<li><a href="#filter-table">
 		filter-table</li>
 	</a>
@@ -393,7 +391,6 @@ splits a filter string into a filter table. A '-' between vendor and device is a
 
 
 </dl>
-
 
 
 

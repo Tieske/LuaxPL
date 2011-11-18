@@ -91,12 +91,12 @@
 		<a href="../../../files/src/xpl/init.html">src/xpl/init.lua</a>
 	</li>
 
-	<li><strong>src/xpl/new_device_template.lua</strong></li>
-	
 	<li>
-		<a href="../../../files/src/xpl/xplhub.html">src/xpl/xplhub.lua</a>
+		<a href="../../../files/src/xpl/new_device_template.html">src/xpl/new_device_template.lua</a>
 	</li>
 
+	<li><strong>src/xpl/xplhub.lua</strong></li>
+	
 	<li>
 		<a href="../../../files/src/xpl/xpllistener.html">src/xpl/xpllistener.lua</a>
 	</li>
@@ -128,13 +128,39 @@
 
 <div id="content">
 
-<h1>File <code>src/xpl/new_device_template.lua</code></h1>
+<h1>File <code>src/xpl/xplhub.lua</code></h1>
+
+
+<p>This module contains the embedded hub function. Do not use it directly, it will be invoked automatically if <code>xpl.settings.xplhub == true</code> when the listener is started.<br/>&nbsp<br/>No global will be created, it just returns the hub table.</p>
 
 
 
+<p>Copyright &copy;2011 Thijs Schreijer</p>
+
+
+<p><small><b>Release:</b> Version 0.1, LuaxPL framework.</small></p>
 
 
 
+<h2>Functions</h2>
+<table class="function_list">
+
+	<tr>
+	<td class="name" nowrap><a href="#restart">restart</a>&nbsp;()</td>
+	<td class="summary">Reallocates the xPL hub socket.</td>
+	</tr>
+
+	<tr>
+	<td class="name" nowrap><a href="#start">start</a>&nbsp;()</td>
+	<td class="summary">Starts the internal hub implementation.</td>
+	</tr>
+
+	<tr>
+	<td class="name" nowrap><a href="#stop">stop</a>&nbsp;()</td>
+	<td class="summary">Stops the internal hub implementation and releases the socket.</td>
+	</tr>
+
+</table>
 
 
 
@@ -146,6 +172,71 @@
 
 
 
+
+<h2><a name="functions"></a>Functions</h2>
+<dl class="function">
+
+
+
+<dt><a name="restart"></a><strong>restart</strong>&nbsp;()</dt>
+<dd>
+Reallocates the xPL hub socket. Use this if the network connection changed while in operation.
+
+
+
+
+
+
+
+<h3>Return value:</h3>
+<ul><code>true</code> if success, or <code>nil</code> + error message otherwise</ul>
+
+
+
+</dd>
+
+
+
+
+<dt><a name="start"></a><strong>start</strong>&nbsp;()</dt>
+<dd>
+Starts the internal hub implementation. It will bind to the xPL port and start forwarding messages to its clients (external clients on the same system as well as internal LuaxPL clients)
+
+
+
+
+
+
+
+<h3>Return value:</h3>
+<ul><code>true</code> if success, or <code>nil</code> + error message otherwise</ul>
+
+
+
+</dd>
+
+
+
+
+<dt><a name="stop"></a><strong>stop</strong>&nbsp;()</dt>
+<dd>
+Stops the internal hub implementation and releases the socket.
+
+
+
+
+
+
+
+<h3>Return value:</h3>
+<ul><code>true</code></ul>
+
+
+
+</dd>
+
+
+</dl>
 
 
 

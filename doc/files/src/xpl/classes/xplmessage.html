@@ -39,6 +39,22 @@
 	</li>
 
 	<li>
+		<a href="../../../../modules/xpldevice.html">xpldevice</a>
+	</li>
+
+	<li>
+		<a href="../../../../modules/xplfilters.html">xplfilters</a>
+	</li>
+
+	<li>
+		<a href="../../../../modules/xplhub.html">xplhub</a>
+	</li>
+
+	<li>
+		<a href="../../../../modules/xpllistener.html">xpllistener</a>
+	</li>
+
+	<li>
 		<a href="../../../../modules/xpllogger.html">xpllogger</a>
 	</li>
 
@@ -90,6 +106,14 @@
 	</li>
 
 	<li>
+		<a href="../../../../files/src/xplrun.html">src/xplrun.lua</a>
+	</li>
+
+	<li>
+		<a href="../../../../files/src/xplrun_config.html">src/xplrun_config.lua</a>
+	</li>
+
+	<li>
 		<a href="../../../../files/src/xplsender.html">src/xplsender.lua</a>
 	</li>
 
@@ -123,6 +147,11 @@
 	<tr>
 	<td class="name" nowrap><a href="#msg:add">msg:add</a>&nbsp;(key, value)</td>
 	<td class="summary">Add a key value pair to the message body.</td>
+	</tr>
+
+	<tr>
+	<td class="name" nowrap><a href="#msg:eachkvp">msg:eachkvp</a>&nbsp;()</td>
+	<td class="summary">Creates an iterator for the key-value pair list.</td>
 	</tr>
 
 	<tr>
@@ -174,7 +203,7 @@
 <table class="table_list">
 
 	<tr>
-	<td class="name" nowrap><a href="#fields/properties of the xplmessage object">fields/properties of the xplmessage object</a></td>
+	<td class="name" nowrap><a href="#xplmessage fields/properties of the xplmessage object">xplmessage fields/properties of the xplmessage object</a></td>
 	<td class="summary"> </td>
 	</tr>
 
@@ -238,6 +267,29 @@ Add a key value pair to the message body.
 
 <h3>Return value:</h3>
 <ul>key-value pair inserted (table with 2 keys; <code>key</code> and <code>value</code>)</ul>
+
+
+
+</dd>
+
+
+
+
+<dt><a name="msg:eachkvp"></a><strong>msg:eachkvp</strong>&nbsp;()</dt>
+<dd>
+Creates an iterator for the key-value pair list. The iterator will use the order as specified in the message.
+
+
+
+
+
+<h3>Usage:</h3>
+<ul><pre class=example>for key, value, i in msg:eachkvp() do<br/>&nbsp&nbsp&nbsp&nbspprint("KVP ", i, " has key = ", key, ", value = ", value)<br/>end</pre></ul>
+
+
+
+<h3>Return value:</h3>
+<ul>iterator function</ul>
 
 
 
@@ -436,7 +488,7 @@ Transmits the message onto the xPL network
 
 
 <h3>Return value:</h3>
-<ul>true if successful</ul>
+<ul><code>true</code> if successful</ul>
 
 
 
@@ -484,7 +536,7 @@ sets value of a key-value pair in the message body.
 <h2><a name="tables"></a>Tables</h2>
 <dl class="table">
 
-<dt><a name="fields/properties of the xplmessage object"></a><strong>fields/properties of the xplmessage object</strong></dt>
+<dt><a name="xplmessage fields/properties of the xplmessage object"></a><strong>xplmessage fields/properties of the xplmessage object</strong></dt>
 <dd><br /><br />
 
 
@@ -493,6 +545,10 @@ sets value of a key-value pair in the message body.
 	
 	<li>
 	  <code><em>type</em></code>: the xpl message type; xpl-cmnd, xpl-trig, xpl-stat
+	</li>
+	
+	<li>
+	  <code><em>from</em></code>: origin of message; "[IP address]:[port]", "EXTERNAL_HUB" or "CREATED"
 	</li>
 	
 	<li>
@@ -544,7 +600,7 @@ sets value of a key-value pair in the message body.
 	</li>
 	
 	<li>
-	  <code><em>kvp</em></code>: list of key value pairs, where each pair is defined as;<br/><code>kvp[i] = { key = 'key value',<br/>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspvalue = 'value value'}
+	  <code><em>kvp</em></code>: list of key value pairs, where each pair is defined as;<br/><code>kvp[i] = { key = 'key value',<br/>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspvalue = 'value value'}</code><br/>See <code>msg:eachkvp()</code> for an iterator.
 	</li>
 	
 </ul>

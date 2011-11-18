@@ -1,8 +1,9 @@
 
 -----------------------------------------------------------------------------------------
 -- @class table
--- @name fields/properties of the xplmessage object
+-- @name xplmessage fields/properties of the xplmessage object
 -- @field type the xpl message type; xpl-cmnd, xpl-trig, xpl-stat
+-- @field from origin of message; "[IP address]:[port]", "EXTERNAL_HUB" or "CREATED"
 -- @field hop hop count
 -- @field source source address of the message
 -- @field sourcevendor vendor part of source address (only available if parsed)
@@ -17,13 +18,15 @@
 -- @field schematype type part of the message schema (only available if parsed)
 -- @field# kvp list of key value pairs, where each pair is defined as;
 -- <code>kvp[i] = { key = 'key value',
---            value = 'value value'}
+--            value = 'value value'}</code>
+-- See <code>msg:eachkvp()</code> for an iterator.
 local msg = xpl.classes.base:subclass({
 	type = "xpl-cmnd",		-- message type
 	hop = 1,				-- hop count
 	source = "tieske-somedev.instance",			-- source address
 	target = "*",			-- target address
 	schema = "hbeat.basic",	-- message schema
+    from = "CREATED",
 })
 
 -----------------------------------------------------------------------------------------
@@ -56,23 +59,23 @@ function msg:parse(msgstring)
         return nil, "Failed digesting string to xPL message, expected string got " .. type(msgstring)
     end
     -- digest header
-    local tpe, hop, source, target, schema, body, remainder = string.match(msgstring, xpl.settings.CAP_MESSAGE)
+    local tpe, hop, source, target, schema, body, remainder = string.match(msgstring, xpl.const.CAP_MESSAGE)
     if not tpe then
         return nil, "Failed to digest xPL message string, invalid message?"
     end
     -- digest details
-    local sv, sd, si = string.match(source, xpl.settings.CAP_ADDRESS)
+    local sv, sd, si = string.match(source, xpl.const.CAP_ADDRESS)
     local tv, td, ti = "*", "*", "*"
     if target ~= "*" then
-        tv, td, ti = string.match(target, xpl.settings.CAP_ADDRESS)
+        tv, td, ti = string.match(target, xpl.const.CAP_ADDRESS)
     end
-    local schemaclass, schematype = string.match(schema, xpl.settings.CAP_SCHEMA)
+    local schemaclass, schematype = string.match(schema, xpl.const.CAP_SCHEMA)
     -- digest body
     local kvp = {}
     local cnt = 1
     while body do
         local key, value
-        key, value, body = string.match(body, xpl.settings.CAP_KEYVALUE)
+        key, value, body = string.match(body, xpl.const.CAP_KEYVALUE)
         if not key then break end -- no more found, exit loop
         kvp[cnt] = {}
         kvp[cnt].key = key
@@ -109,6 +112,25 @@ function msg:add(key, value)
     local kvp = {key = key, value = tostring(value)}
     table.insert(self.kvp,kvp)
     return kvp
+end
+
+------------------------------------------
+-- Creates an iterator for the key-value pair list. The iterator will use the order as specified in the message.
+-- @return iterator function
+-- @usage# for key, value, i in msg:eachkvp() do
+--     print("KVP ", i, " has key = ", key, ", value = ", value)
+-- end
+function msg:eachkvp()
+    local i = 0
+    return function()
+            i = i + 1
+            local kvp = self.kvp[i]
+            if not kvp then
+                return nil
+            else
+                return kvp.key, kvp.value, i
+            end
+        end
 end
 
 ------------------------------------------
@@ -196,16 +218,16 @@ function msg:__tostring()
     local body = ""
     -- format body with all key-value pairs
     for i, kvp in ipairs (self.kvp) do
-        body = string.format(xpl.settings.FMT_KEYVALUE, body, kvp.key, tostring(kvp.value))
+        body = string.format(xpl.const.FMT_KEYVALUE, body, kvp.key, tostring(kvp.value))
     end
     -- format header and insert body
-    local msg = string.format(xpl.settings.FMT_MESSAGE, self.type, tostring(self.hop), self.source, self.target, self.schema, body)
+    local msg = string.format(xpl.const.FMT_MESSAGE, self.type, tostring(self.hop), self.source, self.target, self.schema, body)
     return msg
 end
 
 ------------------------------------------
 -- Transmits the message onto the xPL network
--- @return true if successful
+-- @return <code>true</code> if successful
 function msg:send()
     -- send it
     return xpl.send(tostring(self))

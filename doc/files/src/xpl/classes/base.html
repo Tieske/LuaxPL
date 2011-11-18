@@ -39,6 +39,22 @@
 	</li>
 
 	<li>
+		<a href="../../../../modules/xpldevice.html">xpldevice</a>
+	</li>
+
+	<li>
+		<a href="../../../../modules/xplfilters.html">xplfilters</a>
+	</li>
+
+	<li>
+		<a href="../../../../modules/xplhub.html">xplhub</a>
+	</li>
+
+	<li>
+		<a href="../../../../modules/xpllistener.html">xpllistener</a>
+	</li>
+
+	<li>
 		<a href="../../../../modules/xpllogger.html">xpllogger</a>
 	</li>
 
@@ -90,6 +106,14 @@
 	</li>
 
 	<li>
+		<a href="../../../../files/src/xplrun.html">src/xplrun.lua</a>
+	</li>
+
+	<li>
+		<a href="../../../../files/src/xplrun_config.html">src/xplrun_config.lua</a>
+	</li>
+
+	<li>
 		<a href="../../../../files/src/xplsender.html">src/xplsender.lua</a>
 	</li>
 
@@ -107,10 +131,14 @@
 <h1>File <code>src/xpl/classes/base.lua</code></h1>
 
 
-<p>Allows for object creation. exports a single method <code>object.make(tbl)</code> to turn a table into an object. alternatively the <code>object</code> table can be subclassed directly; <code>myObj = object:subclass({member = 'value'})</code></p>
+<p>Allows for object creation. Returns a single object. Call <code>object.make(tbl)</code> to turn a table into an object. alternatively the <code>object</code> table can be subclassed directly;<br/>&nbsp<code>myObj = object:subclass({member = 'value'})</code></p>
 
 
 
+<p>Copyright &copy;2011 Thijs Schreijer</p>
+
+
+<p><small><b>Release:</b> Version 0.1, LuaxPL framework.</small></p>
 
 
 
@@ -142,7 +170,7 @@
 
 <dt><a name="object.make"></a><strong>object.make</strong>&nbsp;(obj, ...)</dt>
 <dd>
-Creates an object from a table, a base class. This only need to be done for the very first base class descedants or instances will automatically have the object properties. Adds methods <code>new</code> and <code>subclass</code> to the supplied table to instantiate and subclass the created objectclass. Property/field <code>super</code> is added as a reference to the base class of the created object. Method <code>initialize(self)</code> will be called upon instantiation. <ul><li><code>super:new(self, o)</code>; method to create an instance of <code>super</code> in table <code>o</code>, whilst retaining the properties in <code>o</code></li> <li><code>super:subclass(self, o)</code>; method to create a new class, which inherits from <code>super</code> </li></ul> NOTE: when calling methods on the superclass make sure to call them using function notation (<code>super.method(self, param1, param2)</code>) and NOT method notation (<code>super:dosomething(param1, param2)</code>), because in the latter case 'self' will point to 'super' and not the instance called upon.
+Creates an object from a table, a base class. This only need to be done for the very first base class only, descedants or instances will automatically have the object properties. Adds methods <code>new</code> and <code>subclass</code> to the supplied table to instantiate and subclass the created objectclass. Property/field <code>super</code> is added as a reference to the base class of the created object. Method <code>initialize(self)</code> will be called upon instantiation. <ul><li><code>super:new(o)</code>; method to create an instance of <code>super</code> in table <code>o</code>, whilst retaining the properties in <code>o</code></li> <li><code>super:subclass(o)</code>; method to create a new class, which inherits from <code>super</code> </li></ul> NOTE: when calling methods on the superclass make sure to call them using function notation (<code>super.method(self, param1, param2)</code>) and NOT method notation (<code>super:dosomething(param1, param2)</code>), because in the latter case <code>self</code> will point to <code>super</code> and not the instance called upon.
 
 
 <h3>Parameters:</h3>
@@ -160,6 +188,9 @@ Creates an object from a table, a base class. This only need to be done for the 
 
 
 
+
+<h3>Usage:</h3>
+<ul><pre class=example>local base = require("xpl.classes.base")<br/>&nbsp<br/>-- create my table<br/>local myObject = {<br/>&nbsp&nbsp&nbsp&nbspdata = "hello world",<br/>&nbsp<br/>&nbsp&nbsp&nbsp&nbspprint = function(self)<br/>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspprint(self.data)<br/>&nbsp&nbsp&nbsp&nbspend,<br/>&nbsp<br/>&nbsp&nbsp&nbsp&nbspinitialize = function(self)<br/>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp-- upon initialization just print<br/>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspself:print()<br/>&nbsp&nbsp&nbsp&nbspend<br/>}<br/>&nbsp<br/>-- make it a class with single inheritance by subclassing<br/>-- it from the base class. The 'initialize()' method will<br/>-- NOT be called upon subclassing<br/>myObject = base:subclass(myObject)<br/>&nbsp<br/>-- instantiate an object from the new class and<br/>-- override field contents. This will call 'initialize()'<br/>-- and print "my world".<br/>local descendant = myObject:new({data = "my world"})<br/>&nbsp<br/>-- now override another method<br/>function descendant:print()<br/>&nbsp&nbsp&nbsp&nbsp-- convert data to uppercase<br/>&nbsp&nbsp&nbsp&nbspself.data = string.upper(self.data)<br/>&nbsp&nbsp&nbsp&nbsp-- call ancestor method through 'super'. NOTE: you<br/>&nbsp&nbsp&nbsp&nbsp-- must use 'function notation' for the call, 'method<br/>&nbsp&nbsp&nbsp&nbsp-- notation' will not work.<br/>&nbsp&nbsp&nbsp&nbspself.super.print(self)<br/>end<br/>&nbsp<br/>-- try the overriden method and print "MY WORLD"<br/>descendant:print()</pre></ul>
 
 
 

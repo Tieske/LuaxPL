@@ -3,10 +3,10 @@
 ----------------------------------------------------------------------------
 -- @copyright 2011 Thijs Schreijer
 -- @release Version 0.1, commandline xPL message logger utility.
--- @description# Commandline utility for sending xPL messages, message can be specified on the commandline (<code>-m</code> option) or send from files (<code>-f</code> option). Use option <code>-help</code> for a full description.
+-- @description# Commandline utility for logging xPL messages. Use option <code>-help</code> for a description.
 -- &nbsp
 -- Example: <code>
--- xplsender.lua -f="C:\Documents and Settings\Thijs Schreijer\Desktop\Lua xPL\samplemsg.txt" -m="xpl-trig\n{\nhop=1\nsource=tieske-upnp.somedev\ntarget=*\n}\nsome.schema\n{\ncommand=unknown\n}\n"
+-- xpllogger.lua -t=60 -hub -verbose -hbeat
 -- </code>
 
 module ("xpllogger", package.seeall)
@@ -127,17 +127,33 @@ if opt.time then
         f()
     end
 end
+
+if opt.hub then
+    -- make the listener start the hub functionality as well
+    xpl.settings.xplhub = true
+else
+    xpl.settings.xplhub = false
+end
+
+if opt.time then
+    -- create a timer to shutdown the logger when due
+    copas.delayedexecutioner(opt.time, function() xpl.stop() end)
+end
+
+
 --------------------------------------------------------------------------------------
 -- Create our device
 --------------------------------------------------------------------------------------
-local logger = xpl.classes.xpldevice:new({    -- create a generic xPL device for the logger
+local logger = xpl.classes.xplbasicdevice:new({    -- create a generic xPL device for the logger
 
     initialize = function(self)
         self.super.initialize(self)
-        address = xpl.createaddress("tieske", "lualog", opt.instance or "HOST")
-        interval = 1
+        self.configurable = true
+        self.version = appversion   -- make version be reported in heartbeats
+        self.address = xpl.createaddress("tieske", "lualog", opt.instance or "HOST")
     end,
 
+    -- overriden to request a heartbeat on startup it set to do so.
     start = function(self)
         self.super.start(self)
         if opt.hbeat then
@@ -149,12 +165,8 @@ local logger = xpl.classes.xpldevice:new({    -- create a generic xPL device for
 
     handlemessage = function(self, msg)
         local sizeup = function (t, l)
-            if #t > l then
-                t = string.sub(1,l)
-            end
-            if #t < l then
-                t = t .. string.rep(" ", l - #t)
-            end
+            if #t < l then return t .. string.rep(" ", l - #t) end
+            if #t > l then return string.sub(t, 1, l) end
             return t
         end
         -- call ancestor to handle hbeat messages
@@ -165,34 +177,23 @@ local logger = xpl.classes.xpldevice:new({    -- create a generic xPL device for
         log = sizeup(log .. msg.schema, #log + 18)
         log = sizeup(log .. msg.source, #log + 35)
         log = sizeup(log .. msg.target, #log + 35)
+        log = sizeup(log .. msg.from,   #log + 22)
         print (log)
         if opt.verbose then
-            for _, kvp in ipairs(msg.kvp) do
+            for key, value in msg:eachkvp() do
                 log = "   "
-                log = sizeup(log .. kvp.key, #log + 16) .. "=" .. kvp.value
+                log = sizeup(log .. key, #log + 16) .. "=" .. value
                 print(log)
             end
         end
     end,
 
-    createhbeatmsg = function (self, exit)
-        -- call ancestor to create hbeat messages
-        local m = self.super.createhbeatmsg(self, exit)
-        m:add("version", appversion)
-        return m
-    end,
-
 })
 
-
--- register device
---xpl.listener.register(logger) no longer required, will do through events
-
-if opt.time then
-    -- create a timer to shutdown the logger
-    copas.delayedexecutioner(opt.time, function() xpl.listener.stop() end)
-end
-
 -- start listening
-xpl.listener.start(opt.hub)
+print(prog.name)
+print(prog.banner)
+print("")
+xpl.start()
+print("")
 
