@@ -218,7 +218,7 @@ hub = {
             -- success
             return true
         end
-    end
+    end,
 
     ---------------------------------------------------------------------
     -- Stops the internal hub implementation and releases the socket.

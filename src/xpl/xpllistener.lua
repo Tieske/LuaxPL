@@ -14,6 +14,7 @@
 
 local socket = require("socket")
 local copas = require("copas.timer")
+local hub
 
 local host              -- system hostname
 local sysip             -- system IP address
@@ -107,7 +108,13 @@ local eventhandler = function(self, sender, event)
             end
             -- start hub
             if xpl.settings.xplhub then
-                hub = require("xpl.xplhub")
+                hub, err = copcall(require, "xpl.xplhub")
+                if hub == true then
+                    hub = err
+                else
+                    print(err)
+                    copas.exitloop(0,true)
+                end
                 result, err = hub.start()
                 if not result then
                     print(err)

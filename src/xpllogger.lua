@@ -14,6 +14,7 @@ module ("xpllogger", package.seeall)
 local xpl = require ("xpl")
 local appversion = "0.1"
 
+
 local prog = {
 	name = "xPL message logger",
 	banner = "version " .. appversion .. ", Copyright 2011 Thijs Schreijer",
@@ -144,7 +145,7 @@ end
 --------------------------------------------------------------------------------------
 -- Create our device
 --------------------------------------------------------------------------------------
-local logger = xpl.classes.xplbasicdevice:new({    -- create a generic xPL device for the logger
+local logger = xpl.classes.xpldevice:new({    -- create a generic xPL device for the logger
 
     initialize = function(self)
         self.super.initialize(self)
