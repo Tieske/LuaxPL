@@ -30,6 +30,7 @@
 [ERROR] unresolved reference to symbol `copas.eventer'
 [ERROR] unresolved reference to symbol `copas.eventer'
 [INFO] generating file `doc/modules/xpllogger.html'
+[INFO] generating file `doc/modules/xplmessage.html'
 [INFO] generating file `doc/modules/xplsender.html'
 [INFO] generating file `doc/files/src/xpl/classes/base.html'
 [INFO] generating file `doc/files/src/xpl/classes/xpldevice.html'

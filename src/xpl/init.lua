@@ -5,7 +5,7 @@
 -- devices (see the included device template for a quick start).<br/>
 -- <br/>A global <code>xpl</code> will be created. Through this global the
 -- following components are accessible;<ul>
--- <li><code><a href="xpllistener.html">xpl.listener</a></code></li>
+-- <li><code><a href="xpllistener.html">xpl.listener</a></code> the network listener that will receive the messages from the network</li>
 -- <li><code><a href="../files/src/xpl/classes/base.html">xpl.classes.base</a></code> base class for all other classes</li>
 -- <li><code><a href="xplfilters.html">xpl.classes.xplfilters</a></code> implements the filters for an xPL device</li>
 -- <li><code><a href="xplmessage.html">xpl.classes.xplmessage</a></code> message object</li>

@@ -20,8 +20,9 @@ local eventer = require("copas.eventer")
 local classname = "xpldevice"
 
 -----------------------------------------------------------------------------------------
+-- Members of the xpldevice object
 -- @class table
--- @name fields/properties of the xpldevice object
+-- @name xpldevice fields/properties
 -- @field address (string) the xpladdress of the device
 -- @field interval (number) the xpl heartbeat interval in minutes
 -- @field status (string) current status of the connection for this device; <code>"online", "connecting", "offline"</code>

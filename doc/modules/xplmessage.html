@@ -3,7 +3,7 @@
 <html>
 <head>
     <title>Reference</title>
-    <link rel="stylesheet" href="../../../../luadoc.css" type="text/css" />
+    <link rel="stylesheet" href="../luadoc.css" type="text/css" />
 	<!--meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/-->
 </head>
 
@@ -24,7 +24,7 @@
 <h1>LuaDoc</h1>
 <ul>
 	
-	<li><a href="../../../../index.html">Index</a></li>
+	<li><a href="../index.html">Index</a></li>
 	
 </ul>
 
@@ -35,35 +35,33 @@
 <ul>
 
 	<li>
-		<a href="../../../../modules/xpl.html">xpl</a>
+		<a href="../modules/xpl.html">xpl</a>
 	</li>
 
 	<li>
-		<a href="../../../../modules/xpldevice.html">xpldevice</a>
+		<a href="../modules/xpldevice.html">xpldevice</a>
 	</li>
 
 	<li>
-		<a href="../../../../modules/xplfilters.html">xplfilters</a>
+		<a href="../modules/xplfilters.html">xplfilters</a>
 	</li>
 
 	<li>
-		<a href="../../../../modules/xplhub.html">xplhub</a>
+		<a href="../modules/xplhub.html">xplhub</a>
 	</li>
 
 	<li>
-		<a href="../../../../modules/xpllistener.html">xpllistener</a>
+		<a href="../modules/xpllistener.html">xpllistener</a>
 	</li>
 
 	<li>
-		<a href="../../../../modules/xpllogger.html">xpllogger</a>
+		<a href="../modules/xpllogger.html">xpllogger</a>
 	</li>
 
+	<li><strong>xplmessage</strong></li>
+	
 	<li>
-		<a href="../../../../modules/xplmessage.html">xplmessage</a>
-	</li>
-
-	<li>
-		<a href="../../../../modules/xplsender.html">xplsender</a>
+		<a href="../modules/xplsender.html">xplsender</a>
 	</li>
 
 </ul>
@@ -76,49 +74,51 @@
 <ul>
 
 	<li>
-		<a href="../../../../files/src/xpl/classes/base.html">src/xpl/classes/base.lua</a>
+		<a href="../files/src/xpl/classes/base.html">src/xpl/classes/base.lua</a>
 	</li>
 
 	<li>
-		<a href="../../../../files/src/xpl/classes/xpldevice.html">src/xpl/classes/xpldevice.lua</a>
+		<a href="../files/src/xpl/classes/xpldevice.html">src/xpl/classes/xpldevice.lua</a>
 	</li>
 
 	<li>
-		<a href="../../../../files/src/xpl/classes/xplfilter.html">src/xpl/classes/xplfilter.lua</a>
-	</li>
-
-	<li><strong>src/xpl/classes/xplmessage.lua</strong></li>
-	
-	<li>
-		<a href="../../../../files/src/xpl/init.html">src/xpl/init.lua</a>
+		<a href="../files/src/xpl/classes/xplfilter.html">src/xpl/classes/xplfilter.lua</a>
 	</li>
 
 	<li>
-		<a href="../../../../files/src/xpl/new_device_template.html">src/xpl/new_device_template.lua</a>
+		<a href="../files/src/xpl/classes/xplmessage.html">src/xpl/classes/xplmessage.lua</a>
 	</li>
 
 	<li>
-		<a href="../../../../files/src/xpl/xplhub.html">src/xpl/xplhub.lua</a>
+		<a href="../files/src/xpl/init.html">src/xpl/init.lua</a>
 	</li>
 
 	<li>
-		<a href="../../../../files/src/xpl/xpllistener.html">src/xpl/xpllistener.lua</a>
+		<a href="../files/src/xpl/new_device_template.html">src/xpl/new_device_template.lua</a>
 	</li>
 
 	<li>
-		<a href="../../../../files/src/xpllogger.html">src/xpllogger.lua</a>
+		<a href="../files/src/xpl/xplhub.html">src/xpl/xplhub.lua</a>
 	</li>
 
 	<li>
-		<a href="../../../../files/src/xplrun.html">src/xplrun.lua</a>
+		<a href="../files/src/xpl/xpllistener.html">src/xpl/xpllistener.lua</a>
 	</li>
 
 	<li>
-		<a href="../../../../files/src/xplrun_config.html">src/xplrun_config.lua</a>
+		<a href="../files/src/xpllogger.html">src/xpllogger.lua</a>
 	</li>
 
 	<li>
-		<a href="../../../../files/src/xplsender.html">src/xplsender.lua</a>
+		<a href="../files/src/xplrun.html">src/xplrun.lua</a>
+	</li>
+
+	<li>
+		<a href="../files/src/xplrun_config.html">src/xplrun_config.lua</a>
+	</li>
+
+	<li>
+		<a href="../files/src/xplsender.html">src/xplsender.lua</a>
 	</li>
 
 </ul>
@@ -128,21 +128,21 @@
 
 
 
-</div> <!-- id="navigation" -->
+</div><!-- id="navigation" -->
 
 <div id="content">
 
-<h1>File <code>src/xpl/classes/xplmessage.lua</code></h1>
-
+<h1>Module <code>xplmessage</code></h1>
 
 <p>The object class for xPL messages. It has all the regular message properties (some depending on whether it was parsed/received or created). several methods and an iterator are available to manipulate the key-value list. <br/>No global will be created, it just returns the xplmessage class. The main xPL module will create a global <code>xpl.classes.xplmessage</code> to access it.</p>
 
+<p>Copyright &copy; 2011 Thijs Schreijer</p>
 
 
-<p>Copyright &copy;2011 Thijs Schreijer</p>
 
 
-<p><small><b>Release:</b> Version 0.1, LuaxPL framework.</small></p>
+<p><b>Release:</b> Version 0.1, LuaxPL framework.
+</p>
 
 
 
@@ -208,7 +208,6 @@
 
 
 
-
 <h2>Tables</h2>
 <table class="table_list">
 
@@ -228,7 +227,6 @@
 
 <br/>
 <br/>
-
 
 
 
@@ -646,7 +644,6 @@ sets value of a key-value pair in the message body.
 
 
 </dl>
-
 
 
 

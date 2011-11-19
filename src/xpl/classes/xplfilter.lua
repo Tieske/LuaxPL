@@ -14,11 +14,11 @@
 
 local flt = xpl.classes.base:subclass({
     ------------------------------------------------------------------------------------------
-	-- Member of the filter object, list to store individual filter entries.
-    -- Each filter-table is keyed by its full filter string. A filter is a table with the 6 filter
-    -- elements (by their index) and a key <code>filter</code> with the full filter string.
+	-- Members of the filter object
     -- @class table
-    -- @name list
+    -- @name xplfilter fields/properties
+    -- @field list Table to store the individual filter entries, each filter-table in the
+    -- list is keyed by its full filter string.
 	list = nil,
 })
 
@@ -84,17 +84,19 @@ function flt:remove(flt)
 end
 
 ------------------------------------------------------------------------------------------
--- Checks if a filter matches the any of the filters in the list.
+-- Checks if a filter matches any of the filters in the list.
 -- Wildcards are allowed both in the list (obvious), but also in the filter being matched.
 -- @param flt filter to match (either a string or a table)
--- @return <code>true</code> if the filter matches an entry in the list, <code>false</code> otherwise
+-- @return <code>true</code> if the filter matches an entry in the list, <code>false</code>
+-- otherwise. If the filter object does not contain any filters it will <code>true</code>
+-- (default xpl behaviour with absent filters).
 function flt:match(flt)
     self.list = self.list or {}
     if type(flt) == "string" then
         flt = self:split(flt)
     end
     assert(type(flt) == "table", "cannot match filter, string or table expected, got " .. type (flt))
-    local match
+    local match = true
     for _ , filter in pairs(self.list) do
         match = true
         for n = 1,6 do

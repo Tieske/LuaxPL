@@ -59,6 +59,10 @@
 	</li>
 
 	<li>
+		<a href="../../../../modules/xplmessage.html">xplmessage</a>
+	</li>
+
+	<li>
 		<a href="../../../../modules/xplsender.html">xplsender</a>
 	</li>
 
@@ -152,7 +156,7 @@
 
 	<tr>
 	<td class="name" nowrap><a href="#flt:match">flt:match</a>&nbsp;(flt)</td>
-	<td class="summary">Checks if a filter matches the any of the filters in the list.</td>
+	<td class="summary">Checks if a filter matches any of the filters in the list.</td>
 	</tr>
 
 	<tr>
@@ -179,8 +183,8 @@
 	</tr>
 
 	<tr>
-	<td class="name" nowrap><a href="#list">list</a></td>
-	<td class="summary">Member of the filter object, list to store individual filter entries.</td>
+	<td class="name" nowrap><a href="#xplfilter fields/properties">xplfilter fields/properties</a></td>
+	<td class="summary">Members of the filter object </td>
 	</tr>
 
 </table>
@@ -239,7 +243,7 @@ Add a filter entry to the filter list. Duplicates will be silently dismissed (no
 
 <dt><a name="flt:match"></a><strong>flt:match</strong>&nbsp;(flt)</dt>
 <dd>
-Checks if a filter matches the any of the filters in the list. Wildcards are allowed both in the list (obvious), but also in the filter being matched.
+Checks if a filter matches any of the filters in the list. Wildcards are allowed both in the list (obvious), but also in the filter being matched.
 
 
 <h3>Parameters:</h3>
@@ -257,7 +261,7 @@ Checks if a filter matches the any of the filters in the list. Wildcards are all
 
 
 <h3>Return value:</h3>
-<ul><code>true</code> if the filter matches an entry in the list, <code>false</code> otherwise</ul>
+<ul><code>true</code> if the filter matches an entry in the list, <code>false</code> otherwise. If the filter object does not contain any filters it will <code>true</code> (default xpl behaviour with absent filters).</ul>
 
 
 
@@ -384,9 +388,18 @@ splits a filter string into a filter table. A '-' between vendor and device is a
 </dd>
 
 
-<dt><a name="list"></a><strong>list</strong></dt>
-<dd>Member of the filter object, list to store individual filter entries. Each filter-table is keyed by its full filter string. A filter is a table with the 6 filter elements (by their index) and a key <code>filter</code> with the full filter string.<br /><br />
+<dt><a name="xplfilter fields/properties"></a><strong>xplfilter fields/properties</strong></dt>
+<dd>Members of the filter object<br /><br />
 
+
+<h3>Fields:</h3>
+<ul>
+	
+	<li>
+	  <code><em>list</em></code>: Table to store the individual filter entries, each filter-table in the list is keyed by its full filter string.
+	</li>
+	
+</ul>
 
 
 </dd>
