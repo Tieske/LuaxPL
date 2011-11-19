@@ -40,7 +40,7 @@ local gethubsocket = function()
     if not skt then
         return skt, err
     end
-    -- set scoket options
+    -- set socket options
     skt:settimeout(1)
     skt:setoption("broadcast", true)
     local status

@@ -331,7 +331,7 @@ end
 -- @see xpldevice:createhbeatmsg
 function xpldevice:sendhbeat(exit)
     local m = self:createhbeatmsg(exit)
-    xpl.send(tostring(m))
+    m:send()
     self.lasthbeats = getseconds()
     -- check in five seconds whether the echo was received
     if self.status == "online" then
@@ -382,12 +382,16 @@ end
 -- @param msg message to send
 function xpldevice:send(msg)
     if type(msg) == "string" then
-        return xpl.send(msg)
+        local success, err = xpl.send(msg)
+        if not success then
+            print ("xPLDevice - Error sending xPL message (string); ", err)
+        end
+        return success, err
     elseif type(msg) == "table" then    -- assume its a message object
         msg.address = self.address
         return msg:send()
     else
-        return nil, "Error sending, expected 'table' (xplmessage object) or 'string', got " .. type(msg)
+        assert(false, "Error sending, expected 'table' (xplmessage object) or 'string', got " .. type(msg))
     end
 end
 

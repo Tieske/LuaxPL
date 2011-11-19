@@ -124,16 +124,22 @@ xpl.const = {
         if not skt then
             return nil, "Failed to create UDP socket; " .. (emsg or "")
         end
-		--assert (skt, "failed to create UDP socket; " .. (emsg or ""))
 		skt:settimeout(1)
         if ip == nil and port == nil then   -- not provided, so do a regular broadcast
             skt:setoption("broadcast", true)
+        end
+        if not ip then
+            local loopbackip = socket.dns.toip("localhost")
+            if loopbackip and loopbackip == xpl.listener.getipaddress() then
+                -- we're connected on loopback only, send directly, no routing/broadcast
+                ip = loopbackip
+                port = xpl.settings.xplport
+            end
         end
 		local success, emsg = skt:sendto(msg, ip or xpl.settings.broadcast, port or xpl.settings.xplport)
         if not success then
             return nil, "Failed to send message over UDP socket; " .. (emsg or "")
         end
-		--assert (success, "Failed to send message over UDP socket; " .. (emsg or ""))
 		return true
 	end
 

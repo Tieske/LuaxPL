@@ -27,6 +27,7 @@ Options;
    -t, -time=[xx]                         How long should the logger run (in seconds)
    -b, -hbeat                             Request a heartbeat upon start
    -H, -hub                               Start included xPL hub
+   -B, -broadcast[=255.255.255.255]       Broadcast address to use for sending
    -v, -verbose                           Displays message contents while sending
    -version                               Print version info
    -h, -help                              Display this usage information
@@ -42,6 +43,7 @@ local opt = {
             hbeat = { "hbeat", "b" },
             hub = { "hub", "H"},
 			verbose = { "verbose", "v" },
+            broadcast = { "broadcast", "B" },
 			version = { "version" },
 			help = { "help", "h"},
 			}
@@ -141,6 +143,10 @@ if opt.time then
     copas.delayedexecutioner(opt.time, function() xpl.stop() end)
 end
 
+if opt.broadcast then
+    -- set a non-default broadcast address
+    xpl.settings.broadcast = opt.broadcast
+end
 
 --------------------------------------------------------------------------------------
 -- Create our device

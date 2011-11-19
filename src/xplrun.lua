@@ -19,6 +19,7 @@ Options;
    -t, -time=[xx]                         How long should the application run (in seconds)
    -H, -hub                               Start included xPL hub function
    -c, -config=[filename]                 Configfile to start from
+   -b, -broadcast[=255.255.255.255]       Broadcast address to use for sending
    -version                               Print version info
    -h, -help                              Display this usage information
 
@@ -39,6 +40,7 @@ local opt = {
             time = { "time", "t" },
             hub = { "hub", "H"},
             config = { "config", "c" },
+            broadcast = { "broadcast", "b" },
 			version = { "version" },
 			help = { "help", "h"},
 			}
@@ -136,6 +138,11 @@ if opt.hub then
     xpl.settings.xplhub = true
 else
     xpl.settings.xplhub = false
+end
+
+if opt.broadcast then
+    -- set a non-default broadcast address
+    xpl.settings.broadcast = opt.broadcast
 end
 
 if opt.time then

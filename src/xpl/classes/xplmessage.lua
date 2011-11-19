@@ -254,7 +254,11 @@ end
 -- @return <code>true</code> if succesfull, <code>nil</code> + error otherwise
 function msg:send()
     -- send it
-    return xpl.send(tostring(self))
+    local success, err = xpl.send(tostring(self))
+    if not success then
+        print ("xPLMessage send error; ", err)
+    end
+    return success, err
 end
 
 ------------------------------------------
