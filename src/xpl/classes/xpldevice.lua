@@ -37,7 +37,7 @@ local xpldevice = xpl.classes.base:subclass({
 	address = "tieske-mydev.instance",
     heartbeat = nil,                -- hbeat timer
     status = "offline",             -- device status; offline, connecting, online
-    connectinterval = 3,            -- heartbeat interval in seconds, while not yet connected
+    connectinterval = 3,            -- heartbeat interval in seconds, while not yet connected/configured
     lasthbeats = 0,                 -- last hbeat send
     lasthbeatr = 0,                 -- last hbeat received
     heartbeatcheck = nil,           -- timer for checking if we receive our own heartbeat
@@ -115,17 +115,16 @@ end
 -- Will run on the copas start event.
 -- @see xpldevice:eventhandler
 function xpldevice:start()
-    if self.status ~= "offline" then
-        self:stop()
+    if self.status == "offline" then
+        self.connectinterval = 3
+        lasthbeats = 0                  -- last hbeat send
+        lasthbeatr = 24 * 60 * 60       -- last hbeat received, set at 24 hours after lasthbeats
+        self.heartbeatcheck = copas.newtimer(nil, function() self:checkhbeat() end, nil, false)
+        self:changestatus("connecting")
+        local f = function() self:sendhbeat() end
+        self.heartbeat = copas.newtimer(f, f, nil, true)
+        self.heartbeat:arm(self.connectinterval)
     end
-    self.connectinterval = 3
-    lasthbeats = 0                  -- last hbeat send
-    lasthbeatr = 24 * 60 * 60       -- last hbeat received, set at 24 hours after lasthbeats
-    self.heartbeatcheck = copas.newtimer(nil, function() self:checkhbeat() end, nil, false)
-    self:changestatus("connecting")
-    local f = function() self:sendhbeat() end
-    self.heartbeat = copas.newtimer(f, f, nil, true)
-    self.heartbeat:arm(self.connectinterval)
 end
 
 -----------------------------------------------------------------------------------------
@@ -138,7 +137,7 @@ function xpldevice:stop()
         if self.heartbeat then
             self.heartbeat:cancel()     -- cancel heartbeat timer
         end
-        if self.heartbeat then
+        if self.heartbeatcheck then
             self.heartbeatcheck:cancel()     -- cancel heartbeatcheck timer
         end
         self:changestatus("offline")
@@ -207,6 +206,7 @@ local updateconfig = function(self, msg)
         table.insert(settings.configitems[k], v)
     end
     self:setsettings(settings)
+    self.configured = true
 end
 
 -----------------------------------------------------------------------------------------
@@ -223,7 +223,7 @@ end
 function xpldevice:handlemessage(msg)
     local _memberof     -- will hold cached result
     local memberof = function(addr)
-        -- check if addr provided is member of groups list, cache result
+        -- check if addr provided is member of groups list, cache result so this iteration needs to run only once
         if not _memberof then   -- not in cache yet, so do it now
             _memberof = false
             for i, group in ipairs(self.configitems.groups) do
@@ -239,14 +239,19 @@ function xpldevice:handlemessage(msg)
     if self.status == "offline" then
         return nil
     end
-    if msg.schemaclass == "hbeat" then
-        if msg.source == self.address and msg.schema == "hbeat.app" then
+    if msg.schemaclass == "hbeat" or (self.configurable and msg.schemaclass == "config") then
+        if msg.source == self.address and (msg.schema == "hbeat.app" or (self.configurable and msg.schema == "config.app")) then
             -- its our own hbeat message, detect connection status
             self.lasthbeatr = getseconds()
             if self.status == "connecting" then
                 self:changestatus("online")
-                self.heartbeat:cancel()
-                self.heartbeat:arm(self.configitems.interval[1] * 60)
+                if self.configurable and not self.configured then
+                    -- while unconfigured set heartbeat to 1 minute
+                    self.heartbeat:arm(60)
+                else
+                    -- use configured/set interval
+                    self.heartbeat:arm(self.configitems.interval[1] * 60)
+                end
             end
             msg = nil
         elseif msg.type == "xpl-cmnd" and msg.schema == "hbeat.request" and (msg.target == "*" or msg.target == self.address or memberof(msg.target)) then
@@ -305,10 +310,21 @@ function xpldevice:createhbeatmsg(exit)
         type = "xpl-stat",
         source = self.address,
         target = "*",
-        schema = "hbeat.app",
     })
     if exit then
-        m.schema = "hbeat.end"
+        -- we're leaving the network, must send an end-message
+        if self.configurable and not self.configured then
+            m.schema = "config.end"
+        else
+            m.schema = "hbeat.end"
+        end
+    else
+        -- regular heartbeat
+        if self.configurable and not self.configured then
+            m.schema = "config.app"
+        else
+            m.schema = "hbeat.app"
+        end
     end
     local ip, port = xpl.listener.getipaddress(), xpl.listener.getport()
     m:add("interval", self.configitems.interval[1])
@@ -345,14 +361,16 @@ function xpldevice:checkhbeat()
     if self.status == "online" then
         local n = getseconds()
         if n - self.lasthbeatr > 5 then
-            -- last heartbeat was not received
+            -- we're online, yet last heartbeat was not received
+            -- so basically restart without sending an end-message
             if self.heartbeat then
                 self.heartbeat:cancel()     -- cancel heartbeat timer
             end
-            if self.heartbeat then
+            if self.heartbeatcheck then
                 self.heartbeatcheck:cancel()     -- cancel heartbeatcheck timer
             end
             -- restart device
+            self:changestatus("offline")
             self:start()
         end
     end
@@ -423,6 +441,9 @@ function xpldevice:getsettings()
     s.classname = self.classname
     s.vendorid = vendorid
     s.deviceid = deviceid
+    s.configurable = self.configurable
+    s.configured = self.configured
+    s.version = self.version
     -- now add config items, go through them one-by-one
     if type(self.configitems) == "table" then
         s.configitems = {}
@@ -498,6 +519,9 @@ function xpldevice:setsettings(s)
     newconf = self.configitems.newconf[1] or newconf or "RANDOM"
     self.address = xpl.createaddress(vendorid, deviceid, newconf)
 
+    self.configurable = s.configurable or self.configurable
+    self.configured = s.configured or self.configured
+    self.version = s.version or self.version
     self.classname = s.classname or self.classname
     return true     -- quick and dirty shortcut, always restart
 end
