@@ -270,7 +270,7 @@ function xpldevice:handlemessage(msg)
         else
             -- its targetted at me, so now check filter
             if self.filter then
-                if not filter:match(string.format("%s.%s.%s", msg.type, msg.source, msg.schema)) then
+                if not self.filter:match(string.format("%s.%s.%s", msg.type, msg.source, msg.schema)) then
                     -- doesn't match our filters, so clear it
                     msg = nil
                 end
@@ -478,8 +478,8 @@ function xpldevice:setsettings(s)
             local t = {}
             if s.configitems[item] then
                 -- this CI is present in the provided settings, so copy it
-                t.max = s.configitems[item].max or list.max or 1
-                t.max = s.configitems[item].type or list.type or "option"
+                t.max = tonumber(s.configitems[item].max) or tonumber(list.max) or 1
+                t.type = s.configitems[item].type or list.type or "option"
                 for i, v in ipairs(s.configitems[item]) do
                     if i <= t.max then
                         t[i] = v
@@ -487,7 +487,7 @@ function xpldevice:setsettings(s)
                 end
             else
                 -- this CI is not present, just maintain generics in new empty element
-                t.max = list.max or 1
+                t.max = tonumber(list.max) or 1
                 t.type = list.type or "option"
                 -- special cases;
                 if item == "interval" then
@@ -504,7 +504,7 @@ function xpldevice:setsettings(s)
     -- values for 'filters' and 'newconf' are stored elsewhere, so update them now
     -- update filters
     if self.configitems.filters then
-        self.filter = xpl.classes.xplfilter:new({})
+        self.filter = xpl.classes.xplfilters:new({})
         for i, flt in ipairs(self.configitems.filters) do
             self.filter:add(flt)
         end
