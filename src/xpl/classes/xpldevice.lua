@@ -47,7 +47,9 @@ local xpldevice = xpl.classes.base:subclass({
                                     -- values; 'max' with max nr elements, 'type' with type (config/reconf/option)
     configurable = true,            -- is the device configurable or not
     configured = false,             -- has the device been configured
-    version = "not set"             -- version number to report in heartbeat, set to nil, to not report it.
+    version = "not set",            -- version number to report in heartbeat, set to nil, to not report it.
+    oldhbeataddress = nil,          -- will hold the address the last hbeat is send from, to be able to send
+                                    -- a proper end-message.
 })
 
 -- Calculates the number of seconds from 1-jan-2010 to now.
@@ -346,8 +348,19 @@ end
 -- or <code>config.end</code>) will be send.
 -- @see xpldevice:createhbeatmsg
 function xpldevice:sendhbeat(exit)
+    if exit and self.status == "offline" then
+        -- never send an endmessage when I'm offline, in this situation the device is probably
+        -- being re-configured at startup from persistence
+        return
+    end
     local m = self:createhbeatmsg(exit)
+    if exit and self.oldhbeataddress ~= m.source then
+        -- we're supposed to send the exit message from a different address (this is after we've been
+        -- reconfigured with a new address
+        m.source = self.oldhbeataddress
+    end
     m:send()
+    self.oldhbeataddress = m.source
     self.lasthbeats = getseconds()
     -- check in five seconds whether the echo was received
     if self.status == "online" then
