@@ -47,6 +47,7 @@ xpl.classes = {}
 -- @field broadcast the IP address to use for broadcasting xPL messages onto the xPL network
 -- @field xplport the xPL network port, do not change! only if you want to create a private network and know what you are doing
 -- @field xplhub (boolean) should the internal hub be started
+-- @field netcheckinterval (number) interval in seconds for checking the network connection for any changes (defaults to 30).
 -- @field devices (table) table with device specific settings, <code>key</code> is device table, <code>value</code>
 -- is device specific settings. Fixed fields in the settings table are; <ul>
 -- <li><code>classname</code> (string) name of the class to create the device</li>
@@ -62,7 +63,7 @@ xpl.settings = {
 	broadcast = "255.255.255.255",	-- to whom to broadcast outgoing messages
 	xplport = 3865,					-- standard xPL port to send to
     xplhub = false,                 -- should the embedded hub be used
-
+    netcheckinterval = 30,          -- how often to check for changes in network state (in seconds)
     devices = {},                   -- table with device settings, key = devicetable, value = settingstable
 }
 

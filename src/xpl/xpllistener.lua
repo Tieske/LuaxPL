@@ -14,13 +14,16 @@
 
 local socket = require("socket")
 local copas = require("copas.timer")
-local hub
+local netcheck = require("netcheck")
+local hub       -- will be 'required' only if its actually being used
 
 local host              -- system hostname
 local sysip             -- system IP address
 local port              -- port to listen on for my devices, incoming from external hub
 local xplsocket         -- the socket used for listening for xPL messages
 local hub               -- xPL hub
+local checker           -- the checkfunction for network changes
+local checktimer        -- timer for running the network check
 
 
 
@@ -91,6 +94,19 @@ local function sockethandler(skt)
     end
 end
 
+-- whenever the network check determines a change in network connectivity this is called
+local function networkchanged(newState, oldState)
+    -- restart listener socket
+    xplsocket:close()
+    xplsocket = nil
+    xplsocket = getsocket()
+    -- restart hub
+    if hub then
+        hub.restart()
+    end
+    -- dispatch an event
+    xpl.listener:dispatch(xpl.listener.events.networkchange, newState, oldState)
+end
 
 -- Makes the listener start and stop on Copas events
 local eventhandler = function(self, sender, event)
@@ -129,7 +145,21 @@ local eventhandler = function(self, sender, event)
                 print("Socket could not be created; " .. tostring(err))
                 copas.exitloop(0,true)
             end
+            -- Setup checking the network status at intervals
+            checker = netcheck.getchecker()
+            checktimer = copas.newtimer(nil, function()
+                    local changed, newState, oldState = checker()
+                    if changed then
+                        networkchanged(newState, oldState)
+                    end
+                end, nil, true):arm(xpl.settings.netcheckinterval or 30)
         elseif event == "loopstopped" then
+            -- stop the network check
+            if checktimer then
+                checktimer:cancel()
+                checktimer = nil
+            end
+            checker = nil
             -- must stop the sockets
             xplsocket:close()
             xplsocket = nil
@@ -200,8 +230,12 @@ end
 -- @name events
 -- @field newmessage event to indicate a new message has arrived. The message will
 -- be passed as an argument to the event handler.
+-- @field networkchange event to indicate that the newtork state changed (ip address,
+-- connectio lost/restored, etc.). The <code>newState</code> and <code>oldState</code>
+-- will be passed as arguments to the event handler (see 'NetCheck' documentation for
+-- details on the <code>xxxState</code> format)
 -- @see subscribe
-events = { "newmessage" }
+events = { "newmessage", "networkchange" }
 
 -- add event capability
 copas.eventer.decorate(listener, events )

@@ -97,14 +97,17 @@ function xpldevice:eventhandler(sender, event, param, ...)
             -- must stop now
             self:stop()
         else
-            -- do nothing
+            -- unknown Copas event, do nothing
         end
     elseif sender == xpl.listener then
         if event == xpl.listener.events.newmessage then
             -- got a new message
             self:handlemessage(param)
+        elseif event == xpl.listener.events.networkchange then
+            -- network info has changed, send hbeat to announce myself again
+            self:sendhbeat()
         else
-            -- do nothing
+            -- unknown listener event, do nothing
         end
     else
         -- unknown sender, do nothing

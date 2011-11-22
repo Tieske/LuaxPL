@@ -405,6 +405,10 @@ Exits the loop and from there stops the listener, hub and devices. This is a sim
 	</li>
 	
 	<li>
+	  <code><em>netcheckinterval</em></code>: (number) interval in seconds for checking the network connection for any changes (defaults to 30).
+	</li>
+	
+	<li>
 	  <code><em>devices</em></code>: (table) table with device specific settings, <code>key</code> is device table, <code>value</code> is device specific settings. Fixed fields in the settings table are; <ul> <li><code>classname</code> (string) name of the class to create the device</li> <li><code>updatehandler</code> (function) may be called from the device when its settings have changed</li> <li><code>...</code></li> <li><code>...</code></li> </ul>
 	</li>
 	
