@@ -20,9 +20,9 @@
 -- @release Version 0.1, LuaxPL framework.
 
 
-local socket = require ("socket")
-local string = require ("string")
-local math = require ("math")
+local socket = require("socket")
+local copas = require("copas.timer")
+copas.eventer = require("copas.eventer")
 
 ----------------------------------------------------------------
 -- define global tables for xPL related functions and settings

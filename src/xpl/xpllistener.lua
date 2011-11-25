@@ -16,6 +16,7 @@ local socket = require("socket")
 local copas = require("copas.timer")
 local netcheck = require("netcheck")
 local hub       -- will be 'required' only if its actually being used
+local listener  -- will contain the listener table
 
 local host              -- system hostname
 local sysip             -- system IP address
@@ -24,6 +25,7 @@ local xplsocket         -- the socket used for listening for xPL messages
 local hub               -- xPL hub
 local checker           -- the checkfunction for network changes
 local checktimer        -- timer for running the network check
+
 
 
 
@@ -84,7 +86,7 @@ local function sockethandler(skt)
                     data = remain
                     msg.from = "EXTERNAL_HUB"
                     -- regular message on xPL device specific port
-                    xpl.listener:dispatch(xpl.listener.events.newmessage, msg)
+                    listener:dispatch(listener.events.newmessage, msg)
                 else
                     -- parse failed, so exit loop and wait for more data
                     parsesuccess = false
@@ -105,7 +107,7 @@ local function networkchanged(newState, oldState)
         hub.restart()
     end
     -- dispatch an event
-    xpl.listener:dispatch(xpl.listener.events.networkchange, newState, oldState)
+    listener:dispatch(listener.events.networkchange, newState, oldState)
 end
 
 -- Makes the listener start and stop on Copas events
@@ -178,7 +180,7 @@ end
 
 
 -- Create listener table
-local listener = {
+listener = {
 
     ----------------------------------------------------------------------------------------
     -- Returns the current IP address in use by the xpllistener
@@ -195,6 +197,41 @@ local listener = {
     getport = function ()
         return port
     end,
+
+    ----------------------------------------------------------------------------------------
+    -- Returns the LuaxPL devices registered with the xpllistener. Every xpldevice created
+    -- will upon initialization automatically register itself for xpllistener events.
+    -- @param status if <code>nil</code> then all devices will be added to the return table,
+    -- otherwise only the devices with a status property matching this status will be returned.
+    -- @return a table keyed by xPL-address, with value being the xpldevice table/object
+    getmydevices = function(status)
+        if xplsocket then
+            -- we're running, get clientlist
+            local list = copas.eventer.getclients(listener)
+            if list then
+                -- listener is registered as a server, get 'newmessage' clients
+                list = list[copas.events.newmessage]
+                if list then
+                    -- verify clients to be xpldevices
+                    local mydevs = {}
+                    for _, device in pairs(list) do
+                        if device.address and device.status and device.connectinterval then
+                            -- safe to assume its a device
+                            if not status then
+                                mydevs[device.address] = device
+                            elseif device.status == status then
+                                mydevs[device.address] = device
+                            else
+                                -- don't add, status doesn't match
+                            end
+                        end
+                    end
+                    return mydevs
+                end
+            end
+        end
+        return nil
+    end
 
 }   -- listener
 

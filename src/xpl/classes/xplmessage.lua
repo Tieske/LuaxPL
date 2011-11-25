@@ -25,7 +25,9 @@ k = nil
 -- @class table
 -- @name xplmessage fields/properties
 -- @field type the xpl message type; <code>"xpl-cmnd", "xpl-trig", "xpl-stat"</code>
--- @field from origin of message; <code>"[IP address]:[port]", "EXTERNAL_HUB"</code> or <code>"CREATED"</code>
+-- @field from origin of message; <code>"[IP address]:[port]"</code> (when the internal
+-- LuaxPL hub is used), <code>"EXTERNAL_HUB"</code> or <code>"CREATED"</code> (when the
+-- message was locally created and not received from the network)
 -- @field hop hop count
 -- @field source source address of the message
 -- @field sourcevendor vendor part of source address (only available if parsed)
@@ -41,7 +43,7 @@ k = nil
 -- @field# kvp list of key value pairs, where each pair is defined as;
 -- <code>kvp[i] = { key = 'key value',
 --            value = 'value value'}</code>
--- See <code>msg:eachkvp()</code> for an iterator.
+-- See <a href="xplmessage.html#msg:eachkvp"><code>msg:eachkvp()</code></a> for an iterator.
 local msg = xpl.classes.base:subclass({
 	type = "xpl-cmnd",		-- message type
 	hop = 1,				-- hop count
@@ -236,8 +238,12 @@ function msg:getindex(key, occurence)
 end
 
 ------------------------------------------
--- Formats the message as a string value for transmission
+-- Meta method to format the message as a string value for transmission
 -- @return message as string that can be transmitted onto the xPL network
+-- @usage# -- Create a new message
+-- local msg = xpl.classes.xplmessage:new({})
+-- &nbsp
+-- print(msg)  -- this will invoke the __tostring() meta method
 function msg:__tostring()
     local body = ""
     -- format body with all key-value pairs

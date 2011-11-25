@@ -151,7 +151,7 @@
 
 	<tr>
 	<td class="name" nowrap><a href="#msg:__tostring">msg:__tostring</a>&nbsp;()</td>
-	<td class="summary">Formats the message as a string value for transmission </td>
+	<td class="summary">Meta method to format the message as a string value for transmission </td>
 	</tr>
 
 	<tr>
@@ -239,11 +239,14 @@
 
 <dt><a name="msg:__tostring"></a><strong>msg:__tostring</strong>&nbsp;()</dt>
 <dd>
-Formats the message as a string value for transmission
+Meta method to format the message as a string value for transmission
 
 
 
 
+
+<h3>Usage:</h3>
+<ul><pre class=example>-- Create a new message<br/>local msg = xpl.classes.xplmessage:new({})<br/>&nbsp<br/>print(msg)  -- this will invoke the __tostring() meta method</pre></ul>
 
 
 
@@ -584,7 +587,7 @@ sets value of a key-value pair in the message body.
 	</li>
 	
 	<li>
-	  <code><em>from</em></code>: origin of message; <code>"[IP address]:[port]", "EXTERNAL_HUB"</code> or <code>"CREATED"</code>
+	  <code><em>from</em></code>: origin of message; <code>"[IP address]:[port]"</code> (when the internal LuaxPL hub is used), <code>"EXTERNAL_HUB"</code> or <code>"CREATED"</code> (when the message was locally created and not received from the network)
 	</li>
 	
 	<li>
@@ -636,7 +639,7 @@ sets value of a key-value pair in the message body.
 	</li>
 	
 	<li>
-	  <code><em>kvp</em></code>: list of key value pairs, where each pair is defined as;<br/><code>kvp[i] = { key = 'key value',<br/>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspvalue = 'value value'}</code><br/>See <code>msg:eachkvp()</code> for an iterator.
+	  <code><em>kvp</em></code>: list of key value pairs, where each pair is defined as;<br/><code>kvp[i] = { key = 'key value',<br/>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspvalue = 'value value'}</code><br/>See <a href="xplmessage.html#msg:eachkvp"><code>msg:eachkvp()</code></a> for an iterator.
 	</li>
 	
 </ul>

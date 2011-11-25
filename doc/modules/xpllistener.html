@@ -155,6 +155,11 @@
 	</tr>
 
 	<tr>
+	<td class="name" nowrap><a href="#getmydevices">getmydevices</a>&nbsp;(status)</td>
+	<td class="summary">Returns the LuaxPL devices registered with the xpllistener.</td>
+	</tr>
+
+	<tr>
 	<td class="name" nowrap><a href="#getport">getport</a>&nbsp;()</td>
 	<td class="summary">Returns the current network port in use by the xpllistener </td>
 	</tr>
@@ -207,6 +212,35 @@ Returns the current IP address in use by the xpllistener
 
 <h3>Return value:</h3>
 <ul>the IP address now used by the listener and to be used in hbeat messages for the 'remote-ip' key.</ul>
+
+
+
+</dd>
+
+
+
+
+<dt><a name="getmydevices"></a><strong>getmydevices</strong>&nbsp;(status)</dt>
+<dd>
+Returns the LuaxPL devices registered with the xpllistener. Every xpldevice created will upon initialization automatically register itself for xpllistener events.
+
+
+<h3>Parameters:</h3>
+<ul>
+	
+	<li>
+	  <code><em>status</em></code>: if <code>nil</code> then all devices will be added to the return table, otherwise only the devices with a status property matching this status will be returned.
+	</li>
+	
+</ul>
+
+
+
+
+
+
+<h3>Return value:</h3>
+<ul>a table keyed by xPL-address, with value being the xpldevice table/object</ul>
 
 
 
