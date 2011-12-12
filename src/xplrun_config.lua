@@ -1,4 +1,4 @@
--- Configuration file for then LuaxPL utility 'xplrun'.
+-- Configuration file for the LuaxPL utility 'xplrun'.
 -- Copyright 2011 Thijs Schreijer
 --
 -- Comments start with '--' (double-dash), multiline comments are between --[[   and   ]]

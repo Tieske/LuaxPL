@@ -29,7 +29,11 @@ copas.eventer = require("copas.eventer")
 ----------------------------------------------------------------
 
 -- create global xpl table
-xpl = {}
+xpl = {
+    _COPYRIGHT   = "Copyright (C) 2011 Thijs Schreijer",
+    _DESCRIPTION = "LuaxPL; Lua framework for xPL applications/devices",
+    _VERSION     = "0.1",
+}
 
 ----------------------------------------------------------------
 -- contains all the objects for the xPL module

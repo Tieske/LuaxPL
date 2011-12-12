@@ -119,6 +119,26 @@ if opt.version then					-- display message and exit
 	os.exit()
 end
 
+-- load config file first to enable the other options to override values
+local conf
+if not opt.config then
+    exit("missing switch -c.  Use -help for help on the commandline.")
+else
+    -- try to load config
+    local err
+    conf, err = load(io.lines(opt.config) ,"configfile; " .. tostring(opt.config))
+    if conf then
+        -- loading and compiling succeeded, now execute function
+        conf, err = pcall(conf())
+    end
+    if type(conf) ~= "table" then
+        exit("Error loading configuration file '" .. tostring(opt.config) .. "'; " .. tostring(err))
+    end
+    if type(conf.devices) ~= "table" then
+        exit("Error loading configuration file '" .. tostring(opt.config) .. "'; No devices defined.")
+    end
+end
+
 if opt.time then
     local f = function()
         exit("invalid value for switch -t; " .. tostring(opt.time) .. ".  Use -help for help on the commandline.")
@@ -148,25 +168,6 @@ end
 if opt.time then
     -- create a timer to shutdown the logger when due
     copas.delayedexecutioner(opt.time, function() xpl.stop() end)
-end
-
-local conf
-if not opt.config then
-    exit("missing switch -c.  Use -help for help on the commandline.")
-else
-    -- try to load config
-    local err
-    conf, err = load(io.lines(opt.config) ,"configfile; " .. tostring(opt.config))
-    if conf then
-        -- loading and compiling succeeded, now execute function
-        conf, err = pcall(conf())
-    end
-    if type(conf) ~= "table" then
-        exit("Error loading configuration file '" .. tostring(opt.config) .. "'; " .. tostring(err))
-    end
-    if type(conf.devices) ~= "table" then
-        exit("Error loading configuration file '" .. tostring(opt.config) .. "'; No devices defined.")
-    end
 end
 
 --------------------------------------------------------------------------------------
