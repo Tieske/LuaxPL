@@ -32,8 +32,6 @@ Options;
    -version                               Print version info
    -h, -help                              Display this usage information
 
-option -file and -msg may be combined and may contain multiple messages each.
-
 	]],
 }
 
