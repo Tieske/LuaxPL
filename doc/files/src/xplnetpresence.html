@@ -143,7 +143,7 @@
 <h1>File <code>src/xplnetpresence.lua</code></h1>
 
 
-<p>Scans syslog output for MAC and IP addresses for domestic occupancy detection and notify through xPL. Use option <code>-help</code> for a description.<br/>&nbsp<br/>Example: <code><br/>xplnetpresence.lua -timeout=120 -hub<br/></code></p>
+<p>Commandline utility to scan syslog output for MAC and IP addresses for domestic occupancy detection and notify through xPL. Use option <code>-help</code> for a description.<br/>&nbsp<br/>Example: <code><br/>xplnetpresence.lua -timeout=240 -port=53000 -instance=RANDOM -hub<br/></code><br/>Example setup using a wireless router with DD-WRT firmware (version 'DD-WRT v24-sp2 (08/12/10) std');<br/><ul><br/><li>Enable systemlog on tab 'service / services' of the admin console and set the target ip address where xplnetpresence.lua is listening.</li><br/><li>On tab 'security / firewall' enable logging, set level 'low' and all three options (Dropped/Rejected/Accepted) to 'Enabled'.</li><br/><li>Start xplnetpresence.lua using defaults</li><br/></ul></p>
 
 
 

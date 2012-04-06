@@ -6,7 +6,13 @@
 -- xPL module will create a global <code>xpl.classes.xplfilters</code> to access it.<br/>
 -- <br/>An xpl filter is a set of xpl message elements; <code>[msgtype].[vendor].[device].[instance].[schema-class].[schema-type]</code>
 -- For each element a '<code>*</code>' can be used as a wildcard. Only arriving messages that
--- match at least 1 filter entry will be dealt with by an xpl device.
+-- match at least 1 filter entry will be dealt with by an xpl device.<br/>
+-- <br/>
+-- Example (assuming <code>self</code> is an <code>xpldevice</code> object) <code><br/>
+--        self.filter = xpl.classes.xplfilters:new({})<br/>
+--        self.filter:add("xpl-cmnd.*.*.*.homeeasy.basic")<br/>
+--        self.filter:add("xpl-cmnd.*.*.*.x10.*")<br/>
+-- </code>
 -- @class module
 -- @name xplfilters
 -- @copyright 2011 Thijs Schreijer

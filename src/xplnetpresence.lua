@@ -3,11 +3,18 @@
 ----------------------------------------------------------------------------
 -- @copyright 2012 Thijs Schreijer
 -- @release Version 0.1, commandline xPL network watch utility.
--- @description# Scans syslog output for MAC and IP addresses for domestic occupancy detection and notify through xPL. Use option <code>-help</code> for a description.
+-- @description# Commandline utility to scan syslog output for MAC and IP addresses for domestic occupancy detection and notify through xPL. Use option <code>-help</code> for a description.
 -- &nbsp
 -- Example: <code>
--- xplnetpresence.lua -timeout=120 -hub
+-- xplnetpresence.lua -timeout=240 -port=53000 -instance=RANDOM -hub
 -- </code>
+-- Example setup using a wireless router with DD-WRT firmware (version 'DD-WRT v24-sp2 (08/12/10) std');
+-- <ul>
+-- <li>Enable systemlog on tab 'service / services' of the admin console and set the target ip address where xplnetpresence.lua is listening.</li>
+-- <li>On tab 'security / firewall' enable logging, set level 'low' and all three options (Dropped/Rejected/Accepted) to 'Enabled'.</li>
+-- <li>Start xplnetpresence.lua using defaults</li>
+-- </ul>
+
 
 module ("xplnetpresence", package.seeall)
 
@@ -23,22 +30,25 @@ local prog = {
 Functional options;
    -version                               Print version info
    -h, -help                              Display this usage information
-   -T, -timeout=[120]                     How long for a MAC or IP address not being
-                                          anymore, before notifying device as leaving
-                                          (in seconds)
+   -T, -timeout=[120]                     For a MAC or IP address not being seen anymore,
+                                          before notifying device as leaving (in seconds)
    -M, -mac=[lua-pattern]                 The Lua pattern to grab the MAC address from
-                                          the log message
+                                          the log message; default = "MAC=([%x:]+)"
    -I, -ip=[lua-pattern]                  The Lua pattern to grab the IP address from
-                                          the log message
+                                          the log message; default = "SRC=([%x%.:]+)"
    -p, -port=[514]                        Port number to listen on for incoming syslog
                                           UDP data
 xPL device options
    -i, -instance=HOST                     InstanceID to be used, or HOST to generate
                                           hostname based id, or RANDOM for random id.
                                           (HOST is default)
-   -t, -time=[xx]                         How long should the program run (in seconds)
+   -t, -time=[xx]                         How long should the program run (in seconds),
+                                          default is no end time, run continously.
    -H, -hub                               Start included xPL hub
    -B, -broadcast[=255.255.255.255]       Broadcast address to use for sending
+
+Example;
+   xplnetpresence.lua -timeout=240 -port=53000 -instance=RANDOM -hub
 
 xPL interface
    The message schema used is 'netpres.basic' which is a custom schema. Trigger
@@ -252,7 +262,7 @@ local function departure(device)
     xpldevice:send(msg)
 end
 
--- list a device
+-- list a device, will be called for each known device when a list command is received
 local function listdevice(device)
     print("List;", device.name, (device.mac or device.ip))
     local msg = newmessage(device)

@@ -16,7 +16,6 @@ rem      copies the (modified) files into the project directory source
 rem      directory.
 rem      Then it starts the LuaDoc generator on the source directory.
 
-
 rem copy main files back to project directory
 copy "%LUA_SOURCEPATH%\xpl*.lua" src\
 xcopy "%LUA_SOURCEPATH%\xpl\*.*" src\xpl\ /Y/E
@@ -25,6 +24,10 @@ del src\xplhal.lua
 
 rem start LuaDoc
 "%LUA_SOURCEPATH%\luadoc_start.lua" -d doc src
+
+echo.
+echo Documentation generation completed. Now starting browser...
+echo.
 start doc\index.html
 pause
 

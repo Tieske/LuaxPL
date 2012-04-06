@@ -8,6 +8,7 @@
 -- Example: <code>
 -- xplsender.lua -f="C:\samplemsg.txt" -m="xpl-trig\n{\nhop=1\nsource=tieske-upnp.somedev\ntarget=*\n}\nsome.schema\n{\ncommand=unknown\n}\n"
 -- </code>
+-- This module is standalone and has no dependencies on any other of the xPL code files. It only depends on the luasocket module.
 -- @name xplsender.lua
 
 module ("xplsender", package.seeall)
@@ -30,7 +31,7 @@ option -file and -msg may be combined and may contain multiple messages each.
 	]],
 }
 
-local rocks = require ("luarocks.loader")
+--local rocks = require ("luarocks.loader")
 local socket = require ("socket")
 local msgs = {}		-- list of messages to be sent, digested from commandline
 local opt = {
