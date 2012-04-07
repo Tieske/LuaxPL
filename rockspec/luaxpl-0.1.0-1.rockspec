@@ -41,6 +41,7 @@ build = {
         ["xpllogger"]               = "src/xpllogger.lua",
         ["xplsender"]               = "src/xplsender.lua",
         ["xplnetpresence"]          = "src/xplnetpresence.lua",
+        ["xplnetpres_conf"]         = "src/xplnetpres_conf.lua",
         ["xplrun"]                  = "src/xplrun.lua",
         ["xplrun_config"]           = "src/xplrun_config.lua",
     },
