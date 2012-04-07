@@ -18,6 +18,7 @@ rem      from the lua sourcepath location.
 rem Open all files in editor
 start "Lua" "%LUA_EDITOR%" "%LUA_SOURCEPATH%\xpllogger.lua"
 start "Lua" "%LUA_EDITOR%" "%LUA_SOURCEPATH%\xplnetpresence.lua"
+start "Lua" "%LUA_EDITOR%" "%LUA_SOURCEPATH%\xplnetpres_conf.lua"
 start "Lua" "%LUA_EDITOR%" "%LUA_SOURCEPATH%\xplsender.lua"
 start "Lua" "%LUA_EDITOR%" "%LUA_SOURCEPATH%\xplrun.lua"
 start "Lua" "%LUA_EDITOR%" "%LUA_SOURCEPATH%\xplrun_config.lua"

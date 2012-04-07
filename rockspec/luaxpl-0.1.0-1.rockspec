@@ -1,7 +1,7 @@
-package = "LuaxPL"
+package = "luaxpl"
 version = "0.1.0-1"
 source = {
-    url = "https://github.com/downloads/Tieske/LuaxPL/LuaxPL-0.1.0.tar.gz",
+    url = "https://github.com/downloads/Tieske/LuaxPL/luaxpl-0.1.0.tar.gz",
 }
 description = {
     summary = "xPL framework for Lua",

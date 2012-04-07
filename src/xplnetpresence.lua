@@ -38,6 +38,8 @@ Functional options;
                                           the log message; default = "SRC=([%x%.:]+)"
    -p, -port=[514]                        Port number to listen on for incoming syslog
                                           UDP data
+   -c, -config=[filename]                 Filename with a list of known devices, see the
+                                          example 'luanetpres_conf.lua'
 xPL device options
    -i, -instance=HOST                     InstanceID to be used, or HOST to generate
                                           hostname based id, or RANDOM for random id.
@@ -65,6 +67,7 @@ local opt = {
             mac = { "mac", "M" },
             ip = { "ip" , "I" },
             port = { "port", "p" },
+            config = { "config", "c" },
             instance = { "instance", "i" },
             time = { "time", "t" },
             hub = { "hub", "H"},
@@ -194,7 +197,7 @@ end
 
 if not opt.mac then
     -- set default MAC address capture
-    opt.mac = "MAC=([%x:]+)"
+    opt.mac = "MAC=%x%x:%x%x:%x%x:%x%x:%x%x:%x%x:(%x%x:%x%x:%x%x:%x%x:%x%x:%x%x):%x%x:%x%x"
 end
 
 if not opt.ip then
@@ -221,6 +224,56 @@ else
     opt.port = 514
 end
 
+local mlist = {}
+local ilist = {}
+if opt.config then
+    local success, devlist = pcall(loadfile, opt.config)
+    if not success then
+        print ("failed to load configuration file " .. tostring(opt.config))
+        print ("error: " .. tostring(devlist))
+        os.exit()
+    end
+    local success, devlist = pcall(devlist)
+    if not success then
+        print ("failed to load configuration file " .. tostring(opt.config))
+        print ("error: " .. tostring(devlist))
+        os.exit()
+    end
+    if not type(devlist) == "table" then
+        print ("failed to load configuration file " .. tostring(opt.config))
+        print ("error: Expected a table, got " .. type(devlist))
+        os.exit()
+    end
+    -- by now devlist returned a table
+    local cnt = 0
+    for k, v in pairs(devlist) do
+        local dev = {
+            mac = string.lower(tostring(v.mac or "")),
+            ip = string.lower(tostring(v.ip or "")),
+            name = tostring(v.name or ""),
+            timeout = tonumber(v.timeout),
+        }
+        if dev.name == "" then
+            print ("Configfile parse error; name field is required")
+            os.exit()
+        end
+        if dev.mac == "" then dev.mac = nil end
+        if dev.ip == "" then dev.ip = nil end
+        if not (dev.mac or dev.ip) then
+            print ("Configfile parse error; at least field mac or field ip is required")
+            os.exit()
+        end
+        if dev.mac then
+            mlist[dev.mac] = dev
+        end
+        if dev.ip then
+            ilist[dev.ip] = dev
+        end
+        cnt = cnt + 1
+    end
+    print ("Loaded configfile, parsed " .. cnt .. " devices")
+end
+
 local dcount = 1       -- provide unique device name
 local xpldevice           -- will hold our device
 
@@ -237,8 +290,17 @@ local function newmessage(device)
     msg:add("mac", device.mac or "")
     msg:add("ip", device.ip or "")
     msg:add("present", device.present == true)
-    msg:add("firstseen", device.firstseen:fmt("${iso}") or "")
-    msg:add("lastseen", device.lastseen:fmt("${iso}") or "")
+    if device.firstseen then
+        msg:add("firstseen", device.firstseen:fmt("${iso}"))
+    else
+        msg:add("firstseen", "")
+    end
+    if device.lastseen then
+        msg:add("lastseen", device.lastseen:fmt("${iso}"))
+    else
+        msg:add("lastseen", "")
+    end
+    msg:add("maxnotseen", device.maxnotseen or "")
     return msg
 end
 
@@ -248,7 +310,7 @@ end
 
 -- function will be called when a device has been added (or re-appeared)
 local function arrival(device)
-    print("Arrival;", device.name, (device.mac or device.ip))
+    print("Arrival;", (device.mac or device.ip), device.name)
     local msg = newmessage(device)
     msg:setvalue("type", "arrival")
     xpldevice:send(msg)
@@ -256,7 +318,7 @@ end
 
 -- function will be called when a device has left (timeout)
 local function departure(device)
-    print("Departure;", device.name, (device.mac or device.ip))
+    print("Departure;", (device.mac or device.ip), device.name)
     local msg = newmessage(device)
     msg:setvalue("type", "departure")
     xpldevice:send(msg)
@@ -264,7 +326,7 @@ end
 
 -- list a device, will be called for each known device when a list command is received
 local function listdevice(device)
-    print("List;", device.name, (device.mac or device.ip))
+    print("List;", (device.mac or device.ip), device.name, "Max not seen (seconds): " .. (device.maxnotseen or ""))
     local msg = newmessage(device)
     msg.type = "xpl-stat"
     msg:setvalue("type", "list")
@@ -283,16 +345,17 @@ xpldevice = xpl.classes.xpldevice:new({    -- create a generic xPL device for th
         self.filter = xpl.classes.xplfilters:new({})
         self.filter:add("xpl-cmnd.*.*.*.netpres.basic")
         self.version = appversion   -- make version be reported in heartbeats
-        self.address = xpl.createaddress("tieske", "lualog", opt.instance or "HOST")
+        self.address = xpl.createaddress("tieske", "netpres", opt.instance or "HOST")
         self.syslogskt = nil        -- will hold the socket to listen for syslog messages
-        self.maclist = {}   -- list of deviecs keyed by MAC address
-        self.iplist = {}    -- list of devices keyed by IP address
+        self.maclist = mlist   -- list of devices keyed by MAC address
+        self.iplist = ilist    -- list of devices keyed by IP address
         self.timer = copas.newtimer(nil,
             function ()
                 -- function to check individual device
                 local check = function(device)
+                    local to = device.timeout or opt.timeout
                     if device.present then
-                        if device.lastseen:addseconds(opt.timeout) < date() then
+                        if device.lastseen < date():addseconds(-1 * to) then
                             -- its been a while since we saw this one, report as departed
                             device.present = nil
                             departure(device)
@@ -328,6 +391,10 @@ xpldevice = xpl.classes.xpldevice:new({    -- create a generic xPL device for th
 
         -- lookup device
         local device = self:getdevice(mac, ip)
+        local ols
+        if device then
+            ols = device.lastseen -- store the old lastseen value
+        end
 
         if device then
             -- known device
@@ -364,8 +431,16 @@ xpldevice = xpl.classes.xpldevice:new({    -- create a generic xPL device for th
         end
         device.lastseen = date()
         if not device.present then
+            device.firstseen = device.lastseen
+            device.maxnotseen = 0
             device.present = true
             arrival(device)
+        else
+            -- update maxnotseen value
+            local span = (date() - (ols or date())):spanseconds()
+            if span > device.maxnotseen then
+                device.maxnotseen = span
+            end
         end
     end,
 
@@ -399,12 +474,16 @@ xpldevice = xpl.classes.xpldevice:new({    -- create a generic xPL device for th
         -- setup socket to listen on
         local status
         local skt, err = socket.udp()
-        if not skt then return skt, err end
+        if not skt then
+            print("Failed creating socket; ", err)
+            os.exit()
+        end
         skt:settimeout(1)
 
         status, err = skt:setsockname('*', opt.port)
         if not status then
-            return nil, err
+            print("Failed connecting socket; ", err)
+            os.exit()
         end
 
         -- add created socket to the copas scheduler
