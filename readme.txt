@@ -1,5 +1,6 @@
 LuaxPL framework, copyright 2011-2012 Thijs Schreijer
 
+Online docs: http://tieske.github.com/LuaxPL/
 
 Dependencies are on;
    - Copas
