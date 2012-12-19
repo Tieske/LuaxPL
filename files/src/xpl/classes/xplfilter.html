@@ -1,19 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <title>Reference</title>
+    <title>Luadocs for src/xpl/classes/xplfilter.lua</title>
     <link rel="stylesheet" href="../../../../luadoc.css" type="text/css" />
-	<!--meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/-->
+    <!--meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/-->
 </head>
 
 <body>
 <div id="container">
 
 <div id="product">
-	<div id="product_logo"></div>
-	<div id="product_name"><big><b></b></big></div>
-	<div id="product_description"></div>
+    <div id="product_logo"></div>
+    <div id="product_name"><big><b></b></big></div>
+    <div id="product_description"></div>
 </div> <!-- id="product" -->
 
 <div id="main">
@@ -21,7 +22,7 @@
 <div id="navigation">
 
 
-<h1>LuaDoc</h1>
+<h2>LuaDoc</h2>
 <ul>
 	
 	<li><a href="../../../../index.html">Index</a></li>
@@ -31,7 +32,7 @@
 
 <!-- Module list -->
 
-<h1>Modules</h1>
+<h2>Modules</h2>
 <ul>
 
 	<li>
@@ -76,7 +77,7 @@
 
 <!-- File list -->
 
-<h1>Files</h1>
+<h2>Files</h2>
 <ul>
 
 	<li>
@@ -144,45 +145,17 @@
 
 <div id="content">
 
-<h1>File <code>src/xpl/classes/xplfilter.lua</code></h1>
+<h1>File "<code>src/xpl/classes/xplfilter.lua</code>"</h1>
 
 
-<p>The filter object for xPL devices. It maintains a list of filters for matching incoming messages. <br/>No global will be created, it just returns the filter class. The main xPL module will create a global <code>xpl.classes.xplfilters</code> to access it.<br/>&nbsp<br/>An xpl filter is a set of xpl message elements; <code>[msgtype].[vendor].[device].[instance].[schema-class].[schema-type]</code> For each element a '<code>*</code>' can be used as a wildcard. Only arriving messages that match at least 1 filter entry will be dealt with by an xpl device.<br/>&nbsp<br/>&nbspExample (assuming <code>self</code> is an <code>xpldevice</code> object) <code><br/>&nbspself.filter = xpl.classes.xplfilters:new({})<br/>&nbspself.filter:add("xpl-cmnd.*.*.*.homeeasy.basic")<br/>&nbspself.filter:add("xpl-cmnd.*.*.*.x10.*")<br/>&nbsp</code></p>
+<p>The filter object for xPL devices. It maintains a list of filters for matching incoming messages. <br/>No global will be created, it just returns the filter class. The main xPL module will create a global <code>xpl.classes.xplfilters</code> to access it.<br/>&nbsp;<br/>An xpl filter is a set of xpl message elements; <code>[msgtype].[vendor].[device].[instance].[schema-class].[schema-type]</code> For each element a '<code>*</code>' can be used as a wildcard. Only arriving messages that match at least 1 filter entry will be dealt with by an xpl device.<br/>&nbsp;<br/>&nbsp;Example (assuming <code>self</code> is an <code>xpldevice</code> object) <code><br/>&nbsp;self.filter = xpl.classes.xplfilters:new({})<br/>&nbsp;self.filter:add("xpl-cmnd.*.*.*.homeeasy.basic")<br/>&nbsp;self.filter:add("xpl-cmnd.*.*.*.x10.*")<br/>&nbsp;</code></p>
 
 
 
-<p>Copyright &copy;2011 Thijs Schreijer</p>
+<p>Copyright &copy; 2011 Thijs Schreijer</p>
 
 
 <p><small><b>Release:</b> Version 0.1, LuaxPL framework.</small></p>
-
-
-
-<h2>Functions</h2>
-<table class="function_list">
-
-	<tr>
-	<td class="name" nowrap><a href="#flt:add">flt:add</a>&nbsp;(flt)</td>
-	<td class="summary">Add a filter entry to the filter list.</td>
-	</tr>
-
-	<tr>
-	<td class="name" nowrap><a href="#flt:match">flt:match</a>&nbsp;(flt)</td>
-	<td class="summary">Checks if a filter matches any of the filters in the list.</td>
-	</tr>
-
-	<tr>
-	<td class="name" nowrap><a href="#flt:remove">flt:remove</a>&nbsp;(flt)</td>
-	<td class="summary">Remove filter from list </td>
-	</tr>
-
-	<tr>
-	<td class="name" nowrap><a href="#flt:split">flt:split</a>&nbsp;(flt)</td>
-	<td class="summary">splits a filter string into a filter table.</td>
-	</tr>
-
-</table>
-
 
 
 
@@ -203,167 +176,44 @@
 
 
 
+<h2>Functions</h2>
+<table class="function_list">
+
+    <tr>
+    <td class="name" nowrap><a href="#flt:add">flt:add</a>&nbsp;(flt)</td>
+    <td class="summary">Add a filter entry to the filter list.</td>
+    </tr>
+
+    <tr>
+    <td class="name" nowrap><a href="#flt:match">flt:match</a>&nbsp;(flt)</td>
+    <td class="summary">Checks if a filter matches any of the filters in the list.</td>
+    </tr>
+
+    <tr>
+    <td class="name" nowrap><a href="#flt:remove">flt:remove</a>&nbsp;(flt)</td>
+    <td class="summary">Remove filter from list </td>
+    </tr>
+
+    <tr>
+    <td class="name" nowrap><a href="#flt:split">flt:split</a>&nbsp;(flt)</td>
+    <td class="summary">splits a filter string into a filter table.</td>
+    </tr>
+
+</table>
+
+
 <br/>
 <br/>
-
-
-
-
-<h2><a name="functions"></a>Functions</h2>
-<dl class="function">
-
-
-
-<dt><a name="flt:add"></a><strong>flt:add</strong>&nbsp;(flt)</dt>
-<dd>
-Add a filter entry to the filter list. Duplicates will be silently dismissed (no error).
-
-
-<h3>Parameters:</h3>
-<ul>
-	
-	<li>
-	  <code><em>flt</em></code>: filter to add, either a filter string or a filter table
-	</li>
-	
-</ul>
-
-
-
-
-
-
-<h3>Return value:</h3>
-<ul>filter table added</ul>
-
-
-
-<h3>See also:</h3>
-<ul>
-	
-	<!-- <li><a href="#../../../../files/src/xpl/classes/xplfilter.html#filter-tablefilter-table"> -->
-	<li><a href="#filter-table">
-		filter-table</li>
-	</a>
-	
-</ul>
-
-</dd>
-
-
-
-
-<dt><a name="flt:match"></a><strong>flt:match</strong>&nbsp;(flt)</dt>
-<dd>
-Checks if a filter matches any of the filters in the list. Wildcards are allowed both in the list (obvious), but also in the filter being matched.
-
-
-<h3>Parameters:</h3>
-<ul>
-	
-	<li>
-	  <code><em>flt</em></code>: filter to match (either a string or a table)
-	</li>
-	
-</ul>
-
-
-
-
-
-
-<h3>Return value:</h3>
-<ul><code>true</code> if the filter matches an entry in the list, <code>false</code> otherwise. If the filter object does not contain any filters it will <code>true</code> (default xpl behaviour with absent filters).</ul>
-
-
-
-</dd>
-
-
-
-
-<dt><a name="flt:remove"></a><strong>flt:remove</strong>&nbsp;(flt)</dt>
-<dd>
-Remove filter from list
-
-
-<h3>Parameters:</h3>
-<ul>
-	
-	<li>
-	  <code><em>flt</em></code>: filter to remove, either a filter string or a filter table. If it doesn't exist no error will be thrown.
-	</li>
-	
-</ul>
-
-
-
-
-
-
-<h3>Return value:</h3>
-<ul><code>true</code></ul>
-
-
-
-</dd>
-
-
-
-
-<dt><a name="flt:split"></a><strong>flt:split</strong>&nbsp;(flt)</dt>
-<dd>
-splits a filter string into a filter table. A '-' between vendor and device is accepted. It can be called as a function or as a method, either way works (see example below).
-
-
-<h3>Parameters:</h3>
-<ul>
-	
-	<li>
-	  <code><em>flt</em></code>: Filter (string) as <code>[msgtype].[vendor].[device].[instance].[class].[type]</code>
-	</li>
-	
-</ul>
-
-
-
-
-<h3>Usage:</h3>
-<ul><pre class=example>-- create a new filter object<br/>local flt = xpl.classes.xplfilter()<br/>-- call as a function<br/>local f = flt.split("xpl-cmnd.vendor.device.instance.class.type")<br/>-- call as a method<br/>local f = flt:split("xpl-cmnd.vendor.device.instance.class.type")</pre></ul>
-
-
-
-<h3>Return value:</h3>
-<ul>a filter table with 6 indices for each filter element, and the <code>filter</code> key with the full filter string value</ul>
-
-
-
-<h3>See also:</h3>
-<ul>
-	
-	<!-- <li><a href="#../../../../files/src/xpl/classes/xplfilter.html#filter-tablefilter-table"> -->
-	<li><a href="#filter-table">
-		filter-table</li>
-	</a>
-	
-</ul>
-
-</dd>
-
-
-</dl>
-
-
 
 
 <h2><a name="tables"></a>Tables</h2>
 <dl class="table">
 
 <dt><a name="filter-table"></a><strong>filter-table</strong></dt>
-<dd>Internal representation of a filter entry.<br /><br />
+<dd>Internal representation of a filter entry.
 
 
-<h3>Fields:</h3>
+<h3>Fields</h3>
 <ul>
 	
 	<li>
@@ -397,14 +247,19 @@ splits a filter string into a filter table. A '-' between vendor and device is a
 </ul>
 
 
+
+
+
+
+
 </dd>
 
 
 <dt><a name="xplfilter fields/properties"></a><strong>xplfilter fields/properties</strong></dt>
-<dd>Members of the filter object<br /><br />
+<dd>Members of the filter object
 
 
-<h3>Fields:</h3>
+<h3>Fields</h3>
 <ul>
 	
 	<li>
@@ -414,6 +269,11 @@ splits a filter string into a filter table. A '-' between vendor and device is a
 </ul>
 
 
+
+
+
+
+
 </dd>
 
 
@@ -421,15 +281,201 @@ splits a filter string into a filter table. A '-' between vendor and device is a
 
 
 
+<h2><a name="functions"></a>Functions</h2>
+<dl class="function">
+
+
+
+<dt><a name="flt:add"></a><strong>flt:add</strong>&nbsp;(flt)</dt>
+<dd>
+Add a filter entry to the filter list. Duplicates will be silently dismissed (no error).
+
+
+<h3>Parameters:</h3>
+<ul>
+	
+	<li>
+	  <code><em>flt</em></code>: filter to add, either a filter string or a filter table
+	</li>
+	
+</ul>
+
+
+
+
+
+<div>
+
+
+<h3 class="inline-block">Return value:</h3>
+filter table added
+
+</div>
+
+
+
+
+
+
+<div>
+
+<h3>See also:</h3>
+<ul>
+	
+	<li><a href="../../../../files/src/xpl/classes/xplfilter.html#filter-table">
+		filter-table
+	</a></li>
+	
+</ul>
+
+</div>
+
+
+</dd>
+
+
+
+
+<dt><a name="flt:match"></a><strong>flt:match</strong>&nbsp;(flt)</dt>
+<dd>
+Checks if a filter matches any of the filters in the list. Wildcards are allowed both in the list (obvious), but also in the filter being matched.
+
+
+<h3>Parameters:</h3>
+<ul>
+	
+	<li>
+	  <code><em>flt</em></code>: filter to match (either a string or a table)
+	</li>
+	
+</ul>
+
+
+
+
+
+<div>
+
+
+<h3 class="inline-block">Return value:</h3>
+<code>true</code> if the filter matches an entry in the list, <code>false</code> otherwise. If the filter object does not contain any filters it will <code>true</code> (default xpl behaviour with absent filters).
+
+</div>
+
+
+
+
+
+
+
+</dd>
+
+
+
+
+<dt><a name="flt:remove"></a><strong>flt:remove</strong>&nbsp;(flt)</dt>
+<dd>
+Remove filter from list
+
+
+<h3>Parameters:</h3>
+<ul>
+	
+	<li>
+	  <code><em>flt</em></code>: filter to remove, either a filter string or a filter table. If it doesn't exist no error will be thrown.
+	</li>
+	
+</ul>
+
+
+
+
+
+<div>
+
+
+<h3 class="inline-block">Return value:</h3>
+<code>true</code>
+
+</div>
+
+
+
+
+
+
+
+</dd>
+
+
+
+
+<dt><a name="flt:split"></a><strong>flt:split</strong>&nbsp;(flt)</dt>
+<dd>
+splits a filter string into a filter table. A '-' between vendor and device is accepted. It can be called as a function or as a method, either way works (see example below).
+
+
+<h3>Parameters:</h3>
+<ul>
+	
+	<li>
+	  <code><em>flt</em></code>: Filter (string) as <code>[msgtype].[vendor].[device].[instance].[class].[type]</code>
+	</li>
+	
+</ul>
+
+
+
+<div>
+
+<h3 class="inline-block">Usage:</h3>
+-- create a new filter object<br/>local flt = xpl.classes.xplfilter()<br/>-- call as a function<br/>local f = flt.split("xpl-cmnd.vendor.device.instance.class.type")<br/>-- call as a method<br/>local f = flt:split("xpl-cmnd.vendor.device.instance.class.type")
+
+</div>
+
+
+
+<div>
+
+
+<h3 class="inline-block">Return value:</h3>
+a filter table with 6 indices for each filter element, and the <code>filter</code> key with the full filter string value
+
+</div>
+
+
+
+
+
+
+<div>
+
+<h3>See also:</h3>
+<ul>
+	
+	<li><a href="../../../../files/src/xpl/classes/xplfilter.html#filter-table">
+		filter-table
+	</a></li>
+	
+</ul>
+
+</div>
+
+
+</dd>
+
+
+</dl>
+
 
 </div> <!-- id="content" -->
 
 </div> <!-- id="main" -->
 
 <div id="about">
-	<p><a href="http://validator.w3.org/check?uri=referer"><img src="http://www.w3.org/Icons/valid-xhtml10" alt="Valid XHTML 1.0!" height="31" width="88" /></a></p>
+    <p><a href="http://validator.w3.org/check?uri=referer"><img src="http://www.w3.org/Icons/valid-xhtml10" alt="Valid XHTML 1.0!" height="31" width="88" /></a></p>
 </div> <!-- id="about" -->
 
-</div> <!-- id="container" -->	
+</div> <!-- id="container" -->
 </body>
 </html>
