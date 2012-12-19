@@ -17,4 +17,4 @@ If you require support, please visit http://xplproject.org.uk or the Lua mailing
 License; MIT/X11 (same as Lua 5.1)
 
 Known issues
- - xPLRun is incomplete adn non-functional
+ - xPLRun is incomplete and non-functional
