@@ -1,20 +1,27 @@
-LuaxPL framework, copyright 2011-2012 Thijs Schreijer
+#LuaxPL framework
+copyright 2011-2012 Thijs Schreijer
 
-Online docs: http://tieske.github.com/LuaxPL/
+##Online documentation
+see [github](http://tieske.github.com/LuaxPL/), also for the [source code](https://github.com/Tieske/LuaxPL)
 
-Dependencies are on;
-   - Copas
-   - LuaSocket
-   - CopasTimer
-   - Date
+##Dependencies
+LuaxPL depends on the following modules;
+
+- [Copas](http://keplerproject.github.com/copas/)
+- [LuaSocket](http://w3.impa.br/~diego/software/luasocket/)
+- [CopasTimer](http://tieske.github.com/CopasTimer/)
+- [Date](http://luaforge.net/projects/date/)
 
 IMPORTANT:
-The current release (1.1.6) of Copas will not work becasue it does not support UDP.
-You should download the HEAD revision from the github repo, or use my version at https://github.com/Tieske/copas
+The current release (1.1.6) of Copas will not work because it does not support UDP.
+You should download the HEAD revision from the github repo, or use [my version](https://github.com/Tieske/copas)
 
-If you require support, please visit http://xplproject.org.uk or the Lua mailing list.
+##Support
 
-License; MIT/X11 (same as Lua 5.1)
+If you require support, please visit [the xPL project](http://xplproject.org.uk) or the [Lua mailing list](http://www.lua.org/lua-l.html).
 
-Known issues
+##License
+MIT/X11 (same as Lua 5.1)
+
+##Known issues
  - xPLRun is incomplete and non-functional

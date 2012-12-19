@@ -23,7 +23,7 @@ rem xplhal doesn't belong here
 del src\xplhal.lua
 
 rem start LuaDoc
-"%LUA_SOURCEPATH%\luadoc_start.lua" -d doc src
+"%LUA_SOURCEPATH%\luadoc_start.lua" -r readme.md -d doc src
 
 echo.
 echo Documentation generation completed. Now starting browser...
