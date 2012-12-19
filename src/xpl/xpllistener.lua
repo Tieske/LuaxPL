@@ -247,13 +247,13 @@ local subscribe, unsubscribe, events        -- make local trick LuaDoc
 --     -- subscribe to events of listener for new messages
 --     xpl.listener:subscribe(self, self.eventhandler, xpl.listener.events.newmessage)
 -- end
--- @see copas.eventer
+-- @see copas.eventer http://tieske.github.com/CopasTimer/
 -- @see events
 subscribe = function()
 end
 ---------------------------------------------------------------------------------
 -- Unsubscribe from events of xpllistener.
--- @see copas.eventer
+-- @see copas.eventer http://tieske.github.com/CopasTimer/
 -- @see events
 unsubscribe = function()
 end

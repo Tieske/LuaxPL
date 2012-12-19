@@ -202,7 +202,7 @@ end
 
 -----------------------------------------------------------------------------------------
 -- Update configuration with the received config information
--- @param msg the config message containing the new configuration
+-- *param msg the config message containing the new configuration
 local updateconfig = function(self, msg)
     local settings = self:getsettings()
     settings.configitems = {}
