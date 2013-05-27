@@ -25,6 +25,7 @@ local xplsocket         -- the socket used for listening for xPL messages
 local hub               -- xPL hub
 local checker           -- the checkfunction for network changes
 local checktimer        -- timer for running the network check
+local networkstate      -- network state as returned by netcheck
 
 
 
@@ -50,8 +51,14 @@ end
 -- creates and initializes the xPL socket to be listened on
 -- @return a luasocket.udp socket or nil  and an error message
 local getsocket = function()
-    host = socket.dns.gethostname()
-    sysip = socket.dns.toip(host)
+    if not networkstate then
+      local changed, state = netcheck.check()
+      host = state.name
+      sysip = state.ip[1]
+    else
+      host = networkstate.name
+      sysip = networkstate.ip[1]
+    end
     if not xplsocket then
         port = 50000
         repeat
@@ -98,6 +105,7 @@ end
 
 -- whenever the network check determines a change in network connectivity this is called
 local function networkchanged(newState, oldState)
+    networkstate = newState
     -- restart listener socket
     xplsocket:close()
     xplsocket = nil
