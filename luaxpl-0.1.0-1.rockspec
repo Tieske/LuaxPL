@@ -1,5 +1,5 @@
 package = "luaxpl"
-version = "0.1.0-1"
+version = "0.2.0-1"
 source = {
     url = "https://github.com/downloads/Tieske/LuaxPL/luaxpl-0.1.0.tar.gz",
 }
@@ -23,6 +23,7 @@ dependencies = {
     "luasocket >= 2.0.0",
     "copastimer >= 0.4.0",
     "date >= 2.0.0",
+    "netcheck >= 0.2",
 }
 build = {
     type = "builtin",
@@ -37,13 +38,17 @@ build = {
         ["xpl.classes.xpldevice"]   = "src/xpl/classes/xpldevice.lua",
         ["xpl.classes.xplfilter"]   = "src/xpl/classes/xplfilter.lua",
         ["xpl.classes.xplmessage"]  = "src/xpl/classes/xplmessage.lua",
-        -- commandline utilities
-        ["xpllogger"]               = "src/xpllogger.lua",
-        ["xplsender"]               = "src/xplsender.lua",
+        -- commandline utilities  > should be moved to bin below
         ["xplnetpresence"]          = "src/xplnetpresence.lua",
         ["xplnetpres_conf"]         = "src/xplnetpres_conf.lua",
         ["xplrun"]                  = "src/xplrun.lua",
         ["xplrun_config"]           = "src/xplrun_config.lua",
     },
     copy_directories = { "doc", "test" },
+    install = {
+        bin = {
+            "src/xpllogger.lua",
+            "src/xplsender.lua",
+        }
+    } 
 }
