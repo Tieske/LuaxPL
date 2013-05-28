@@ -137,7 +137,7 @@ local xpldevice = xpl.classes.xpldevice:subclass({
     -- the instance name changed for example). Make sure to call <code>restart()</code> in that case.
     -- Do not restart from here, because it would disable future inheritance of this class and
     -- it would be inconsistent with the other classes
-    -- @usage# if mydev:setsettings(mysettings) then mydev:restart() end
+    -- @usage if mydev:setsettings(mysettings) then mydev:restart() end
     setsettings = function(self, s)
         local r     -- requires restart?
         -- go let ancestor restore its settings first

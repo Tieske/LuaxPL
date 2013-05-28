@@ -30,10 +30,6 @@
   <li><a href="../index.html">Index</a></li>
 </ul>
 
-<h2>Contents</h2>
-<ul>
-<li><a href="#Fields">Fields</a></li>
-</ul>
 
 
 <h2>Modules</h2>
@@ -48,8 +44,8 @@
   <li><a href="../modules/xpl.xpllistener.html">xpl.xpllistener</a></li>
   <li><a href="../modules/xpllogger.html">xpllogger</a></li>
   <li><a href="../modules/xplnetpres_conf.html">xplnetpres_conf</a></li>
-  <li><strong>xplnetpresence</strong></li>
-  <li><a href="../modules/xplrun.html">xplrun</a></li>
+  <li><a href="../modules/xplnetpresence.html">xplnetpresence</a></li>
+  <li><strong>xplrun</strong></li>
   <li><a href="../modules/xplsender.lua.html">xplsender.lua</a></li>
 </ul>
 <h2>Topics</h2>
@@ -61,55 +57,23 @@
 
 <div id="content">
 
-<h1>Module <code>xplnetpresence</code></h1>
+<h1>Module <code>xplrun</code></h1>
 
-<p>Commandline utility to scan syslog output for MAC and IP addresses for domestic occupancy detection.</p>
-<p> Domestic occupancy detection and notify through xPL. Use option <code>-help</code> for a description.
- &amp;nbsp
- Example: <code>
- xplnetpresence.lua -timeout=240 -port=53000 -instance=RANDOM -hub
- </code>
- Example setup using a wireless router with DD-WRT firmware (version 'DD-WRT v24-sp2 (08/12/10) std');
- <ul>
- <li>Enable systemlog on tab 'service / services' of the admin console and set the target ip address where xplnetpresence.lua is listening.</li>
- <li>On tab 'security / firewall' enable logging, set level 'low' and all three options (Dropped/Rejected/Accepted) to 'Enabled'.</li>
- <li>Start xplnetpresence.lua using defaults</li>
- </ul></p>
+<p>xPL framework to run multiple xPL applications in a single process/Lua state.</p>
+<p> Use to minimize resources used. A config file can be specified on the commandline. Use
+ option <code>-help</code> for a full description.</p>
     <h3>Info:</h3>
     <ul>
-        <li><strong>Release</strong>: Version 0.1, commandline xPL network watch utility.</li>
-        <li><strong>Copyright</strong>: 2012 Thijs Schreijer</li>
+        <li><strong>Release</strong>: Version 0.1, xPL application framework</li>
+        <li><strong>Copyright</strong>: 2011 Thijs Schreijer</li>
     </ul>
 
 
-<h2><a href="#Fields">Fields</a></h2>
-<table class="function_list">
-	<tr>
-	<td class="name" nowrap><a href="#xpldevice">xpldevice</a></td>
-	<td class="summary">Create our device</td>
-	</tr>
-</table>
 
 <br/>
 <br/>
 
 
-    <h2><a name="Fields"></a>Fields</h2>
-    <dl class="function">
-    <dt>
-    <a name = "xpldevice"></a>
-    <strong>xpldevice</strong>
-    </dt>
-    <dd>
-    Create our device
-
-
-
-
-
-
-</dd>
-</dl>
 
 
 </div> <!-- id="content" -->

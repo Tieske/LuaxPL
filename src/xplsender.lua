@@ -1,14 +1,14 @@
-#!/usr/local/bin/lua
-
 ----------------------------------------------------------------------------
--- @copyright 2011 Thijs Schreijer
--- @release Version 0.1, commandline xPL message sender utility.
--- @description# Commandline utility for sending xPL messages, message can be specified on the commandline (<code>-m</code> option) or send from files (<code>-f</code> option). Use option <code>-help</code> for a full description.
--- &nbsp
+-- Commandline utility for sending xPL messages. Message can be specified on the commandline (<code>-m</code> option) or send from files (<code>-f</code> option). Use option <code>-help</code> for a full description.
+-- 
 -- Example: <code>
 -- xplsender.lua -f="C:\samplemsg.txt" -m="xpl-trig\n{\nhop=1\nsource=tieske-upnp.somedev\ntarget=*\n}\nsome.schema\n{\ncommand=unknown\n}\n"
 -- </code>
+-- 
 -- This module is standalone and has no dependencies on any other of the xPL code files. It only depends on the luasocket module.
+-- @copyright 2011 Thijs Schreijer
+-- @release Version 0.1, commandline xPL message sender utility.
+-- @class module
 -- @name xplsender.lua
 
 module ("xplsender", package.seeall)

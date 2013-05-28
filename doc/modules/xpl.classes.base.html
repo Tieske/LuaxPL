@@ -1,0 +1,174 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>xPL library for Lua</title>
+    <link rel="stylesheet" href="../ldoc.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>LuaxPL</h1>
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+<h2>Contents</h2>
+<ul>
+<li><a href="#Functions">Functions</a></li>
+</ul>
+
+
+<h2>Modules</h2>
+<ul>
+  <li><a href="../modules/xpl.html">xpl</a></li>
+  <li><strong>xpl.classes.base</strong></li>
+  <li><a href="../modules/xpl.classes.xpldevice.html">xpl.classes.xpldevice</a></li>
+  <li><a href="../modules/xpl.classes.xplfilter.html">xpl.classes.xplfilter</a></li>
+  <li><a href="../modules/xpl.classes.xplmessage.html">xpl.classes.xplmessage</a></li>
+  <li><a href="../modules/xpl.new_device_template.html">xpl.new_device_template</a></li>
+  <li><a href="../modules/xpl.xplhub.html">xpl.xplhub</a></li>
+  <li><a href="../modules/xpl.xpllistener.html">xpl.xpllistener</a></li>
+  <li><a href="../modules/xpllogger.html">xpllogger</a></li>
+  <li><a href="../modules/xplnetpres_conf.html">xplnetpres_conf</a></li>
+  <li><a href="../modules/xplnetpresence.html">xplnetpresence</a></li>
+  <li><a href="../modules/xplrun.html">xplrun</a></li>
+  <li><a href="../modules/xplsender.lua.html">xplsender.lua</a></li>
+</ul>
+<h2>Topics</h2>
+<ul>
+  <li><a href="../topics/readme.md.html">readme.md</a></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+<h1>Module <code>xpl.classes.base</code></h1>
+
+<p>Allows for object creation.</p>
+<p> Returns a single object. Call <code>object.make(tbl)</code> to turn a table into an object.
+ alternatively the <code>object</code> table can be subclassed directly;<br/>
+ <code>myObj = object:subclass({member = 'value'})</code></p>
+    <h3>Info:</h3>
+    <ul>
+        <li><strong>Release</strong>: Version 0.1, LuaxPL framework.</li>
+        <li><strong>Copyright</strong>: 2011 Thijs Schreijer</li>
+    </ul>
+
+
+<h2><a href="#Functions">Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#object.make">object.make&nbsp;(obj, ...)</a></td>
+	<td class="summary">Creates an object from a table, a base class.</td>
+	</tr>
+</table>
+
+<br/>
+<br/>
+
+
+    <h2><a name="Functions"></a>Functions</h2>
+    <dl class="function">
+    <dt>
+    <a name = "object.make"></a>
+    <strong>object.make&nbsp;(obj, ...)</strong>
+    </dt>
+    <dd>
+    Creates an object from a table, a base class.  This only need to be done for the very first base class
+ only, descedants or instances will automatically have the object properties.
+ Adds methods <code>new</code> and <code>subclass</code> to the supplied table to instantiate
+ and subclass the created objectclass. Property/field <code>super</code> is added as a reference to the
+ base class of the created object. Method <code>initialize(self)</code> will be called upon instantiation.
+ <ul><li><code>super:new(o)</code>; method to create an instance of <code>super</code> in table
+ <code>o</code>, whilst retaining the properties in <code>o</code></li>
+ <li><code>super:subclass(o)</code>; method to create a new class, which inherits from <code>super</code>
+ </li></ul>
+ NOTE: when calling methods on the superclass make sure to call them using function notation
+ (<code>super.method(self, param1, param2)</code>) and NOT method notation (<code>super:dosomething(param1, param2)</code>),
+ because in the latter case <code>self</code> will point to <code>super</code> and not
+ the instance called upon.
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">obj</span>
+         table to convert into an object</li>
+        <li><span class="parameter">...</span>
+         (not used, only for error checking)</li>
+    </ul>
+
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example"> <span class="keyword">local</span> base = <span class="global">require</span>(<span class="string">"xpl.classes.base"</span>)
+
+ <span class="comment">-- create my table
+</span> <span class="keyword">local</span> myObject = {
+     data = <span class="string">"hello world"</span>,
+
+     <span class="global">print</span> = <span class="keyword">function</span>(self)
+         <span class="global">print</span>(self.data)
+     <span class="keyword">end</span>,
+
+     initialize = <span class="keyword">function</span>(self)
+         <span class="comment">-- upon initialization just print
+</span>         self:<span class="global">print</span>()
+     <span class="keyword">end</span>
+ }
+
+ <span class="comment">-- make it a class with single inheritance by subclassing
+</span> <span class="comment">-- it from the base class. The 'initialize()' method will
+</span> <span class="comment">-- NOT be called upon subclassing
+</span> myObject = base:subclass(myObject)
+
+ <span class="comment">-- instantiate an object from the new class and
+</span> <span class="comment">-- override field contents. This will call 'initialize()'
+</span> <span class="comment">-- and print "my world".
+</span> <span class="keyword">local</span> descendant = myObject:new({data = <span class="string">"my world"</span>})
+
+ <span class="comment">-- now override another method
+</span> <span class="keyword">function</span> descendant:<span class="global">print</span>()
+     <span class="comment">-- convert data to uppercase
+</span>     self.data = <span class="global">string</span>.upper(self.data)
+     <span class="comment">-- call ancestor method through 'super'. NOTE: you
+</span>     <span class="comment">-- must use 'function notation' for the call, 'method
+</span>     <span class="comment">-- notation' will not work.
+</span>     self.super.<span class="global">print</span>(self)
+ <span class="keyword">end</span>
+
+ <span class="comment">-- try the overriden method and print "MY WORLD"
+</span> descendant:<span class="global">print</span>()</pre>
+    </ul>
+
+</dd>
+</dl>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.3.12</a></i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>

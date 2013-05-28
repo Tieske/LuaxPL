@@ -42,11 +42,11 @@
   <li><a href="../modules/xpl.html">xpl</a></li>
   <li><a href="../modules/xpl.classes.base.html">xpl.classes.base</a></li>
   <li><a href="../modules/xpl.classes.xpldevice.html">xpl.classes.xpldevice</a></li>
+  <li><strong>xpl.classes.xplfilter</strong></li>
   <li><a href="../modules/xpl.classes.xplmessage.html">xpl.classes.xplmessage</a></li>
   <li><a href="../modules/xpl.new_device_template.html">xpl.new_device_template</a></li>
-  <li><strong>xplfilters</strong></li>
-  <li><a href="../modules/xplhub.html">xplhub</a></li>
-  <li><a href="../modules/xpllistener.html">xpllistener</a></li>
+  <li><a href="../modules/xpl.xplhub.html">xpl.xplhub</a></li>
+  <li><a href="../modules/xpl.xpllistener.html">xpl.xpllistener</a></li>
   <li><a href="../modules/xpllogger.html">xpllogger</a></li>
   <li><a href="../modules/xplnetpres_conf.html">xplnetpres_conf</a></li>
   <li><a href="../modules/xplnetpresence.html">xplnetpresence</a></li>
@@ -62,7 +62,7 @@
 
 <div id="content">
 
-<h1>Module <code>xplfilters</code></h1>
+<h1>Module <code>xpl.classes.xplfilter</code></h1>
 
 <p>The filter object for xPL devices.</p>
 <p> It maintains a list of filters for
@@ -75,10 +75,10 @@
  For each element a '<code>*</code>' can be used as a wildcard. Only arriving messages that
  match at least 1 filter entry will be dealt with by an xpl device.</p>
 
-<p> Example (assuming <code>self</code> is an <code>xpldevice</code> object) <code><br/></p>
-<pre><code>    self.filter = xpl.classes.xplfilters:new({})&lt;br/&gt;
-    self.filter:add("xpl-cmnd.*.*.*.homeeasy.basic")&lt;br/&gt;
-    self.filter:add("xpl-cmnd.*.*.*.x10.*")&lt;br/&gt;
+<p> Example (assuming <code>self</code> is an <a href="../modules/xpl.classes.xpldevice.html">xpldevice</a>  object) <code></p>
+<pre><code>    self.filter = xpl.classes.xplfilters:new({})
+    self.filter:add("xpl-cmnd.*.*.*.homeeasy.basic")
+    self.filter:add("xpl-cmnd.*.*.*.x10.*")
 </code></pre>
 <p> </code></p>
     <h3>Info:</h3>
@@ -146,7 +146,7 @@
 
     <h3>see also:</h3>
     <ul>
-         <a href="../modules/xplfilters.html#filter-table">filter-table</a>
+         <a href="../modules/xpl.classes.xplfilter.html#filter-table">filter-table</a>
     </ul>
 
     <h3>Usage:</h3>
@@ -182,7 +182,7 @@
 
     <h3>see also:</h3>
     <ul>
-         <a href="../modules/xplfilters.html#filter-table">filter-table</a>
+         <a href="../modules/xpl.classes.xplfilter.html#filter-table">filter-table</a>
     </ul>
 
 

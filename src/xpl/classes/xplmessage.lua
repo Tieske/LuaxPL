@@ -5,7 +5,6 @@
 -- <br/>No global will be created, it just returns the xplmessage class. The main
 -- xPL module will create a global <code>xpl.classes.xplmessage</code> to access it.
 -- @class module
--- @name xplmessage
 -- @copyright 2011 Thijs Schreijer
 -- @release Version 0.1, LuaxPL framework.
 
@@ -66,10 +65,10 @@ end
 -- if called as a method, the parsed message is loaded into the existing object. If called as a
 -- function on the super class, a new message object will be created.
 -- @param msgstring the string containing the message to be parsed
--- @usage# -- load a parsed message into the object
+-- @usage -- load a parsed message into the object
 -- local msg, remainder = xpl.classes.xplmessage:new({})
 -- msg, remainder = msg:parse(messagestring)
--- &nbsp
+-- 
 -- -- parse directly to a new message
 -- local msg, remainder = xpl.classes.xplmessage.parse(messagestring)
 -- @return parsed message object
@@ -142,7 +141,7 @@ end
 ------------------------------------------
 -- Creates an iterator for the key-value pair list. The iterator will use the order as specified in the message.
 -- @return iterator function
--- @usage# for key, value, i in msg:eachkvp() do
+-- @usage for key, value, i in msg:eachkvp() do
 --     print("KVP ", i, " has key = ", key, ", value = ", value)
 -- end
 function msg:eachkvp()
@@ -240,9 +239,9 @@ end
 ------------------------------------------
 -- Meta method to format the message as a string value for transmission
 -- @return message as string that can be transmitted onto the xPL network
--- @usage# -- Create a new message
+-- @usage -- Create a new message
 -- local msg = xpl.classes.xplmessage:new({})
--- &nbsp
+-- 
 -- print(msg)  -- this will invoke the __tostring() meta method
 function msg:__tostring()
     local body = ""

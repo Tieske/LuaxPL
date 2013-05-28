@@ -1,9 +1,6 @@
-#!/usr/local/bin/lua
-
 ----------------------------------------------------------------------------
--- @copyright 2012 Thijs Schreijer
--- @release Version 0.1, commandline xPL network watch utility.
--- @description# Commandline utility to scan syslog output for MAC and IP addresses for domestic occupancy detection and notify through xPL. Use option <code>-help</code> for a description.
+-- Commandline utility to scan syslog output for MAC and IP addresses for domestic occupancy detection.
+-- Domestic occupancy detection and notify through xPL. Use option <code>-help</code> for a description.
 -- &nbsp
 -- Example: <code>
 -- xplnetpresence.lua -timeout=240 -port=53000 -instance=RANDOM -hub
@@ -14,6 +11,10 @@
 -- <li>On tab 'security / firewall' enable logging, set level 'low' and all three options (Dropped/Rejected/Accepted) to 'Enabled'.</li>
 -- <li>Start xplnetpresence.lua using defaults</li>
 -- </ul>
+-- @copyright 2012 Thijs Schreijer
+-- @release Version 0.1, commandline xPL network watch utility.
+-- @class module
+-- @name xplnetpresence
 
 
 module ("xplnetpresence", package.seeall)

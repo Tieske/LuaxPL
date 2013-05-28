@@ -1,12 +1,9 @@
--- Implements the hub
-
 ---------------------------------------------------------------------
 -- This module contains the embedded hub function. Do not use it directly,
 -- it will be invoked automatically if <code>xpl.settings.xplhub == true</code>
 -- when the listener is started.<br/>
 -- <br/>No global will be created, it just returns the hub table.
 -- @class module
--- @name xplhub
 -- @copyright 2011 Thijs Schreijer
 -- @release Version 0.1, LuaxPL framework.
 

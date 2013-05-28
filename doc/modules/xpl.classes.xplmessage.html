@@ -41,13 +41,13 @@
 <ul>
   <li><a href="../modules/xpl.html">xpl</a></li>
   <li><a href="../modules/xpl.classes.base.html">xpl.classes.base</a></li>
+  <li><a href="../modules/xpl.classes.xpldevice.html">xpl.classes.xpldevice</a></li>
+  <li><a href="../modules/xpl.classes.xplfilter.html">xpl.classes.xplfilter</a></li>
+  <li><strong>xpl.classes.xplmessage</strong></li>
   <li><a href="../modules/xpl.new_device_template.html">xpl.new_device_template</a></li>
-  <li><a href="../modules/xpldevice.html">xpldevice</a></li>
-  <li><a href="../modules/xplfilters.html">xplfilters</a></li>
-  <li><a href="../modules/xplhub.html">xplhub</a></li>
-  <li><a href="../modules/xpllistener.html">xpllistener</a></li>
+  <li><a href="../modules/xpl.xplhub.html">xpl.xplhub</a></li>
+  <li><a href="../modules/xpl.xpllistener.html">xpl.xpllistener</a></li>
   <li><a href="../modules/xpllogger.html">xpllogger</a></li>
-  <li><strong>xplmessage</strong></li>
   <li><a href="../modules/xplnetpres_conf.html">xplnetpres_conf</a></li>
   <li><a href="../modules/xplnetpresence.html">xplnetpresence</a></li>
   <li><a href="../modules/xplrun.html">xplrun</a></li>
@@ -62,7 +62,7 @@
 
 <div id="content">
 
-<h1>Module <code>xplmessage</code></h1>
+<h1>Module <code>xpl.classes.xplmessage</code></h1>
 
 <p>The object class for xPL messages.</p>
 <p> It has all the regular message properties (some depending on whether it was parsed/received
@@ -125,6 +125,10 @@
 </table>
 <h2><a href="#Tables">Tables</a></h2>
 <table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#key-value">key-value</a></td>
+	<td class="summary">Internal representation of a key-value pair.</td>
+	</tr>
 	<tr>
 	<td class="name" nowrap><a href="#xplmessage">xplmessage</a></td>
 	<td class="summary">Members of the xplmessage object</td>
@@ -408,6 +412,26 @@
 </dl>
     <h2><a name="Tables"></a>Tables</h2>
     <dl class="function">
+    <dt>
+    <a name = "key-value"></a>
+    <strong>key-value</strong>
+    </dt>
+    <dd>
+    Internal representation of a key-value pair.  A table with 2 keys, key and value. pair
+
+    <h3>Fields:</h3>
+    <ul>
+        <li><span class="parameter">key</span>
+         the <code>key</code> of the key-value pair</li>
+        <li><span class="parameter">value</span>
+         the <code>value</code> of the key-value pair</li>
+    </ul>
+
+
+
+
+
+</dd>
     <dt>
     <a name = "xplmessage"></a>
     <strong>xplmessage</strong>

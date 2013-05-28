@@ -1,14 +1,12 @@
--- Implements the listener
-
 ---------------------------------------------------------------------
 -- This module contains the network listener function that listens for inbound
 -- xPL messages. Do not use it directly, it will be invoked automatically when
--- the <code>copas</code> loop starts.<br/>
--- <br/>No global will be created, it just returns the listener table. The main
--- xPL module will create a global <code>xpl.listener</code> to access it. To
--- receive incoming messages subscribe to the <code>'newmessage'</code> event.
+-- the <code>copas</code> loop starts.
+-- 
+-- No global will be created, it just returns the listener table. The main
+-- xPL module will create a global `xpl.listener` to access it. To
+-- receive incoming messages subscribe to the `newmessage` event.
 -- @class module
--- @name xpllistener
 -- @copyright 2011 Thijs Schreijer
 -- @release Version 0.1, LuaxPL framework.
 
@@ -247,10 +245,10 @@ listener = {
 local subscribe, unsubscribe, events        -- make local trick LuaDoc
 ---------------------------------------------------------------------------------
 -- Subscribe to events of xpllistener.
--- @usage# function xpldevice:eventhandler(sender, event, msg, ...)
+-- @usage function xpldevice:eventhandler(sender, event, msg, ...)
 --     -- do your stuff with the message
 -- end
--- &nbsp
+-- 
 -- function xpldevice:initialize()
 --     -- subscribe to events of listener for new messages
 --     xpl.listener:subscribe(self, self.eventhandler, xpl.listener.events.newmessage)

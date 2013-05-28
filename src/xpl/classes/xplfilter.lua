@@ -2,41 +2,42 @@
 ---------------------------------------------------------------------
 -- The filter object for xPL devices. It maintains a list of filters for
 -- matching incoming messages.
--- <br/>No global will be created, it just returns the filter class. The main
--- xPL module will create a global <code>xpl.classes.xplfilters</code> to access it.<br/>
--- <br/>An xpl filter is a set of xpl message elements; <code>[msgtype].[vendor].[device].[instance].[schema-class].[schema-type]</code>
+-- 
+-- No global will be created, it just returns the filter class. The main
+-- xPL module will create a global <code>xpl.classes.xplfilters</code> to access it.
+-- 
+-- An xpl filter is a set of xpl message elements; <code>[msgtype].[vendor].[device].[instance].[schema-class].[schema-type]</code>
 -- For each element a '<code>*</code>' can be used as a wildcard. Only arriving messages that
--- match at least 1 filter entry will be dealt with by an xpl device.<br/>
--- <br/>
--- Example (assuming <code>self</code> is an <code>xpldevice</code> object) <code><br/>
---        self.filter = xpl.classes.xplfilters:new({})<br/>
---        self.filter:add("xpl-cmnd.*.*.*.homeeasy.basic")<br/>
---        self.filter:add("xpl-cmnd.*.*.*.x10.*")<br/>
+-- match at least 1 filter entry will be dealt with by an xpl device.
+--
+-- Example (assuming `self` is an `xpldevice` object) <code>
+--        self.filter = xpl.classes.xplfilters:new({})
+--        self.filter:add("xpl-cmnd.*.*.*.homeeasy.basic")
+--        self.filter:add("xpl-cmnd.*.*.*.x10.*")
 -- </code>
 -- @class module
--- @name xplfilters
 -- @copyright 2011 Thijs Schreijer
 -- @release Version 0.1, LuaxPL framework.
 
+------------------------------------------------------------------------------------------
+-- Members of the filter object
+-- @class table
+-- @name filter-table
+-- @field list Table to store the individual filter entries, each filter-table in the
+-- list is keyed by its full filter string.
 local flt = xpl.classes.base:subclass({
-    ------------------------------------------------------------------------------------------
-	-- Members of the filter object
-    -- @class table
-    -- @name xplfilter fields/properties
-    -- @field list Table to store the individual filter entries, each filter-table in the
-    -- list is keyed by its full filter string.
 	list = nil,
 })
 
 
 ------------------------------------------------------------------------------------------
--- splits a filter string into a filter table.
+-- Splits a filter string into a filter table.
 -- A '-' between vendor and device is accepted. It can be called as a function or as a method, either way
 -- works (see example below).
--- @param flt Filter (string) as <code>[msgtype].[vendor].[device].[instance].[class].[type]</code>
--- @return a filter table with 6 indices for each filter element, and the <code>filter</code> key
+-- @param flt Filter (string) as `[msgtype].[vendor].[device].[instance].[class].[type]`
+-- @return a filter table with 6 indices for each filter element, and the `filter` key
 -- with the full filter string value
--- @usage# -- create a new filter object
+-- @usage -- create a new filter object
 -- local flt = xpl.classes.xplfilter()
 -- -- call as a function
 -- local f = flt.split("xpl-cmnd.vendor.device.instance.class.type")

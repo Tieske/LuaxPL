@@ -1,8 +1,6 @@
 ----------------------------------------------------------------------------
--- @copyright 2011 Thijs Schreijer
--- @release Version 0.1, commandline xPL message logger utility.
--- @description# Sample configuration file for the LuaxPL utility 'xplnetpresence', to list known devices.
--- Copyright 2011-2012 Thijs Schreijer
+-- xplnetpresence sample configuration file.
+-- Sample configuration file for the LuaxPL utility 'xplnetpresence', to list known devices.
 --
 -- These are the fields (either mac or ip is required!):
 --    mac : contains the mac address, remove line if its unknown
@@ -11,6 +9,10 @@
 --    timeout: timeout in seconds for the device, overrides the commandline option
 --
 -- repeat the device block for as many devices as necessary
+-- @copyright 2011 Thijs Schreijer
+-- @release Version 0.1, commandline xPL message logger utility.
+-- @class module
+-- @name xplnetpres_conf
 
 return {
 -- start of known device list

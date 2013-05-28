@@ -1,11 +1,9 @@
-#!/usr/local/bin/lua
-
 ----------------------------------------------------------------------------
+-- xPL framework to run multiple xPL applications in a single process/Lua state.
+-- Use to minimize resources used. A config file can be specified on the commandline. Use
+-- option <code>-help</code> for a full description.
 -- @copyright 2011 Thijs Schreijer
 -- @release Version 0.1, xPL application framework
--- @description xPL framework to run multiple xPL applications in a single process/Lua state
--- to minimize resources used. A config file can be specified on the commandline. Use
--- option <code>-help</code> for a full description.
 
 local xpl = require ("xpl")
 local appversion = "0.1"

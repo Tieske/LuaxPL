@@ -1,15 +1,14 @@
-#!/usr/local/bin/lua
-
 ----------------------------------------------------------------------------
+-- Commandline utility for logging xPL messages.
+-- Use option <code>-help</code> for a description.
+-- 
+-- Example:
+-- `xpllogger.lua -t=60 -hub -verbose -hbeat`
+-- 
 -- @copyright 2011 Thijs Schreijer
 -- @release Version 0.1, commandline xPL message logger utility.
--- @description# Commandline utility for logging xPL messages. Use option <code>-help</code> for a description.
--- &nbsp
--- Example: <code>
--- xpllogger.lua -t=60 -hub -verbose -hbeat
--- </code>
-
-module ("xpllogger", package.seeall)
+-- @class module
+-- @name xpllogger
 
 local xpl = require ("xpl")
 local appversion = "0.1"
@@ -146,9 +145,9 @@ if opt.broadcast then
     xpl.settings.broadcast = opt.broadcast
 end
 
---------------------------------------------------------------------------------------
+--====================================================================================
 -- Create our device
---------------------------------------------------------------------------------------
+--====================================================================================
 local logger = xpl.classes.xpldevice:new({    -- create a generic xPL device for the logger
 
     initialize = function(self)

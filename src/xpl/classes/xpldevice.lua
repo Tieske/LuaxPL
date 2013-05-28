@@ -1,15 +1,16 @@
 ---------------------------------------------------------------------
 -- The base object for xPL devices. It features all the main characteristics
 -- of the xPL devices, so only user code needs to be added. Starting, stopping,
--- regular heartbeats, configuration has all been implemented in this base class.<br/>
--- <br/>No global will be created, it just returns the xpldevice base class. The main
--- xPL module will create a global <code>xpl.classes.xpldevice</code> to access it.<br/>
--- <br/>You can create a new device from; <code>xpl.classes.xpldevice:new( {} )</code>,
+-- regular heartbeats, configuration has all been implemented in this base class.
+-- 
+-- No global will be created, it just returns the xpldevice base class. The main
+-- xPL module will create a global <code>xpl.classes.xpldevice</code> to access it.
+--
+-- You can create a new device from; <code>xpl.classes.xpldevice:new( {} )</code>,
 -- but it is probably best to use the
 -- <a href="../files/src/xpl/new_device_template.html">new_device_template.lua</a>
 -- file as an example on how to use the <code>xpldevice</code> class
 -- @class module
--- @name xpldevice
 -- @copyright 2011 Thijs Schreijer
 -- @release Version 0.1, LuaxPL framework.
 
@@ -485,7 +486,7 @@ end
 -- the instance name changed for example). Make sure to call <code>restart()</code> in that case.
 -- @see xpldevice:restart
 -- @see xpldevice:getsettings
--- @usage# if mydev:setsettings(mysettings) then mydev:restart() end
+-- @usage if mydev:setsettings(mysettings) then mydev:restart() end
 function xpldevice:setsettings(s)
     -- load the new configitem table
     local ci = {}  -- new ci table
