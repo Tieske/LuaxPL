@@ -38,10 +38,8 @@ build = {
         ["xpl.classes.xpldevice"]   = "src/xpl/classes/xpldevice.lua",
         ["xpl.classes.xplfilter"]   = "src/xpl/classes/xplfilter.lua",
         ["xpl.classes.xplmessage"]  = "src/xpl/classes/xplmessage.lua",
-        -- commandline utilities  > should be moved to bin below
-        ["xplnetpresence"]          = "src/xplnetpresence.lua",
+        -- commandline utilities  > example config files
         ["xplnetpres_conf"]         = "src/xplnetpres_conf.lua",
-        ["xplrun"]                  = "src/xplrun.lua",
         ["xplrun_config"]           = "src/xplrun_config.lua",
     },
     copy_directories = { "doc", "test" },
@@ -49,6 +47,8 @@ build = {
         bin = {
             "src/xpllogger.lua",
             "src/xplsender.lua",
+            "src/xplnetpresence.lua",
+            "src/xplrun.lua",
         }
     } 
 }
