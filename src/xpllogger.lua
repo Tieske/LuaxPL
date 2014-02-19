@@ -1,3 +1,4 @@
+#!/usr/bin/env lua
 ----------------------------------------------------------------------------
 -- Commandline utility for logging xPL messages.
 -- Use option <code>-help</code> for a description.

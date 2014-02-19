@@ -1,3 +1,4 @@
+#!/usr/bin/env lua
 ----------------------------------------------------------------------------
 -- Commandline utility for sending xPL messages. Message can be specified on the commandline (<code>-m</code> option) or send from files (<code>-f</code> option). Use option <code>-help</code> for a full description.
 -- 

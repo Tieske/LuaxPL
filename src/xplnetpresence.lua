@@ -1,3 +1,4 @@
+#!/usr/bin/env lua
 ----------------------------------------------------------------------------
 -- Commandline utility to scan syslog output for MAC and IP addresses for domestic occupancy detection.
 -- Domestic occupancy detection and notify through xPL. Use option <code>-help</code> for a description.

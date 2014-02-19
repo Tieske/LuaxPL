@@ -1,3 +1,4 @@
+#!/usr/bin/env lua
 ----------------------------------------------------------------------------
 -- xPL framework to run multiple xPL applications in a single process/Lua state.
 -- Use to minimize resources used. A config file can be specified on the commandline. Use

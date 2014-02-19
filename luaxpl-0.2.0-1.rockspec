@@ -19,9 +19,9 @@ description = {
     homepage = "http://www.thijsschreijer.nl/blog/?page_id=537"
 }
 dependencies = {
-    "copas >= 1.1.6",   -- this should be 1.1.7 or higher, but isn't released yet !!
+    "copas >= 1.1.7",
     "luasocket >= 2.0.0",
-    "copastimer >= 0.4.0",
+    "copastimer >= 1.0.0",
     "date >= 2.0.0",
     "netcheck >= 0.2",
 }
@@ -45,10 +45,10 @@ build = {
     copy_directories = { "doc", "test" },
     install = {
         bin = {
-            "src/xpllogger.lua",
-            "src/xplsender.lua",
-            "src/xplnetpresence.lua",
-            "src/xplrun.lua",
+            xpllogger      = "src/xpllogger.lua",
+            xplsender      = "src/xplsender.lua",
+            xplnetpresence = "src/xplnetpresence.lua",
+            xplrun         = "src/xplrun.lua",
         }
     } 
 }
