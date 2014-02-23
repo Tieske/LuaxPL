@@ -68,9 +68,16 @@ end
 -- @see xpldevice:setsettings
 -- @see xpldevice:eventhandler
 function xpldevice:initialize()
+    -- define coroutine loop to call our eventhandler function
+    local h = function(self, eventqueue)
+        while true do
+            local event = eventqueue:pop()
+            self:eventhandler(event.server, event.name, (unpack or table.unpack)(event))
+        end
+    end
     -- subscribe to events of listener and copas
-    xpl.listener:subscribe(self, self.eventhandler)
-    copas:subscribe(self, self.eventhandler)
+    xpl.listener:subscribe(self, h)
+    copas:subscribe(self, h)
     self.classname = classname
     self.configitems = {
         filters = { max = 16, type = "option" },

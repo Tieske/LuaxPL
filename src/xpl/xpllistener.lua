@@ -117,9 +117,13 @@ local function networkchanged(newState, oldState)
 end
 
 -- Makes the listener start and stop on Copas events
-local eventhandler = function(self, sender, event)
-    if sender == copas then
-        if event == "loopstarting" then
+local eventhandler = function(self, eventqueue)
+  while true do
+    local event = eventqueue:pop()
+
+    if event.server == copas then
+
+        if event.name == copas.events.loopstarting then
             local result, err
             -- must start the sockets
             if xpl.settings.listento then
@@ -161,7 +165,8 @@ local eventhandler = function(self, sender, event)
                         networkchanged(newState, oldState)
                     end
                 end, nil, true):arm(xpl.settings.netcheckinterval or 30)
-        elseif event == "loopstopped" then
+
+        elseif event.name == copas.events.loopstopped then
             -- stop the network check
             if checktimer then
                 checktimer:cancel()
@@ -181,6 +186,7 @@ local eventhandler = function(self, sender, event)
     else
         -- unknown event source
     end
+  end
 end
 
 
