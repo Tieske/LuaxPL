@@ -32,29 +32,33 @@
 
 <h2>Contents</h2>
 <ul>
+<li><a href="#Functions">Functions</a></li>
 <li><a href="#Tables">Tables</a></li>
 </ul>
 
 
 <h2>Modules</h2>
-<ul>
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
   <li><strong>xpl</strong></li>
-  <li><a href="../modules/xpl.classes.base.html">xpl.classes.base</a></li>
-  <li><a href="../modules/xpl.classes.xpldevice.html">xpl.classes.xpldevice</a></li>
-  <li><a href="../modules/xpl.classes.xplfilter.html">xpl.classes.xplfilter</a></li>
-  <li><a href="../modules/xpl.classes.xplmessage.html">xpl.classes.xplmessage</a></li>
   <li><a href="../modules/xpl.new_device_template.html">xpl.new_device_template</a></li>
   <li><a href="../modules/xpl.xplhub.html">xpl.xplhub</a></li>
   <li><a href="../modules/xpl.xpllistener.html">xpl.xpllistener</a></li>
   <li><a href="../modules/xpllogger.html">xpllogger</a></li>
-  <li><a href="../modules/xplnetpres_conf.html">xplnetpres_conf</a></li>
   <li><a href="../modules/xplnetpresence.html">xplnetpresence</a></li>
+  <li><a href="../modules/xplnetpres_conf.html">xplnetpres_conf</a></li>
   <li><a href="../modules/xplrun.html">xplrun</a></li>
   <li><a href="../modules/xplsender.lua.html">xplsender.lua</a></li>
 </ul>
+<h2>Classes</h2>
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
+  <li><a href="../classes/base.html">base</a></li>
+  <li><a href="../classes/xpldevice.html">xpldevice</a></li>
+  <li><a href="../classes/xplfilters.html">xplfilters</a></li>
+  <li><a href="../classes/xplmessage.html">xplmessage</a></li>
+</ul>
 <h2>Topics</h2>
-<ul>
-  <li><a href="../topics/readme.md.html">readme.md</a></li>
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
+  <li><a href="../topics/readme.md.html">readme</a></li>
 </ul>
 
 </div>
@@ -62,30 +66,48 @@
 <div id="content">
 
 <h1>Module <code>xpl</code></h1>
-
 <p>This module contains the main xPL functionality.</p>
 <p> Upon requiring it,
  it will load all supporting modules and classes. To use the framework
  you should only need to <code>require("xpl")</code> and any of your own
- devices (see the included device template for a quick start).<br/>
- <br/>A global <code>xpl</code> will be created. Through this global the
- following components are accessible;<ul>
- <li><code><a href="xpllistener.html">xpl.listener</a></code> the network listener that will receive the messages from the network</li>
- <li><code><a href="../files/src/xpl/classes/base.html">xpl.classes.base</a></code> base class for all other classes</li>
- <li><code><a href="xplfilters.html">xpl.classes.xplfilters</a></code> implements the filters for an xPL device</li>
- <li><code><a href="xplmessage.html">xpl.classes.xplmessage</a></code> message object</li>
- <li><code><a href="xpldevice.html">xpl.classes.xpldevice</a></code> device baseclass</li>
+ devices (see the included device template for a quick start).</p>
+
+<p> Through the <a href="../modules/xpl.html#">xpl</a>  module the following components are accessible;<ul>
+ <li><code>xpllistener</code> the network listener that will receive the messages from the network</li>
+ <li><code>xpl.classes.base</a></code> base class for all other classes</li>
+ <li><code>xpl.classes.xplfilters</code> implements the <a href="../classes/xplfilters.html#">xplfilters</a>  classs for an <a href="../classes/xpldevice.html#">xpldevice</a> </li>
+ <li><code>xpl.classes.xplmessage</code> the <a href="../classes/xplmessage.html#">xplmessage</a>  classs</li>
+ <li><code>xpl.classes.xpldevice</code> the <a href="../classes/xpldevice.html#">xpldevice</a>  baseclass</li>
  </ul>
  <br/>The xPL framework uses 'CopasTimer' to provide timers, events and
  backgroundworkers. Please consult the 'CopasTimer' documentation on how
  this works.</p>
     <h3>Info:</h3>
     <ul>
-        <li><strong>Release</strong>: Version 0.1, LuaxPL framework.</li>
         <li><strong>Copyright</strong>: 2011 Thijs Schreijer</li>
+        <li><strong>Release</strong>: Version 0.1, LuaxPL framework.</li>
     </ul>
 
 
+<h2><a href="#Functions">Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#start">start (...)</a></td>
+	<td class="summary">Starts the loop and from there the listener, hub and devices.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#stop">stop (...)</a></td>
+	<td class="summary">Exits the loop and from there stops the listener, hub and devices.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#send">send (msg, ip, port)</a></td>
+	<td class="summary">Sends an xPL message</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#createaddress">createaddress (vendor, device, instance)</a></td>
+	<td class="summary">Creates an xPL address.</td>
+	</tr>
+</table>
 <h2><a href="#Tables">Tables</a></h2>
 <table class="function_list">
 	<tr>
@@ -107,6 +129,119 @@
 <br/>
 
 
+    <h2><a name="Functions"></a>Functions</h2>
+    <dl class="function">
+    <dt>
+    <a name = "start"></a>
+    <strong>start (...)</strong>
+    </dt>
+    <dd>
+    Starts the loop and from there the listener, hub and devices.
+ This is a simple shortcut to <code>copas.loop()</code> and it
+ takes the same parameters
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">...</span>
+
+
+
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "stop"></a>
+    <strong>stop (...)</strong>
+    </dt>
+    <dd>
+    Exits the loop and from there stops the listener, hub and devices.
+ This is a simple shortcut to <code>copas.exitloop()</code> and it
+ takes the same parameters
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">...</span>
+
+
+
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "send"></a>
+    <strong>send (msg, ip, port)</strong>
+    </dt>
+    <dd>
+    Sends an xPL message
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">msg</span>
+         (string) message to be sent.
+        </li>
+        <li><span class="parameter">ip</span>
+         (string) optional, do not use, only for internal use by the hub
+        </li>
+        <li><span class="parameter">port</span>
+         (number) optional, do not use, only for internal use by the hub
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        <code>true</code> if succesfull, <code>nil</code> and error otherwise
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "createaddress"></a>
+    <strong>createaddress (vendor, device, instance)</strong>
+    </dt>
+    <dd>
+    Creates an xPL address.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">vendor</span>
+         (string) the vendor id to use in the address
+        </li>
+        <li><span class="parameter">device</span>
+         (string) the device id to use in the address
+        </li>
+        <li><span class="parameter">instance</span>
+         (string) the instance id to use in the address, with 2 special cases; <ul><li><code>'HOST'</code> will generated an instance id based upon the system hostname</li> <li><code>'RANDOM'</code> will generate a random instance id</li></ul>
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        xPL address string, formatted as 'vendor-device.instance'
+    </ol>
+
+
+
+
+</dd>
+</dl>
     <h2><a name="Tables"></a>Tables</h2>
     <dl class="function">
     <dt>
@@ -122,6 +257,7 @@
 
 
 
+
 </dd>
     <dt>
     <a name = "settings"></a>
@@ -129,31 +265,34 @@
     </dt>
     <dd>
     contains the general settings for the xPL module
- is device specific settings. Fixed fields in the settings table are; <ul>
- <li><code>classname</code> (string) name of the class to create the device</li>
- <li><code>updatehandler</code> (function) may be called from the device when its settings have changed</li>
- <li><code>...</code></li>
- <li><code>...</code></li>
- </ul>
+
 
     <h3>Fields:</h3>
     <ul>
         <li><span class="parameter">_DEBUG</span>
-         (boolean) set the debug flag and executes available tests at startup</li>
+         (boolean) set the debug flag and executes available tests at startup
+        </li>
         <li><span class="parameter">listenon</span>
-         unused for now</li>
+         unused for now
+        </li>
         <li><span class="parameter">listento</span>
-         ANY_LOCAL (peers within same subnet) or table with IP addresses (applies only to hub function)</li>
+         ANY_LOCAL (peers within same subnet) or table with IP addresses (applies only to hub function)
+        </li>
         <li><span class="parameter">broadcast</span>
-         the IP address to use for broadcasting xPL messages onto the xPL network</li>
+         the IP address to use for broadcasting xPL messages onto the xPL network
+        </li>
         <li><span class="parameter">xplport</span>
-         the xPL network port, do not change! only if you want to create a private network and know what you are doing</li>
+         the xPL network port, do not change! only if you want to create a private network and know what you are doing
+        </li>
         <li><span class="parameter">xplhub</span>
-         (boolean) should the internal hub be started</li>
+         (boolean) should the internal hub be started
+        </li>
         <li><span class="parameter">netcheckinterval</span>
-         (number) interval in seconds for checking the network connection for any changes (defaults to 30).</li>
+         (number) interval in seconds for checking the network connection for any changes (defaults to 30).
+        </li>
         <li><span class="parameter">devices</span>
-         (table) table with device specific settings, <code>key</code> is device table, <code>value</code></li>
+         (table) table with device specific settings, <code>key</code> is device table, <code>value</code> is device specific settings. Fixed fields in the settings table are; <ul> <li><code>classname</code> (string) name of the class to create the device</li> <li><code>updatehandler</code> (function) may be called from the device when its settings have changed</li> <li><code>...</code></li> <li><code>...</code></li> </ul>
+        </li>
     </ul>
 
 
@@ -168,22 +307,30 @@
     <dd>
     contains constants for the xPL module
 
+
     <h3>Fields:</h3>
     <ul>
         <li><span class="parameter">CAP_ADDRESS</span>
-         pattern to return the three elements of an address, no wildcards allowed</li>
+         pattern to return the three elements of an address, no wildcards allowed
+        </li>
         <li><span class="parameter">CAP_FILTER</span>
-         pattern to return the 6 elements of an xPL filter, wildcards are allowed, and the '-' instead of a '.' between vendor and device is also supported (special case)</li>
+         pattern to return the 6 elements of an xPL filter, wildcards are allowed, and the '-' instead of a '.' between vendor and device is also supported (special case)
+        </li>
         <li><span class="parameter">CAP_MESSAGE</span>
-         pattern that returns the header information, body (as one string) and the remaining string (the remaining string can be used for the next iteration)</li>
+         pattern that returns the header information, body (as one string) and the remaining string (the remaining string can be used for the next iteration)
+        </li>
         <li><span class="parameter">CAP_KEYVALUE</span>
-         pattern that captures a key-value pair (must end with \n), and the remaining string (the remaining string can be used for the next iteration)</li>
+         pattern that captures a key-value pair (must end with \n), and the remaining string (the remaining string can be used for the next iteration)
+        </li>
         <li><span class="parameter">CAP_SCHEMA</span>
-         pattern that captures a schema class and type from a full schema</li>
+         pattern that captures a schema class and type from a full schema
+        </li>
         <li><span class="parameter">FMT_KEYVALUE</span>
-         format string for creating the message body; existing body, key, value</li>
+         format string for creating the message body; existing body, key, value
+        </li>
         <li><span class="parameter">FMT_MESSAGE</span>
-         format string for creating messages; type, hop, source, target, schema, body (hop is number, others string)</li>
+         format string for creating messages; type, hop, source, target, schema, body (hop is number, others string)
+        </li>
     </ul>
 
 
@@ -197,7 +344,7 @@
 </div> <!-- id="content" -->
 </div> <!-- id="main" -->
 <div id="about">
-<i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.3.12</a></i>
+<i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.2</a></i>
 </div> <!-- id="about" -->
 </div> <!-- id="container" -->
 </body>

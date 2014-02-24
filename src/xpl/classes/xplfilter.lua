@@ -3,40 +3,39 @@
 -- The filter object for xPL devices. It maintains a list of filters for
 -- matching incoming messages.
 -- 
--- No global will be created, it just returns the filter class. The main
--- xPL module will create a global <code>xpl.classes.xplfilters</code> to access it.
+-- The main xPL module will load it as `xpl.classes.xplfilters`.
 -- 
--- An xpl filter is a set of xpl message elements; <code>[msgtype].[vendor].[device].[instance].[schema-class].[schema-type]</code>
--- For each element a '<code>*</code>' can be used as a wildcard. Only arriving messages that
--- match at least 1 filter entry will be dealt with by an xpl device.
+-- An xpl filter is a set of `xplmessage` elements; <code>[msgtype].[vendor].[device].[instance].[schema-class].[schema-type]</code>
+-- For each element a '`*`' can be used as a wildcard. Only arriving messages that
+-- match at least 1 filter entry will be dealt with by an `xpldevice`.
 --
--- Example (assuming `self` is an `xpldevice` object) <code>
+-- Example (assuming `self` is an `xpldevice` object) `
 --        self.filter = xpl.classes.xplfilters:new({})
 --        self.filter:add("xpl-cmnd.*.*.*.homeeasy.basic")
 --        self.filter:add("xpl-cmnd.*.*.*.x10.*")
--- </code>
--- @class module
+-- `
 -- @copyright 2011 Thijs Schreijer
 -- @release Version 0.1, LuaxPL framework.
+-- @classmod xplfilters
 
-------------------------------------------------------------------------------------------
--- Members of the filter object
--- @class table
--- @name filter-table
--- @field list Table to store the individual filter entries, each filter-table in the
--- list is keyed by its full filter string.
+local xpl = require("xpl")
+
 local flt = xpl.classes.base:subclass({
 	list = nil,
 })
 
+------------------------------------------------------------------------------------------
+-- Members of the filter object. Table to store the individual filter entries, each 
+-- `filter-table` in the list is keyed by its full filter string.
+-- @field list (table) 
+-- @see filter-table
 
 ------------------------------------------------------------------------------------------
 -- Splits a filter string into a filter table.
 -- A '-' between vendor and device is accepted. It can be called as a function or as a method, either way
 -- works (see example below).
 -- @param flt Filter (string) as `[msgtype].[vendor].[device].[instance].[class].[type]`
--- @return a filter table with 6 indices for each filter element, and the `filter` key
--- with the full filter string value
+-- @return a `filter-table` with 6 indices for each filter element, and the `filter` key with the full filter string value
 -- @usage -- create a new filter object
 -- local flt = xpl.classes.xplfilter()
 -- -- call as a function
@@ -56,7 +55,7 @@ end
 ------------------------------------------------------------------------------------------
 -- Add a filter entry to the filter list. Duplicates will be silently dismissed (no error).
 -- @param flt filter to add, either a filter string or a filter table
--- @return filter table added
+-- @return `filter-table` added
 -- @see filter-table
 function flt:add(flt)
     self.list = self.list or {}
@@ -74,9 +73,9 @@ function flt:add(flt)
 end
 
 ------------------------------------------------------------------------------------------
--- Remove filter from list
--- @param flt filter to remove, either a filter string or a filter table. If it doesn't exist no error will be thrown.
--- @return <code>true</code>
+-- Remove filter from list.
+-- @param flt filter to remove, either a filter string or a `filter-table`. If it doesn't exist no error will be thrown.
+-- @return `true`
 function flt:remove(flt)
     self.list = self.list or {}
     if type(flt) == "table" then
@@ -93,10 +92,8 @@ end
 ------------------------------------------------------------------------------------------
 -- Checks if a filter matches any of the filters in the list.
 -- Wildcards are allowed both in the list (obvious), but also in the filter being matched.
--- @param flt filter to match (either a string or a table)
--- @return <code>true</code> if the filter matches an entry in the list, <code>false</code>
--- otherwise. If the filter object does not contain any filters it will <code>true</code>
--- (default xpl behaviour with absent filters).
+-- @param flt filter to match (either a string or a `filter-table`)
+-- @return `true` if the filter matches an entry in the list, `false` otherwise. If the filter object does not contain any filters it will return `true` (default xpl behaviour with absent filters).
 function flt:match(flt)
     self.list = self.list or {}
     if type(flt) == "string" then
@@ -120,20 +117,19 @@ function flt:match(flt)
     return match
 end
 
-local f -- local to trick luadoc
+
 ------------------------------------------------------------------------------------------
 -- Internal representation of a filter entry.
 -- @class table
 -- @name filter-table
 -- @field filter the full filter string formatted as <code>[msgtype].[vendor].[device].[instance].[schema-class].[schema-type]</code>
--- @field 1 value for the <code>msgtype</code>
--- @field 2 value for the <code>source address vendor id</code>
--- @field 3 value for the <code>source address device id</code>
--- @field 4 value for the <code>source address instance id</code>
--- @field 5 value for the <code>schema class</code>
--- @field 6 value for the <code>schema type</code>
-f = {}
-f = nil
+-- @field 1x value for the <code>msgtype</code>
+-- @field 2x value for the <code>source address vendor id</code>
+-- @field 3x value for the <code>source address device id</code>
+-- @field 4x value for the <code>source address instance id</code>
+-- @field 5x value for the <code>schema class</code>
+-- @field 6x value for the <code>schema type</code>
+
 
 -- run tests
 if xpl.settings._DEBUG then

@@ -3,37 +3,59 @@
 -- of the xPL devices, so only user code needs to be added. Starting, stopping,
 -- regular heartbeats, configuration has all been implemented in this base class.
 -- 
--- No global will be created, it just returns the xpldevice base class. The main
--- xPL module will create a global <code>xpl.classes.xpldevice</code> to access it.
+-- The main xPL module will load it into `xpl.classes.xpldevice`.
 --
--- You can create a new device from; <code>xpl.classes.xpldevice:new( {} )</code>,
--- but it is probably best to use the
--- <a href="../files/src/xpl/new_device_template.html">new_device_template.lua</a>
--- file as an example on how to use the <code>xpldevice</code> class
--- @class module
+-- You can create a new device from; `xpl.classes.xpldevice:new( {} )`,
+-- but it is probably best to use the `new_device_template.lua`
+-- file as an example on how to use the `xpldevice` class
 -- @copyright 2011 Thijs Schreijer
 -- @release Version 0.1, LuaxPL framework.
+-- @classmod xpldevice
 
 local copas = require("copas.timer")
 local eventer = require("copas.eventer")
+local xpl = require("xpl")
 
 -- set the proper classname here, this should match the filename without the '.lua' extension
 local classname = "xpldevice"
 
 -----------------------------------------------------------------------------------------
--- Members of the xpldevice object
--- @class table
--- @name xpldevice fields/properties
--- @field address (string) the xpladdress of the device
--- @field interval (number) the xpl heartbeat interval in minutes
--- @field status (string) current status of the connection for this device; <code>"online", "connecting", "offline"</code>
--- @field filter either <code>nil</code> or the <a href="xplfilters.html">xplfilters object</a> with the filter list for the device
--- @field classname (string) the name of this class, basically the filename without the extension. Required to identify the type
--- of class, but also to re-create a device from persistence.
--- @field configitems table to hold the current config items, will start with the regular xPL config items; newconf, interval, filters, groups
--- @field configurable (boolean) if <code>false</code> the device will not respond to configuration messages
--- @field configured (boolean) <code>true</code> if the device has been configured
--- @field version (string) a version number to report in the hearbeat messages, set to <code>nil</code> to not report a version
+-- The xpladdress of the device
+-- @field address (string) 
+
+-----------------------------------------------------------------------------------------
+-- The xpl heartbeat interval in minutes
+-- @field interval (number) 
+
+-----------------------------------------------------------------------------------------
+-- Current status of the connection for this device. Any of `online`, `connecting`, `offline`.
+-- @field status (string) 
+
+-----------------------------------------------------------------------------------------
+-- Filter for the device. Either `nil` or the an `xplfilter` object with the filter list for the device
+-- @field filter (`xplfilter`)
+
+-----------------------------------------------------------------------------------------
+-- The name of this class. Basically the filename without the extension. Required to identify 
+-- the type of class, but also to re-create a device from persistence.
+-- @field classname (string) 
+
+-----------------------------------------------------------------------------------------
+-- Current config items. Upon initialization it will have the regular xPL config items; newconf, interval, filters, groups.
+-- @field configitems (table) 
+
+-----------------------------------------------------------------------------------------
+-- Flag indicating the device being configurable. If `false` the device will not respond to configuration messages.
+-- @field configurable (boolean) 
+
+-----------------------------------------------------------------------------------------
+-- Flag indicating whether the device was configured already. `true` if the device has been configured.
+-- @field configured (boolean) 
+
+-----------------------------------------------------------------------------------------
+-- Device version number. Will be used to report in the hearbeat messages, set to `nil` to not report a version.
+-- @field version (string) 
+
 local xpldevice = xpl.classes.base:subclass({
 	address = "tieske-mydev.instance",
     heartbeat = nil,                -- hbeat timer
@@ -62,9 +84,9 @@ end
 -----------------------------------------------------------------------------------------
 -- Initializes the xpldevice.
 -- Will be called upon instantiation of an object, override this method to set default
--- values for all properties. It will also subscribe to <code>copas</code> and
--- <code>xpl.listener</code> events for starting, stopping and new message events.
--- Use <code>setsettings()</code> to restore settings from persistence.
+-- values for all properties. It will also subscribe to `copas` and
+-- `xpl.listener` events for starting, stopping and new message events.
+-- Use `setsettings` to restore settings from persistence.
 -- @see xpldevice:setsettings
 -- @see xpldevice:eventhandler
 function xpldevice:initialize()
@@ -93,8 +115,7 @@ end
 -- See CopasTimer documentation on how to use the events.
 -- @param sender the originator of the event
 -- @param event the event string
--- @param param first event parameter, in case of an <code>xpllistener</code> event <code>newmessage</code> this
--- will for example be the xplmessage received.
+-- @param param first event parameter, in case of an `xpllistener` event `newmessage` this will for example be the `xplmessage` received.
 -- @param ... any additional event parameters
 function xpldevice:eventhandler(sender, event, param, ...)
     if sender == copas then
@@ -158,7 +179,7 @@ function xpldevice:stop()
 end
 
 -----------------------------------------------------------------------------------------
--- Restarts the xpldevice (only if already started, remains stopped otherwise).
+-- Restarts the `xpldevice` (only if already started, remains stopped otherwise).
 -- Use this method after configuration changes that require a device restart.
 -- @see xpldevice:setsettings
 function xpldevice:restart()
@@ -228,11 +249,9 @@ end
 -- heartbeat requests. If the device is configurable it will also deal with the configuration
 -- messages.<br/>
 -- Override this method to handle incoming messages, see the
--- <a href="../files/src/xpl/new_device_template.html">new_device_template.lua</a>
--- for an example.
--- @param msg the <a href="xplmessage.html">xplmessage object</a> to be handled
--- @return the <a href="xplmessage.html">xplmessage object</a> received, or <code>nil</code> if it was handled (eg hbeat, our own
--- echo, etc.)
+-- `new_device_template.lua` for an example.
+-- @param msg the `xplmessage` to be handled
+-- @return the `xplmessage` object received, or `nil` if it was handled (e.g. hbeat, our own echo, etc.)
 function xpldevice:handlemessage(msg)
     local _memberof     -- will hold cached result
     local memberof = function(addr)
@@ -315,9 +334,8 @@ end
 -- Heartbeat message creator.
 -- Will be called to create the heartbeat message to be send. Override this function
 -- to modify the hbeat content.
--- @param exit if <code>true</code> then an exit hbeat message, (<code>hbeat.end</code>
--- or <code>config.end</code>) needs to be created.
--- @return <a href="xplmessage.html">xplmessage object</a> with the heartbeat message to be sent.
+-- @param exit if `true` then an exit hbeat message, (`hbeat.end` or `config.end`) needs to be created.
+-- @return `xplmessage` object containing the heartbeat message to be sent.
 function xpldevice:createhbeatmsg(exit)
     local m = xpl.classes.xplmessage:new({
         type = "xpl-stat",
@@ -354,9 +372,8 @@ end
 
 -----------------------------------------------------------------------------------------
 -- Sends heartbeat message.
--- Will send a heartbeat message, the message will be collected from the <code>createhbeatmsg()</code> function.
--- @param exit if <code>true</code> then an exit hbeat message (<code>hbeat.end</code>
--- or <code>config.end</code>) will be send.
+-- Will send a heartbeat message, the message will be collected from the `createhbeatmsg` function.
+-- @param exit if `true` then an exit hbeat message (`hbeat.end` or `config.end`) will be send.
 -- @see xpldevice:createhbeatmsg
 function xpldevice:sendhbeat(exit)
     if exit and self.status == "offline" then
@@ -409,8 +426,8 @@ function xpldevice:changestatus(status)
 end
 
 -----------------------------------------------------------------------------------------
--- Handler called whenever the device status (either <code>"online", "connecting"</code> or
--- <code>"offline"</code>) changes. Override this method to implement code upon status changes.
+-- Handler called whenever the device status (either `online`, `connecting` or
+-- `offline`) changes. Override this method to run code upon status changes.
 -- @param newstatus the new status of the device
 -- @param oldstatus the previous status
 function xpldevice:statuschanged(newstatus, oldstatus)
@@ -419,8 +436,8 @@ end
 
 -----------------------------------------------------------------------------------------
 -- Sends xpl message.
--- Will send either a <code>string</code> or an <a href="xplmessage.html">xplmessage object</a>. In the latter
--- case it will set the <code>source</code> property to the address of the device sending.
+-- Will send either a `string` or an `xplmessage` object. In the latter
+-- case it will set the `source` property to the address of the device sending.
 -- @param msg message to send
 function xpldevice:send(msg)
     if type(msg) == "string" then
@@ -439,7 +456,7 @@ end
 
 -----------------------------------------------------------------------------------------
 -- Gets a table with the device settings to persist. Override this function to add
--- additional settings. All xpl config items in the <code>configitems</code> table will be included
+-- additional settings. All xpl config items in the `configitems` table will be included
 -- automatically by the base class.
 -- @return table with settings
 -- @see xpldevice:setsettings
@@ -488,9 +505,8 @@ end
 
 -----------------------------------------------------------------------------------------
 -- Sets the provided settings in the device. Override this method to add additional settings
--- @param s table with settings as generated by <code>getsettings()</code>.
--- @return <code>true</code> if the settings provided require a restart of the device (when
--- the instance name changed for example). Make sure to call <code>restart()</code> in that case.
+-- @param s table with settings as generated by `getsettings`.
+-- @return `true` if the settings provided require a restart of the device (when the instance name changed for example). Make sure to call `restart` in that case.
 -- @see xpldevice:restart
 -- @see xpldevice:getsettings
 -- @usage if mydev:setsettings(mysettings) then mydev:restart() end

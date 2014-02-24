@@ -34,13 +34,19 @@
 <ul>
 <li><a href="#Functions">Functions</a></li>
 <li><a href="#Tables">Tables</a></li>
+<li><a href="#Fields">Fields</a></li>
 </ul>
 
 
+<h2>Classes</h2>
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
+  <li><a href="../classes/base.html">base</a></li>
+  <li><a href="../classes/xpldevice.html">xpldevice</a></li>
+  <li><strong>xplfilters</strong></li>
+  <li><a href="../classes/xplmessage.html">xplmessage</a></li>
+</ul>
 <h2>Modules</h2>
 <ul class="$(kind=='Topics' and '' or 'nowrap'">
-  <li><strong>xpl.classes.xplfilter</strong></li>
-  <li><a href="../modules/xpl.classes.xplmessage.html">xpl.classes.xplmessage</a></li>
   <li><a href="../modules/xpl.html">xpl</a></li>
   <li><a href="../modules/xpl.new_device_template.html">xpl.new_device_template</a></li>
   <li><a href="../modules/xpl.xplhub.html">xpl.xplhub</a></li>
@@ -51,11 +57,6 @@
   <li><a href="../modules/xplrun.html">xplrun</a></li>
   <li><a href="../modules/xplsender.lua.html">xplsender.lua</a></li>
 </ul>
-<h2>Classes</h2>
-<ul class="$(kind=='Topics' and '' or 'nowrap'">
-  <li><a href="../classes/base.html">base</a></li>
-  <li><a href="../classes/xpldevice.html">xpldevice</a></li>
-</ul>
 <h2>Topics</h2>
 <ul class="$(kind=='Topics' and '' or 'nowrap'">
   <li><a href="../topics/readme.md.html">readme</a></li>
@@ -65,17 +66,16 @@
 
 <div id="content">
 
-<h1>Module <code>xpl.classes.xplfilter</code></h1>
+<h1>Class <code>xplfilters</code></h1>
 <p>The filter object for xPL devices.</p>
 <p> It maintains a list of filters for
  matching incoming messages.</p>
 
-<p> No global will be created, it just returns the filter class. The main
- xPL module will create a global <code>xpl.classes.xplfilters</code> to access it.</p>
+<p> The main xPL module will load it as <code>xpl.classes.xplfilters</code>.</p>
 
-<p> An xpl filter is a set of xpl message elements; <code>[msgtype].[vendor].[device].[instance].[schema-class].[schema-type]</code>
+<p> An xpl filter is a set of <a href="../classes/xplmessage.html#">xplmessage</a>  elements; <code>[msgtype].[vendor].[device].[instance].[schema-class].[schema-type]</code>
  For each element a '<code>*</code>' can be used as a wildcard. Only arriving messages that
- match at least 1 filter entry will be dealt with by an xpl device.</p>
+ match at least 1 filter entry will be dealt with by an <a href="../classes/xpldevice.html#">xpldevice</a> .</p>
 
 <p> Example (assuming <code>self</code> is an <a href="../classes/xpldevice.html#">xpldevice</a>  object) <code></p>
 <pre><code>    self.filter = xpl.classes.xplfilters:new({})
@@ -102,7 +102,7 @@
 	</tr>
 	<tr>
 	<td class="name" nowrap><a href="#flt:remove">flt:remove (flt)</a></td>
-	<td class="summary">Remove filter from list</td>
+	<td class="summary">Remove filter from list.</td>
 	</tr>
 	<tr>
 	<td class="name" nowrap><a href="#flt:match">flt:match (flt)</a></td>
@@ -112,12 +112,15 @@
 <h2><a href="#Tables">Tables</a></h2>
 <table class="function_list">
 	<tr>
-	<td class="name" nowrap><a href="#filter-table">filter-table</a></td>
-	<td class="summary">Members of the filter object</td>
-	</tr>
-	<tr>
-	<td class="name" nowrap><a href="#filter-table">filter-table</a></td>
+	<td class="name" nowrap><a href="#xplfilters.filter-table">xplfilters.filter-table</a></td>
 	<td class="summary">Internal representation of a filter entry.</td>
+	</tr>
+</table>
+<h2><a href="#Fields">Fields</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#xplfilters.list">xplfilters.list</a></td>
+	<td class="summary">Members of the filter object.</td>
 	</tr>
 </table>
 
@@ -147,13 +150,12 @@
     <h3>Returns:</h3>
     <ol>
 
-        a filter table with 6 indices for each filter element, and the <code>filter</code> key with the full filter string value
+        a <code>filter-table</code> with 6 indices for each filter element, and the <code>filter</code> key with the full filter string value
     </ol>
 
 
     <h3>See also:</h3>
     <ul>
-         <a href="../modules/xpl.classes.xplfilter.html#filter-table">filter-table</a>
     </ul>
 
     <h3>Usage:</h3>
@@ -185,13 +187,12 @@
     <h3>Returns:</h3>
     <ol>
 
-        filter table added
+        <code>filter-table</code> added
     </ol>
 
 
     <h3>See also:</h3>
     <ul>
-         <a href="../modules/xpl.classes.xplfilter.html#filter-table">filter-table</a>
     </ul>
 
 
@@ -201,13 +202,13 @@
     <strong>flt:remove (flt)</strong>
     </dt>
     <dd>
-    Remove filter from list
+    Remove filter from list.
 
 
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">flt</span>
-         filter to remove, either a filter string or a filter table. If it doesn't exist no error will be thrown.
+         filter to remove, either a filter string or a <code>filter-table</code>. If it doesn't exist no error will be thrown.
         </li>
     </ul>
 
@@ -233,7 +234,7 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">flt</span>
-         filter to match (either a string or a table)
+         filter to match (either a string or a <code>filter-table</code>)
         </li>
     </ul>
 
@@ -251,28 +252,8 @@
     <h2><a name="Tables"></a>Tables</h2>
     <dl class="function">
     <dt>
-    <a name = "filter-table"></a>
-    <strong>filter-table</strong>
-    </dt>
-    <dd>
-    Members of the filter object
-
-
-    <h3>Fields:</h3>
-    <ul>
-        <li><span class="parameter">list</span>
-         Table to store the individual filter entries, each filter-table in the list is keyed by its full filter string.
-        </li>
-    </ul>
-
-
-
-
-
-</dd>
-    <dt>
-    <a name = "filter-table"></a>
-    <strong>filter-table</strong>
+    <a name = "xplfilters.filter-table"></a>
+    <strong>xplfilters.filter-table</strong>
     </dt>
     <dd>
     Internal representation of a filter entry.
@@ -283,28 +264,54 @@
         <li><span class="parameter">filter</span>
          the full filter string formatted as <code>[msgtype].[vendor].[device].[instance].[schema-class].[schema-type]</code>
         </li>
-        <li><span class="parameter">1</span>
+        <li><span class="parameter">1x</span>
          value for the <code>msgtype</code>
         </li>
-        <li><span class="parameter">2</span>
+        <li><span class="parameter">2x</span>
          value for the <code>source address vendor id</code>
         </li>
-        <li><span class="parameter">3</span>
+        <li><span class="parameter">3x</span>
          value for the <code>source address device id</code>
         </li>
-        <li><span class="parameter">4</span>
+        <li><span class="parameter">4x</span>
          value for the <code>source address instance id</code>
         </li>
-        <li><span class="parameter">5</span>
+        <li><span class="parameter">5x</span>
          value for the <code>schema class</code>
         </li>
-        <li><span class="parameter">6</span>
+        <li><span class="parameter">6x</span>
          value for the <code>schema type</code>
         </li>
     </ul>
 
 
 
+
+
+</dd>
+</dl>
+    <h2><a name="Fields"></a>Fields</h2>
+    <dl class="function">
+    <dt>
+    <a name = "xplfilters.list"></a>
+    <strong>xplfilters.list</strong>
+    </dt>
+    <dd>
+    Members of the filter object.  Table to store the individual filter entries, each
+ <code>filter-table</code> in the list is keyed by its full filter string.
+
+
+    <ul>
+        <li><span class="parameter">list</span>
+         (table)
+        </li>
+    </ul>
+
+
+
+    <h3>See also:</h3>
+    <ul>
+    </ul>
 
 
 </dd>

@@ -38,24 +38,27 @@
 
 
 <h2>Modules</h2>
-<ul>
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
   <li><a href="../modules/xpl.html">xpl</a></li>
-  <li><a href="../modules/xpl.classes.base.html">xpl.classes.base</a></li>
-  <li><a href="../modules/xpl.classes.xpldevice.html">xpl.classes.xpldevice</a></li>
-  <li><a href="../modules/xpl.classes.xplfilter.html">xpl.classes.xplfilter</a></li>
-  <li><a href="../modules/xpl.classes.xplmessage.html">xpl.classes.xplmessage</a></li>
   <li><a href="../modules/xpl.new_device_template.html">xpl.new_device_template</a></li>
   <li><a href="../modules/xpl.xplhub.html">xpl.xplhub</a></li>
   <li><strong>xpl.xpllistener</strong></li>
   <li><a href="../modules/xpllogger.html">xpllogger</a></li>
-  <li><a href="../modules/xplnetpres_conf.html">xplnetpres_conf</a></li>
   <li><a href="../modules/xplnetpresence.html">xplnetpresence</a></li>
+  <li><a href="../modules/xplnetpres_conf.html">xplnetpres_conf</a></li>
   <li><a href="../modules/xplrun.html">xplrun</a></li>
   <li><a href="../modules/xplsender.lua.html">xplsender.lua</a></li>
 </ul>
+<h2>Classes</h2>
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
+  <li><a href="../classes/base.html">base</a></li>
+  <li><a href="../classes/xpldevice.html">xpldevice</a></li>
+  <li><a href="../classes/xplfilters.html">xplfilters</a></li>
+  <li><a href="../classes/xplmessage.html">xplmessage</a></li>
+</ul>
 <h2>Topics</h2>
-<ul>
-  <li><a href="../topics/readme.md.html">readme.md</a></li>
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
+  <li><a href="../topics/readme.md.html">readme</a></li>
 </ul>
 
 </div>
@@ -63,7 +66,6 @@
 <div id="content">
 
 <h1>Module <code>xpl.xpllistener</code></h1>
-
 <p>This module contains the network listener function that listens for inbound
  xPL messages.</p>
 <p> Do not use it directly, it will be invoked automatically when
@@ -74,15 +76,31 @@
  receive incoming messages subscribe to the <code>newmessage</code> event.</p>
     <h3>Info:</h3>
     <ul>
-        <li><strong>Release</strong>: Version 0.1, LuaxPL framework.</li>
         <li><strong>Copyright</strong>: 2011 Thijs Schreijer</li>
+        <li><strong>Release</strong>: Version 0.1, LuaxPL framework.</li>
     </ul>
 
 
 <h2><a href="#Functions">Functions</a></h2>
 <table class="function_list">
 	<tr>
-	<td class="name" nowrap><a href="#unsubscribe">unsubscribe&nbsp;()</a></td>
+	<td class="name" nowrap><a href="#getipaddress">getipaddress ()</a></td>
+	<td class="summary">Returns the current IP address in use by the xpllistener</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#getport">getport ()</a></td>
+	<td class="summary">Returns the current network port in use by the xpllistener</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#getmydevices">getmydevices (status)</a></td>
+	<td class="summary">Returns the LuaxPL devices registered with the xpllistener.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#subscribe">subscribe ()</a></td>
+	<td class="summary">Subscribe to events of xpllistener.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#unsubscribe">unsubscribe ()</a></td>
 	<td class="summary">Unsubscribe from events of xpllistener.</td>
 	</tr>
 </table>
@@ -101,8 +119,101 @@
     <h2><a name="Functions"></a>Functions</h2>
     <dl class="function">
     <dt>
+    <a name = "getipaddress"></a>
+    <strong>getipaddress ()</strong>
+    </dt>
+    <dd>
+    Returns the current IP address in use by the xpllistener
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        the IP address now used by the listener and to be used in hbeat messages for the 'remote-ip' key.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "getport"></a>
+    <strong>getport ()</strong>
+    </dt>
+    <dd>
+    Returns the current network port in use by the xpllistener
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        the network port now used by the listener and to be used in hbeat messages for the 'port' key.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "getmydevices"></a>
+    <strong>getmydevices (status)</strong>
+    </dt>
+    <dd>
+    Returns the LuaxPL devices registered with the xpllistener.  Every xpldevice created
+ will upon initialization automatically register itself for xpllistener events.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">status</span>
+         if <code>nil</code> then all devices will be added to the return table, otherwise only the devices with a status property matching this status will be returned.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        a table keyed by xPL-address, with value being the xpldevice table/object
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "subscribe"></a>
+    <strong>subscribe ()</strong>
+    </dt>
+    <dd>
+    Subscribe to events of xpllistener.
+
+
+
+
+
+    <h3>See also:</h3>
+    <ul>
+         <a href="../modules/xpl.xpllistener.html#events">events</a>
+    </ul>
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example"> <span class="keyword">function</span> xpldevice:eventhandler(sender, event, msg, ...)
+     <span class="comment">-- do your stuff with the message
+</span> <span class="keyword">end</span>
+
+ <span class="keyword">function</span> xpldevice:initialize()
+     <span class="comment">-- subscribe to events of listener for new messages
+</span>     xpl.listener:subscribe(self, self.eventhandler, xpl.listener.events.newmessage)
+ <span class="keyword">end</span></pre>
+    </ul>
+
+</dd>
+    <dt>
     <a name = "unsubscribe"></a>
-    <strong>unsubscribe&nbsp;()</strong>
+    <strong>unsubscribe ()</strong>
     </dt>
     <dd>
     Unsubscribe from events of xpllistener.
@@ -110,7 +221,8 @@
 
 
 
-    <h3>see also:</h3>
+
+    <h3>See also:</h3>
     <ul>
          <a href="../modules/xpl.xpllistener.html#events">events</a>
     </ul>
@@ -128,24 +240,25 @@
     Events generated by xpllistener.  There is only one event, for additional events
  the start and stop events of the <code>copas</code> scheduler may be used (see
  'CopasTimer' and specifically the <code>copas.eventer</code> module).
- connectio lost/restored, etc.). The <code>newState</code> and <code>oldState</code>
- will be passed as arguments to the event handler (see 'NetCheck' documentation for
- details on the <code>xxxState</code> format)
+
 
     <h3>Fields:</h3>
     <ul>
         <li><span class="parameter">newmessage</span>
-         event to indicate a new message has arrived. The message will
- be passed as an argument to the event handler.</li>
+         event to indicate a new message has arrived. The message will be passed as an argument to the event handler.
+        </li>
         <li><span class="parameter">networkchange</span>
-         event to indicate that the newtork state changed (ip address,</li>
+         event to indicate that the network state changed (ip address, connection lost/restored, etc.). The <code>newState</code> and <code>oldState</code> will be passed as arguments to the event handler (see 'NetCheck' documentation for details on the <code>xxxState</code> format)
+        </li>
     </ul>
 
 
 
-    <h3>see also:</h3>
+    <h3>See also:</h3>
     <ul>
-         <a href="../modules/xpl.xpllistener.html#unsubscribe">unsubscribe</a>
+         <li><a href="../modules/xpl.xpllistener.html#subscribe">subscribe</a></li>
+         <li><a href="../modules/xpl.xpllistener.html#unsubscribe">unsubscribe</a></li>
+         <li><a href="../modules/xpl.xpllistener.html#subscribe">subscribe</a></li>
     </ul>
 
 
@@ -156,7 +269,7 @@
 </div> <!-- id="content" -->
 </div> <!-- id="main" -->
 <div id="about">
-<i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.3.12</a></i>
+<i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.2</a></i>
 </div> <!-- id="about" -->
 </div> <!-- id="container" -->
 </body>

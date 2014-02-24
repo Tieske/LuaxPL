@@ -34,12 +34,19 @@
 <ul>
 <li><a href="#Functions">Functions</a></li>
 <li><a href="#Tables">Tables</a></li>
+<li><a href="#Fields">Fields</a></li>
 </ul>
 
 
+<h2>Classes</h2>
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
+  <li><a href="../classes/base.html">base</a></li>
+  <li><a href="../classes/xpldevice.html">xpldevice</a></li>
+  <li><a href="../classes/xplfilters.html">xplfilters</a></li>
+  <li><strong>xplmessage</strong></li>
+</ul>
 <h2>Modules</h2>
 <ul class="$(kind=='Topics' and '' or 'nowrap'">
-  <li><strong>xpl.classes.xplmessage</strong></li>
   <li><a href="../modules/xpl.html">xpl</a></li>
   <li><a href="../modules/xpl.new_device_template.html">xpl.new_device_template</a></li>
   <li><a href="../modules/xpl.xplhub.html">xpl.xplhub</a></li>
@@ -50,12 +57,6 @@
   <li><a href="../modules/xplrun.html">xplrun</a></li>
   <li><a href="../modules/xplsender.lua.html">xplsender.lua</a></li>
 </ul>
-<h2>Classes</h2>
-<ul class="$(kind=='Topics' and '' or 'nowrap'">
-  <li><a href="../classes/base.html">base</a></li>
-  <li><a href="../classes/xpldevice.html">xpldevice</a></li>
-  <li><a href="../classes/xplfilters.html">xplfilters</a></li>
-</ul>
 <h2>Topics</h2>
 <ul class="$(kind=='Topics' and '' or 'nowrap'">
   <li><a href="../topics/readme.md.html">readme</a></li>
@@ -65,12 +66,12 @@
 
 <div id="content">
 
-<h1>Module <code>xpl.classes.xplmessage</code></h1>
+<h1>Class <code>xplmessage</code></h1>
 <p>The object class for xPL messages.</p>
 <p> It has all the regular message properties (some depending on whether it was parsed/received
- or created). several methods and an iterator are available to manipulate the key-value list.
- <br/>No global will be created, it just returns the xplmessage class. The main
- xPL module will create a global <code>xpl.classes.xplmessage</code> to access it.</p>
+ or created). several methods and an iterator are available to manipulate the key-value list.</p>
+
+<p> The main xPL module will store it as <code>xpl.classes.xplmessage</code>.</p>
     <h3>Info:</h3>
     <ul>
         <li><strong>Copyright</strong>: 2011 Thijs Schreijer</li>
@@ -86,7 +87,7 @@
 	</tr>
 	<tr>
 	<td class="name" nowrap><a href="#msg:parse">msg:parse (msgstring)</a></td>
-	<td class="summary">Turn a message string into a message object.</td>
+	<td class="summary">Turn a message string into an <a href="../classes/xplmessage.html#">xplmessage</a>  object.</td>
 	</tr>
 	<tr>
 	<td class="name" nowrap><a href="#msg:add">msg:add (key, value)</a></td>
@@ -128,12 +129,71 @@
 <h2><a href="#Tables">Tables</a></h2>
 <table class="function_list">
 	<tr>
-	<td class="name" nowrap><a href="#key-value">key-value</a></td>
+	<td class="name" nowrap><a href="#xplmessage.key-value">xplmessage.key-value</a></td>
 	<td class="summary">Internal representation of a key-value pair.</td>
 	</tr>
+</table>
+<h2><a href="#Fields">Fields</a></h2>
+<table class="function_list">
 	<tr>
-	<td class="name" nowrap><a href="#xplmessage">xplmessage</a></td>
-	<td class="summary">Members of the xplmessage object</td>
+	<td class="name" nowrap><a href="#xplmessage.type">xplmessage.type</a></td>
+	<td class="summary">the xpl message type.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#xplmessage.from">xplmessage.from</a></td>
+	<td class="summary">Origin of message.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#xplmessage.hop">xplmessage.hop</a></td>
+	<td class="summary">Hop count</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#xplmessage.source">xplmessage.source</a></td>
+	<td class="summary">Source address of the message</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#xplmessage.sourcevendor">xplmessage.sourcevendor</a></td>
+	<td class="summary">Vendor part of source address (only available if parsed)</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#xplmessage.sourcedevice">xplmessage.sourcedevice</a></td>
+	<td class="summary">Device part of source address (only available if parsed)</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#xplmessage.sourceinstance">xplmessage.sourceinstance</a></td>
+	<td class="summary">Instance part of source address (only available if parsed)</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#xplmessage.target">xplmessage.target</a></td>
+	<td class="summary">Target address of the message</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#xplmessage.targetvendor">xplmessage.targetvendor</a></td>
+	<td class="summary">Vendor part of source address (only available if parsed, <code>*</code> if target address is <code>*</code>)</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#xplmessage.targetdevice">xplmessage.targetdevice</a></td>
+	<td class="summary">Device part of source address (only available if parsed, <code>*</code> if target address is <code>*</code>)</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#xplmessage.targetinstance">xplmessage.targetinstance</a></td>
+	<td class="summary">Instance part of source address (only available if parsed, <code>*</code> if target address is <code>*</code>)</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#xplmessage.schema">xplmessage.schema</a></td>
+	<td class="summary">Message schema of the message</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#xplmessage.schemaclass">xplmessage.schemaclass</a></td>
+	<td class="summary">Class part of the message schema (only available if parsed)</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#xplmessage.schematype">xplmessage.schematype</a></td>
+	<td class="summary">Type part of the message schema (only available if parsed)</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#xplmessage.kvp">xplmessage.kvp</a></td>
+	<td class="summary">List of key value pairs.</td>
 	</tr>
 </table>
 
@@ -150,7 +210,7 @@
     <dd>
     Initializes the xplmessage.
  Will be called upon instantiation of an object and hence has little use other than when
- subclassing the xplmessage object into a new class.
+ subclassing the <a href="../classes/xplmessage.html#">xplmessage</a>  object into a new class.
 
 
 
@@ -164,7 +224,7 @@
     <strong>msg:parse (msgstring)</strong>
     </dt>
     <dd>
-    Turn a message string into a message object.
+    Turn a message string into an <a href="../classes/xplmessage.html#">xplmessage</a>  object.
  if called as a method, the parsed message is loaded into the existing object. If called as a
  function on the super class, a new message object will be created.
 
@@ -179,7 +239,7 @@
     <h3>Returns:</h3>
     <ol>
         <li>
-        parsed message object</li>
+        parsed <a href="../classes/xplmessage.html#">xplmessage</a>  object</li>
         <li>
         remainder of input string (characters positioned after the parsed message), or <code>nil</code> if there is no remainder</li>
     </ol>
@@ -415,7 +475,7 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">filter</span>
-         <a href="xplfilters.html">xplfilters object</a> (contains list of filters). In case the filter is <code>nil</code> it will return <code>true</code> (default xpl behaviour with absent filters).
+         <a href="../classes/xplfilters.html#">xplfilters</a>  object (contains list of filters). In case the filter is <code>nil</code> it will return <code>true</code> (default xpl behaviour with absent filters).
         </li>
     </ul>
 
@@ -433,11 +493,11 @@
     <h2><a name="Tables"></a>Tables</h2>
     <dl class="function">
     <dt>
-    <a name = "key-value"></a>
-    <strong>key-value</strong>
+    <a name = "xplmessage.key-value"></a>
+    <strong>xplmessage.key-value</strong>
     </dt>
     <dd>
-    Internal representation of a key-value pair.  A table with 2 keys, key and value. pair
+    Internal representation of a key-value pair.  A table with 2 keys, key and value.
 
 
     <h3>Fields:</h3>
@@ -455,61 +515,287 @@
 
 
 </dd>
+</dl>
+    <h2><a name="Fields"></a>Fields</h2>
+    <dl class="function">
     <dt>
-    <a name = "xplmessage"></a>
-    <strong>xplmessage</strong>
+    <a name = "xplmessage.type"></a>
+    <strong>xplmessage.type</strong>
     </dt>
     <dd>
-    Members of the xplmessage object  fields/properties
- See <a href="xplmessage.html#msg:eachkvp"><code>msg:eachkvp()</code></a> for an iterator.
+    the xpl message type.  Any of <code>xpl-cmnd</code>, <code>xpl-trig</code>, <code>xpl-stat</code>.
 
 
-    <h3>Fields:</h3>
     <ul>
         <li><span class="parameter">type</span>
-         the xpl message type; <code>"xpl-cmnd", "xpl-trig", "xpl-stat"</code>
+         (string)
         </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "xplmessage.from"></a>
+    <strong>xplmessage.from</strong>
+    </dt>
+    <dd>
+    Origin of message.  Will be <code>[IP address]:[port]</code> (when the internal LuaxPL hub is used),
+ <code>EXTERNAL_HUB</code> or <code>CREATED</code> (when the message was locally created and not received from the network)
+
+
+    <ul>
         <li><span class="parameter">from</span>
-         origin of message; <code>"[IP address]:[port]"</code> (when the internal LuaxPL hub is used), <code>"EXTERNAL_HUB"</code> or <code>"CREATED"</code> (when the message was locally created and not received from the network)
+         (string)
         </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "xplmessage.hop"></a>
+    <strong>xplmessage.hop</strong>
+    </dt>
+    <dd>
+    Hop count
+
+
+    <ul>
         <li><span class="parameter">hop</span>
-         hop count
+         (number)
         </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "xplmessage.source"></a>
+    <strong>xplmessage.source</strong>
+    </dt>
+    <dd>
+    Source address of the message
+
+
+    <ul>
         <li><span class="parameter">source</span>
-         source address of the message
+         (string)
         </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "xplmessage.sourcevendor"></a>
+    <strong>xplmessage.sourcevendor</strong>
+    </dt>
+    <dd>
+    Vendor part of source address (only available if parsed)
+
+
+    <ul>
         <li><span class="parameter">sourcevendor</span>
-         vendor part of source address (only available if parsed)
+         (string)
         </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "xplmessage.sourcedevice"></a>
+    <strong>xplmessage.sourcedevice</strong>
+    </dt>
+    <dd>
+    Device part of source address (only available if parsed)
+
+
+    <ul>
         <li><span class="parameter">sourcedevice</span>
-         device part of source address (only available if parsed)
+         (string)
         </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "xplmessage.sourceinstance"></a>
+    <strong>xplmessage.sourceinstance</strong>
+    </dt>
+    <dd>
+    Instance part of source address (only available if parsed)
+
+
+    <ul>
         <li><span class="parameter">sourceinstance</span>
-         instance part of source address (only available if parsed)
+         (string)
         </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "xplmessage.target"></a>
+    <strong>xplmessage.target</strong>
+    </dt>
+    <dd>
+    Target address of the message
+
+
+    <ul>
         <li><span class="parameter">target</span>
-         target address of the message
+         (string)
         </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "xplmessage.targetvendor"></a>
+    <strong>xplmessage.targetvendor</strong>
+    </dt>
+    <dd>
+    Vendor part of source address (only available if parsed, <code>*</code> if target address is <code>*</code>)
+
+
+    <ul>
         <li><span class="parameter">targetvendor</span>
-         vendor part of source address (only available if parsed, <code>*</code> if target address is <code>*</code>)
+         (string)
         </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "xplmessage.targetdevice"></a>
+    <strong>xplmessage.targetdevice</strong>
+    </dt>
+    <dd>
+    Device part of source address (only available if parsed, <code>*</code> if target address is <code>*</code>)
+
+
+    <ul>
         <li><span class="parameter">targetdevice</span>
-         device part of source address (only available if parsed, <code>*</code> if target address is <code>*</code>)
+         (string)
         </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "xplmessage.targetinstance"></a>
+    <strong>xplmessage.targetinstance</strong>
+    </dt>
+    <dd>
+    Instance part of source address (only available if parsed, <code>*</code> if target address is <code>*</code>)
+
+
+    <ul>
         <li><span class="parameter">targetinstance</span>
-         instance part of source address (only available if parsed, <code>*</code> if target address is <code>*</code>)
+         (string)
         </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "xplmessage.schema"></a>
+    <strong>xplmessage.schema</strong>
+    </dt>
+    <dd>
+    Message schema of the message
+
+
+    <ul>
         <li><span class="parameter">schema</span>
-         message schema of the message
+         (string)
         </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "xplmessage.schemaclass"></a>
+    <strong>xplmessage.schemaclass</strong>
+    </dt>
+    <dd>
+    Class part of the message schema (only available if parsed)
+
+
+    <ul>
         <li><span class="parameter">schemaclass</span>
-         class part of the message schema (only available if parsed)
+         (string)
         </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "xplmessage.schematype"></a>
+    <strong>xplmessage.schematype</strong>
+    </dt>
+    <dd>
+    Type part of the message schema (only available if parsed)
+
+
+    <ul>
         <li><span class="parameter">schematype</span>
-         type part of the message schema (only available if parsed)
+         (string)
         </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "xplmessage.kvp"></a>
+    <strong>xplmessage.kvp</strong>
+    </dt>
+    <dd>
+    List of key value pairs.  Each pair is defined as; <code>kvp[i] = { key = 'key value', value = 'value value'}</code>
+
+
+    <ul>
         <li><span class="parameter">kvp</span>
-         list of key value pairs, where each pair is defined as; <code>kvp[i] = { key = 'key value', value = 'value value'}</code>
+         (list)
         </li>
     </ul>
 

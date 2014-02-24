@@ -3,7 +3,6 @@
 -- it will be invoked automatically if <code>xpl.settings.xplhub == true</code>
 -- when the listener is started.<br/>
 -- <br/>No global will be created, it just returns the hub table.
--- @class module
 -- @copyright 2011 Thijs Schreijer
 -- @release Version 0.1, LuaxPL framework.
 
@@ -12,6 +11,7 @@
 
 local socket = require("socket")
 local copas = require("copas.timer")
+local xpl = require("xpl")
 
 local host              -- system hostname
 local sysip             -- system IP address

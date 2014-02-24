@@ -1,15 +1,15 @@
 ---------------------------------------------------------------------
 -- This module contains the main xPL functionality. Upon requiring it,
 -- it will load all supporting modules and classes. To use the framework
--- you should only need to <code>require("xpl")</code> and any of your own
--- devices (see the included device template for a quick start).<br/>
--- <br/>A global <code>xpl</code> will be created. Through this global the
--- following components are accessible;<ul>
--- <li><code><a href="xpllistener.html">xpl.listener</a></code> the network listener that will receive the messages from the network</li>
--- <li><code><a href="../files/src/xpl/classes/base.html">xpl.classes.base</a></code> base class for all other classes</li>
--- <li><code><a href="xplfilters.html">xpl.classes.xplfilters</a></code> implements the filters for an xPL device</li>
--- <li><code><a href="xplmessage.html">xpl.classes.xplmessage</a></code> message object</li>
--- <li><code><a href="xpldevice.html">xpl.classes.xpldevice</a></code> device baseclass</li>
+-- you should only need to `require("xpl")` and any of your own
+-- devices (see the included device template for a quick start).
+--
+-- Through the `xpl` module the following components are accessible;<ul>
+-- <li>`xpllistener` the network listener that will receive the messages from the network</li>
+-- <li>`xpl.classes.base</a>` base class for all other classes</li>
+-- <li>`xpl.classes.xplfilters` implements the `xplfilters` classs for an `xpldevice`</li>
+-- <li>`xpl.classes.xplmessage` the `xplmessage` classs</li>
+-- <li>`xpl.classes.xpldevice` the `xpldevice` baseclass</li>
 -- </ul>
 -- <br/>The xPL framework uses 'CopasTimer' to provide timers, events and
 -- backgroundworkers. Please consult the 'CopasTimer' documentation on how
@@ -25,15 +25,17 @@ local copas = require("copas.timer")
 copas.eventer = require("copas.eventer")
 
 ----------------------------------------------------------------
--- define global tables for xPL related functions and settings
+-- define module table for xPL related functions and settings
 ----------------------------------------------------------------
 
--- create global xpl table
-xpl = {
+-- create xpl module table
+local xpl = {
     _COPYRIGHT   = "Copyright (C) 2011 Thijs Schreijer",
     _DESCRIPTION = "LuaxPL; Lua framework for xPL applications/devices",
     _VERSION     = "0.1",
 }
+-- store in package table to prevent 'require' from looping
+package.loaded.xpl = xpl
 
 ----------------------------------------------------------------
 -- contains all the objects for the xPL module
@@ -52,13 +54,7 @@ xpl.classes = {}
 -- @field xplport the xPL network port, do not change! only if you want to create a private network and know what you are doing
 -- @field xplhub (boolean) should the internal hub be started
 -- @field netcheckinterval (number) interval in seconds for checking the network connection for any changes (defaults to 30).
--- @field devices (table) table with device specific settings, <code>key</code> is device table, <code>value</code>
--- is device specific settings. Fixed fields in the settings table are; <ul>
--- <li><code>classname</code> (string) name of the class to create the device</li>
--- <li><code>updatehandler</code> (function) may be called from the device when its settings have changed</li>
--- <li><code>...</code></li>
--- <li><code>...</code></li>
--- </ul>
+-- @field devices (table) table with device specific settings, `key` is device table, `value` is device specific settings. Fixed fields in the settings table are; <ul> <li>`classname` (string) name of the class to create the device</li> <li>`updatehandler` (function) may be called from the device when its settings have changed</li> <li>`...`</li> <li>`...`</li> </ul>
 xpl.settings = {
 --	_DEBUG = true,					-- will run any tests at startup
 --	listenon = "ANY_LOCAL",			-- ANY_LOCAL (any local adapter) or a specific IP address TODO: make this work
@@ -102,7 +98,7 @@ xpl.const = {
 
     ----------------------------------------------------------------
 	-- Starts the loop and from there the listener, hub and devices.
-    -- This is a simple shortcut to <code>copas.loop()</code> and it
+    -- This is a simple shortcut to `copas.loop()` and it
     -- takes the same parameters
     xpl.start = function(...)
         copas.loop(...)
@@ -110,7 +106,7 @@ xpl.const = {
 
     ----------------------------------------------------------------
 	-- Exits the loop and from there stops the listener, hub and devices.
-    -- This is a simple shortcut to <code>copas.exitloop()</code> and it
+    -- This is a simple shortcut to `copas.exitloop()` and it
     -- takes the same parameters
     xpl.stop = function(...)
         copas.exitloop(...)
@@ -121,7 +117,7 @@ xpl.const = {
     -- @param msg (string) message to be sent.
     -- @param ip (string) optional, do not use, only for internal use by the hub
     -- @param port (number) optional, do not use, only for internal use by the hub
-    -- @return <code>true</code> if succesfull, <code>nil</code> and error otherwise
+    -- @return `true` if succesfull, `nil` and error otherwise
 	xpl.send = function (msg, ip, port)
 		assert (type(msg) == "string", "illegal message format, expected string, got " .. type (msg))
         assert ((ip and port) or not (ip or port), "provide both ip and port, or provide neither")
@@ -152,9 +148,7 @@ xpl.const = {
 	-- Creates an xPL address.
     -- @param vendor (string) the vendor id to use in the address
     -- @param device (string) the device id to use in the address
-    -- @param instance (string) the instance id to use in the address, with 2 special cases;
-    -- <ul><li><code>'HOST'</code> will generated an instance id based upon the system hostname</li>
-    -- <li><code>'RANDOM'</code> will generate a random instance id</li></ul>
+    -- @param instance (string) the instance id to use in the address, with 2 special cases; <ul><li>`'HOST'` will generated an instance id based upon the system hostname</li> <li>`'RANDOM'` will generate a random instance id</li></ul>
     -- @return xPL address string, formatted as 'vendor-device.instance'
 	xpl.createaddress = function (vendor, device, instance)
 		assert (type(vendor) == "string", "illegal vendor value, expected string, got " .. type(vendor))

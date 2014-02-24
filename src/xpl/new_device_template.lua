@@ -1,3 +1,4 @@
+-------------------------------------------------------------------
 -- xPL library, copyright 2011, Thijs Schreijer
 --
 -- In the template below remove '[[' for any method you need to override
@@ -9,7 +10,7 @@ local classname = "new_device_template"
 
 
 
-require ("xpl")
+local xpl = require ("xpl")
 assert(not xpl.classes.[classname], "There is already a class defined as 'xpl.classes." .. classname .. "'.")
 
 local xpldevice = xpl.classes.xpldevice:subclass({

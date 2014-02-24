@@ -1,0 +1,643 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>xPL library for Lua</title>
+    <link rel="stylesheet" href="../ldoc.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>LuaxPL</h1>
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+<h2>Contents</h2>
+<ul>
+<li><a href="#Fields">Fields</a></li>
+<li><a href="#Methods">Methods</a></li>
+</ul>
+
+
+<h2>Classes</h2>
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
+  <li><a href="../classes/base.html">base</a></li>
+  <li><strong>xpldevice</strong></li>
+  <li><a href="../classes/xplfilters.html">xplfilters</a></li>
+  <li><a href="../classes/xplmessage.html">xplmessage</a></li>
+</ul>
+<h2>Modules</h2>
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
+  <li><a href="../modules/xpl.html">xpl</a></li>
+  <li><a href="../modules/xpl.new_device_template.html">xpl.new_device_template</a></li>
+  <li><a href="../modules/xpl.xplhub.html">xpl.xplhub</a></li>
+  <li><a href="../modules/xpl.xpllistener.html">xpl.xpllistener</a></li>
+  <li><a href="../modules/xpllogger.html">xpllogger</a></li>
+  <li><a href="../modules/xplnetpresence.html">xplnetpresence</a></li>
+  <li><a href="../modules/xplnetpres_conf.html">xplnetpres_conf</a></li>
+  <li><a href="../modules/xplrun.html">xplrun</a></li>
+  <li><a href="../modules/xplsender.lua.html">xplsender.lua</a></li>
+</ul>
+<h2>Topics</h2>
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
+  <li><a href="../topics/readme.md.html">readme</a></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+<h1>Class <code>xpldevice</code></h1>
+<p>The base object for xPL devices.</p>
+<p> It features all the main characteristics
+ of the xPL devices, so only user code needs to be added. Starting, stopping,
+ regular heartbeats, configuration has all been implemented in this base class.</p>
+
+<p> The main xPL module will load it into <code>xpl.classes.xpldevice</code>.</p>
+
+<p> You can create a new device from; <code>xpl.classes.xpldevice:new( {} )</code>,
+ but it is probably best to use the <code>new<em>device</em>template.lua</code>
+ file as an example on how to use the <a href="../classes/xpldevice.html#">xpldevice</a>  class</p>
+    <h3>Info:</h3>
+    <ul>
+        <li><strong>Copyright</strong>: 2011 Thijs Schreijer</li>
+        <li><strong>Release</strong>: Version 0.1, LuaxPL framework.</li>
+    </ul>
+
+
+<h2><a href="#Fields">Fields</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#xpldevice.address">xpldevice.address</a></td>
+	<td class="summary">The xpladdress of the device</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#xpldevice.interval">xpldevice.interval</a></td>
+	<td class="summary">The xpl heartbeat interval in minutes</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#xpldevice.status">xpldevice.status</a></td>
+	<td class="summary">Current status of the connection for this device.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#xpldevice.filter">xpldevice.filter</a></td>
+	<td class="summary">Filter for the device.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#xpldevice.classname">xpldevice.classname</a></td>
+	<td class="summary">The name of this class.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#xpldevice.configitems">xpldevice.configitems</a></td>
+	<td class="summary">Current config items.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#xpldevice.configurable">xpldevice.configurable</a></td>
+	<td class="summary">Flag indicating the device being configurable.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#xpldevice.configured">xpldevice.configured</a></td>
+	<td class="summary">Flag indicating whether the device was configured already.</td>
+	</tr>
+</table>
+<h2><a href="#Methods">Methods</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#xpldevice:initialize">xpldevice:initialize ()</a></td>
+	<td class="summary">Initializes the xpldevice.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#xpldevice:eventhandler">xpldevice:eventhandler (sender, event, param, ...)</a></td>
+	<td class="summary">Handles incoming events.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#xpldevice:start">xpldevice:start ()</a></td>
+	<td class="summary">Starts the xpldevice.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#xpldevice:stop">xpldevice:stop ()</a></td>
+	<td class="summary">Stops the xpldevice.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#xpldevice:restart">xpldevice:restart ()</a></td>
+	<td class="summary">Restarts the <a href="../classes/xpldevice.html#">xpldevice</a>  (only if already started, remains stopped otherwise).</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#xpldevice:handlemessage">xpldevice:handlemessage (msg)</a></td>
+	<td class="summary">Handler for incoming messages.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#xpldevice:createhbeatmsg">xpldevice:createhbeatmsg (exit)</a></td>
+	<td class="summary">Heartbeat message creator.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#xpldevice:sendhbeat">xpldevice:sendhbeat (exit)</a></td>
+	<td class="summary">Sends heartbeat message.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#xpldevice:statuschanged">xpldevice:statuschanged (newstatus, oldstatus)</a></td>
+	<td class="summary">Handler called whenever the device status (either <code>online</code>, <code>connecting</code> or
+ <code>offline</code>) changes.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#xpldevice:send">xpldevice:send (msg)</a></td>
+	<td class="summary">Sends xpl message.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#xpldevice:getsettings">xpldevice:getsettings ()</a></td>
+	<td class="summary">Gets a table with the device settings to persist.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#xpldevice:setsettings">xpldevice:setsettings (s)</a></td>
+	<td class="summary">Sets the provided settings in the device.</td>
+	</tr>
+</table>
+
+<br/>
+<br/>
+
+
+    <h2><a name="Fields"></a>Fields</h2>
+    <dl class="function">
+    <dt>
+    <a name = "xpldevice.address"></a>
+    <strong>xpldevice.address</strong>
+    </dt>
+    <dd>
+    The xpladdress of the device
+
+
+    <ul>
+        <li><span class="parameter">address</span>
+         (string)
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "xpldevice.interval"></a>
+    <strong>xpldevice.interval</strong>
+    </dt>
+    <dd>
+    The xpl heartbeat interval in minutes
+
+
+    <ul>
+        <li><span class="parameter">interval</span>
+         (number)
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "xpldevice.status"></a>
+    <strong>xpldevice.status</strong>
+    </dt>
+    <dd>
+    Current status of the connection for this device.  Any of <code>online</code>, <code>connecting</code>, <code>offline</code>.
+
+
+    <ul>
+        <li><span class="parameter">status</span>
+         (string)
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "xpldevice.filter"></a>
+    <strong>xpldevice.filter</strong>
+    </dt>
+    <dd>
+    Filter for the device.  Either <code>nil</code> or the an <code>xplfilter</code> object with the filter list for the device
+
+
+    <ul>
+        <li><span class="parameter">filter</span>
+         (<code>xplfilter</code>)
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "xpldevice.classname"></a>
+    <strong>xpldevice.classname</strong>
+    </dt>
+    <dd>
+    The name of this class.  Basically the filename without the extension. Required to identify
+ the type of class, but also to re-create a device from persistence.
+
+
+    <ul>
+        <li><span class="parameter">classname</span>
+         (string)
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "xpldevice.configitems"></a>
+    <strong>xpldevice.configitems</strong>
+    </dt>
+    <dd>
+    Current config items.  Upon initialization it will have the regular xPL config items; newconf, interval, filters, groups.
+
+
+    <ul>
+        <li><span class="parameter">configitems</span>
+         (table)
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "xpldevice.configurable"></a>
+    <strong>xpldevice.configurable</strong>
+    </dt>
+    <dd>
+    Flag indicating the device being configurable.  If <code>false</code> the device will not respond to configuration messages.
+
+
+    <ul>
+        <li><span class="parameter">configurable</span>
+         (boolean)
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "xpldevice.configured"></a>
+    <strong>xpldevice.configured</strong>
+    </dt>
+    <dd>
+    Flag indicating whether the device was configured already.  <code>true</code> if the device has been configured.
+
+
+    <ul>
+        <li><span class="parameter">configured</span>
+         (boolean)
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+</dl>
+    <h2><a name="Methods"></a>Methods</h2>
+    <dl class="function">
+    <dt>
+    <a name = "xpldevice:initialize"></a>
+    <strong>xpldevice:initialize ()</strong>
+    </dt>
+    <dd>
+    Initializes the xpldevice.
+ Will be called upon instantiation of an object, override this method to set default
+ values for all properties. It will also subscribe to <code>copas</code> and
+ <code>xpl.listener</code> events for starting, stopping and new message events.
+ Use <a href="../classes/xpldevice.html#xpldevice:setsettings">setsettings</a>  to restore settings from persistence.
+
+
+
+
+
+    <h3>See also:</h3>
+    <ul>
+         <li><a href="../classes/xpldevice.html#xpldevice:setsettings">xpldevice:setsettings</a></li>
+         <li><a href="../classes/xpldevice.html#xpldevice:eventhandler">xpldevice:eventhandler</a></li>
+    </ul>
+
+
+</dd>
+    <dt>
+    <a name = "xpldevice:eventhandler"></a>
+    <strong>xpldevice:eventhandler (sender, event, param, ...)</strong>
+    </dt>
+    <dd>
+    Handles incoming events.  Will deal with copas starting/stopping and listener messages.
+ See CopasTimer documentation on how to use the events.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">sender</span>
+         the originator of the event
+        </li>
+        <li><span class="parameter">event</span>
+         the event string
+        </li>
+        <li><span class="parameter">param</span>
+         first event parameter, in case of an <code>xpllistener</code> event <code>newmessage</code> this will for example be the <a href="../classes/xplmessage.html#">xplmessage</a>  received.
+        </li>
+        <li><span class="parameter">...</span>
+         any additional event parameters
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "xpldevice:start"></a>
+    <strong>xpldevice:start ()</strong>
+    </dt>
+    <dd>
+    Starts the xpldevice.
+ Will run on the copas start event.
+
+
+
+
+
+    <h3>See also:</h3>
+    <ul>
+         <a href="../classes/xpldevice.html#xpldevice:eventhandler">xpldevice:eventhandler</a>
+    </ul>
+
+
+</dd>
+    <dt>
+    <a name = "xpldevice:stop"></a>
+    <strong>xpldevice:stop ()</strong>
+    </dt>
+    <dd>
+    Stops the xpldevice.
+ Will run on the copas stop event.
+
+
+
+
+
+    <h3>See also:</h3>
+    <ul>
+         <a href="../classes/xpldevice.html#xpldevice:eventhandler">xpldevice:eventhandler</a>
+    </ul>
+
+
+</dd>
+    <dt>
+    <a name = "xpldevice:restart"></a>
+    <strong>xpldevice:restart ()</strong>
+    </dt>
+    <dd>
+    Restarts the <a href="../classes/xpldevice.html#">xpldevice</a>  (only if already started, remains stopped otherwise).
+ Use this method after configuration changes that require a device restart.
+
+
+
+
+
+    <h3>See also:</h3>
+    <ul>
+         <a href="../classes/xpldevice.html#xpldevice:setsettings">xpldevice:setsettings</a>
+    </ul>
+
+
+</dd>
+    <dt>
+    <a name = "xpldevice:handlemessage"></a>
+    <strong>xpldevice:handlemessage (msg)</strong>
+    </dt>
+    <dd>
+    Handler for incoming messages.
+ It will handle the heartbeat messages (echos) to verify the devices own connection and
+ heartbeat requests. If the device is configurable it will also deal with the configuration
+ messages.<br/>
+ Override this method to handle incoming messages, see the
+ <code>new<em>device</em>template.lua</code> for an example.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">msg</span>
+         the <a href="../classes/xplmessage.html#">xplmessage</a>  to be handled
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        the <a href="../classes/xplmessage.html#">xplmessage</a>  object received, or <code>nil</code> if it was handled (e.g. hbeat, our own echo, etc.)
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "xpldevice:createhbeatmsg"></a>
+    <strong>xpldevice:createhbeatmsg (exit)</strong>
+    </dt>
+    <dd>
+    Heartbeat message creator.
+ Will be called to create the heartbeat message to be send. Override this function
+ to modify the hbeat content.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">exit</span>
+         if <code>true</code> then an exit hbeat message, (<code>hbeat.end</code> or <code>config.end</code>) needs to be created.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        <a href="../classes/xplmessage.html#">xplmessage</a>  object containing the heartbeat message to be sent.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "xpldevice:sendhbeat"></a>
+    <strong>xpldevice:sendhbeat (exit)</strong>
+    </dt>
+    <dd>
+    Sends heartbeat message.
+ Will send a heartbeat message, the message will be collected from the <a href="../classes/xpldevice.html#xpldevice:createhbeatmsg">createhbeatmsg</a>  function.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">exit</span>
+         if <code>true</code> then an exit hbeat message (<code>hbeat.end</code> or <code>config.end</code>) will be send.
+        </li>
+    </ul>
+
+
+
+    <h3>See also:</h3>
+    <ul>
+         <a href="../classes/xpldevice.html#xpldevice:createhbeatmsg">xpldevice:createhbeatmsg</a>
+    </ul>
+
+
+</dd>
+    <dt>
+    <a name = "xpldevice:statuschanged"></a>
+    <strong>xpldevice:statuschanged (newstatus, oldstatus)</strong>
+    </dt>
+    <dd>
+    Handler called whenever the device status (either <code>online</code>, <code>connecting</code> or
+ <code>offline</code>) changes.  Override this method to run code upon status changes.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">newstatus</span>
+         the new status of the device
+        </li>
+        <li><span class="parameter">oldstatus</span>
+         the previous status
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "xpldevice:send"></a>
+    <strong>xpldevice:send (msg)</strong>
+    </dt>
+    <dd>
+    Sends xpl message.
+ Will send either a <a href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a>  or an <a href="../classes/xplmessage.html#">xplmessage</a>  object. In the latter
+ case it will set the <code>source</code> property to the address of the device sending.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">msg</span>
+         message to send
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "xpldevice:getsettings"></a>
+    <strong>xpldevice:getsettings ()</strong>
+    </dt>
+    <dd>
+    Gets a table with the device settings to persist.  Override this function to add
+ additional settings. All xpl config items in the <a href="../classes/xpldevice.html#xpldevice.configitems">configitems</a>  table will be included
+ automatically by the base class.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        table with settings
+    </ol>
+
+
+    <h3>See also:</h3>
+    <ul>
+         <a href="../classes/xpldevice.html#xpldevice:setsettings">xpldevice:setsettings</a>
+    </ul>
+
+
+</dd>
+    <dt>
+    <a name = "xpldevice:setsettings"></a>
+    <strong>xpldevice:setsettings (s)</strong>
+    </dt>
+    <dd>
+    Sets the provided settings in the device.  Override this method to add additional settings
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">s</span>
+         table with settings as generated by <a href="../classes/xpldevice.html#xpldevice:getsettings">getsettings</a> .
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        <code>true</code> if the settings provided require a restart of the device (when the instance name changed for example). Make sure to call <a href="../classes/xpldevice.html#xpldevice:restart">restart</a>  in that case.
+    </ol>
+
+
+    <h3>See also:</h3>
+    <ul>
+         <li><a href="../classes/xpldevice.html#xpldevice:restart">xpldevice:restart</a></li>
+         <li><a href="../classes/xpldevice.html#xpldevice:getsettings">xpldevice:getsettings</a></li>
+    </ul>
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example"><span class="keyword">if</span> mydev:setsettings(mysettings) <span class="keyword">then</span> mydev:restart() <span class="keyword">end</span></pre>
+    </ul>
+
+</dd>
+</dl>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.2</a></i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>

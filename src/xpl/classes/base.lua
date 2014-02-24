@@ -5,7 +5,7 @@
 -- `myObj = object:subclass({member = 'value'})`
 -- @copyright 2011 Thijs Schreijer
 -- @release Version 0.1, LuaxPL framework.
--- @class module
+-- @classmod base
 
 local object = {}
 
